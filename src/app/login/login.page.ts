@@ -40,7 +40,7 @@ export class LoginPage {
       alert('Form harus diisi dengan lengkap');
       return;
     }
-
+    
     const data = {
       outlet_code: this.outlet_code,
       username: this.username,
