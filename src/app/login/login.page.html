@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-container">
+    <ion-item>
+      <ion-label position="floating">Outlet Code</ion-label>
+      <ion-input [(ngModel)]="outlet_code" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input [(ngModel)]="username" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" required></ion-input>
+      <ion-icon
+        slot="end"
+        [name]="showPassword ? 'eye' : 'eye-off'"
+        (click)="togglePasswordVisibility()"
+        style="cursor: pointer;"></ion-icon>
+    </ion-item>
+
+    <ion-button expand="full" (click)="Login()">Login</ion-button>
+
+    <!-- Tombol untuk membuka form registrasi -->
+    <div class="register-link">
+      <p>Belum punya akun? <ion-button fill="clear" (click)="openRegisterForm()">Create Account</ion-button></p>
+    </div>
+  </div>
+
+  <!-- Modal untuk Form Registrasi -->
+  <ion-modal [isOpen]="showRegisterForm" (ionModalDidDismiss)="closeRegisterForm()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Create Account</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeRegisterForm()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-item>
+          <ion-label position="floating">Full Name</ion-label>
+          <ion-input [(ngModel)]="fullName" type="text" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input [(ngModel)]="email" type="email" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input [(ngModel)]="registerPassword" [type]="showRegisterPassword ? 'text' : 'password'" required></ion-input>
+          <ion-icon
+            slot="end"
+            [name]="showRegisterPassword ? 'eye' : 'eye-off'"
+            (click)="toggleRegisterPasswordVisibility()"
+            style="cursor: pointer;"></ion-icon>
+        </ion-item>
+
+        <ion-button expand="full" (click)="register()">Register</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
