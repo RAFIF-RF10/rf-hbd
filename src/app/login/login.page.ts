@@ -40,7 +40,7 @@ export class LoginPage {
       alert('Form harus diisi dengan lengkap');
       return;
     }
-    
+
     const data = {
       outlet_code: this.outlet_code,
       username: this.username,
@@ -51,29 +51,52 @@ export class LoginPage {
       url: 'https://epos.pringapus.com/api/v1/Authentication/getUserLogin',
       data: data,
       headers: {
-        Authorization: 'Bearer your_jwt_or_token_here',
         'Content-Type': 'application/json',
       },
     })
-      .then((response: any) => {
+    .then((response: any) => {
+      console.log('Response:', response); // Log response untuk debugging
+
+      try {
         if (response.status === 200) {
-          if (response.data.level === 'user') {
-            localStorage.setItem('user_data', JSON.stringify(response.data.user_data));
-            alert('Login sukses sebagai user');
-          } else if (response.data.level === 'admin') {
-            alert('Login sukses sebagai admin');
+          const userData = response.data.data;
+          const userLevel = parseInt(userData?.users_level, 10); // Pastikan tipe data angka
+          console.log(userData);
+          if (userLevel !== undefined) {
+            switch (userLevel) {
+              case 1:
+                alert('Login sukses sebagai admin');
+                break;
+              case 2:
+                alert('Login sukses sebagai penjual');
+                break;
+              case 3:
+                alert('Login sukses sebagai pembeli');
+                break;
+              default:
+                alert('Login sukses sebagai user lain');
+                break;
+            }
+
+            // Simpan data pengguna ke localStorage
+            localStorage.setItem('user_data', JSON.stringify(userData));
           } else {
-            alert('Level user tidak valid');
+            alert('Data tidak lengkap atau level tidak valid');
           }
         } else {
-          alert('Gagal login: ' + (response.data.message || 'Unknown error'));
+          alert('Gagal login: ' + (response.data?.message || 'Unknown error'));
         }
-      })
-      .catch((error: any) => {
-        console.error(error);
-        alert('Kesalahan dalam melakukan permintaan: ' + error.message);
-      });
+      } catch (error: any) {
+        console.error('Error processing response:', error);
+        alert('Error parsing response: ' + error.message);
+      }
+    })
+    .catch((error: any) => {
+      console.error('HTTP request error:', error);
+      alert('Kesalahan dalam melakukan permintaan: ' + error.message);
+    });
   }
+
 
   // Fungsi untuk membuka form registrasi
   openRegisterForm() {

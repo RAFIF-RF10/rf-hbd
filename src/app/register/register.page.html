@@ -1,0 +1,120 @@
+<ion-content>
+  <!-- List Paket -->
+  <ion-card *ngFor="let pkg of packages">
+    <ion-card-header>
+      <ion-card-title>{{ pkg.name }}</ion-card-title>
+      <ion-card-subtitle>
+        Price: {{ pkg.price | currency }}
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        Sale Price: {{ pkg.sale_price | currency }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="selectPackage(pkg)">
+        Choose {{ pkg.name }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Pembayaran -->
+  <div *ngIf="selectedPackage && !isPaid">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Proceed to Payment for {{ selectedPackage.name }} Package</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- Pilihan Pembayaran -->
+        <ion-item>
+          <ion-label>Credit Card</ion-label>
+          <ion-button (click)="paymentMethod = 'creditCard'">Select Credit Card</ion-button>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>PayPal</ion-label>
+          <ion-radio-group [(ngModel)]="paymentMethod" value="paypal">
+            <ion-item>
+              <ion-label>PayPal</ion-label>
+              <ion-radio slot="start" value="paypal"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Dana</ion-label>
+          <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
+            <ion-item>
+              <ion-label>Dana</ion-label>
+              <ion-radio slot="start" value="dana"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-item>
+
+        <!-- Pilihan Kartu Kredit (Dropdown hanya untuk Credit Card) -->
+        <div *ngIf="paymentMethod === 'creditCard'">
+          <ion-item>
+            <ion-label>Card Type</ion-label>
+            <ion-select [(ngModel)]="cardType" placeholder="Select Card Type">
+              <ion-select-option value="visa">Visa</ion-select-option>
+              <ion-select-option value="masterCard">MasterCard</ion-select-option>
+              <ion-select-option value="discover">Discover</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>Card Number</ion-label>
+            <ion-input type="text" [(ngModel)]="cardNumber"></ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Pilihan PayPal -->
+        <div *ngIf="paymentMethod === 'paypal'">
+          <ion-item>
+            <ion-label>PayPal Payment ID</ion-label>
+            <ion-input type="text" [(ngModel)]="paymentId" placeholder="Enter PayPal Payment ID"></ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Pilihan Dana -->
+        <div *ngIf="paymentMethod === 'dana'">
+          <ion-item>
+            <ion-label>Dana Payment ID</ion-label>
+            <ion-input type="text" [(ngModel)]="paymentId" placeholder="Enter Dana Payment ID"></ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Order Total -->
+        <ion-item>
+          <ion-label>Total</ion-label>
+          <ion-input [value]="selectedPackage?.sale_price | currency" disabled></ion-input>
+        </ion-item>
+
+        <!-- Tombol Pembayaran -->
+        <ion-button expand="block" (click)="payForPackage()">Pay Now</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Form Registrasi -->
+  <div *ngIf="isPaid">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input [(ngModel)]="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Address</ion-label>
+          <ion-input [(ngModel)]="address"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Phone</ion-label>
+          <ion-input [(ngModel)]="phone"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="register()">Register</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
