@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router'; // Import Router
 
 @Component({
   selector: 'app-login',
@@ -19,22 +19,9 @@ export class LoginPage {
   registerPassword: string = '';
   showRegisterPassword: boolean = false;
 
-  constructor( private router:Router ) {}
+  constructor(private router: Router) {} // Tambahkan Router di sini
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleRegisterPasswordVisibility() {
-    this.showRegisterPassword = !this.showRegisterPassword;
-  }
-
-  noValidation(event: KeyboardEvent) {
-    const charCode = event.key.charCodeAt(0);
-    if (isNaN(parseInt(event.key))) {
-      event.preventDefault();
-    }
-  }
+  // ... Fungsi lainnya tetap sama
 
   Login() {
     if (!this.outlet_code || !this.username || !this.password) {
@@ -55,50 +42,59 @@ export class LoginPage {
         'Content-Type': 'application/json',
       },
     })
-    .then((response: any) => {
-      console.log('Response:', response); // Log response untuk debugging
+      .then((response: any) => {
+        console.log('Response:', response); // Log response untuk debugging
 
-      try {
-        if (response.status === 200) {
-          const userData = response.data.data;
-          const userLevel = parseInt(userData?.users_level, 10); // Pastikan tipe data angka
-          console.log(userData);
-          if (userLevel !== undefined) {
-            switch (userLevel) {
-              case 1:
-                alert('Login sukses sebagai admin');
-                break;
-              case 2:
-                alert('Login sukses sebagai penjual');
-                break;
-              case 3:
-                alert('Login sukses sebagai pembeli');
-                break;
-              default:
-                alert('Login sukses sebagai user lain');
-                break;
+        try {
+          if (response.status === 200) {
+            const userData = response.data.data;
+            const userLevel = parseInt(userData?.users_level, 10); // Pastikan tipe data angka
+            console.log(userData);
+
+            if (userLevel !== undefined) {
+              switch (userLevel) {
+                case 1:
+                  alert('Login sukses sebagai admin');
+                  break;
+                case 2:
+                  alert('Login sukses sebagai penjual');
+                  break;
+                case 3:
+                  alert('Login sukses sebagai pembeli');
+                  break;
+                default:
+                  alert('Login sukses sebagai user lain');
+                  break;
+              }
+
+              // Simpan data pengguna ke localStorage
+              localStorage.setItem('user_data', JSON.stringify(userData));
+
+              // Arahkan ke halaman home
+              this.router.navigate(['/tab/home']); // Tambahkan ini
+            } else {
+              alert('Data tidak lengkap atau level tidak valid');
             }
-
-            // Simpan data pengguna ke localStorage
-            localStorage.setItem('user_data', JSON.stringify(userData));
           } else {
-            alert('Data tidak lengkap atau level tidak valid');
+            alert('Gagal login: ' + (response.data?.message || 'Unknown error'));
           }
-        } else {
-          alert('Gagal login: ' + (response.data?.message || 'Unknown error'));
+        } catch (error: any) {
+          console.error('Error processing response:', error);
+          alert('Error parsing response: ' + error.message);
         }
-      } catch (error: any) {
-        console.error('Error processing response:', error);
-        alert('Error parsing response: ' + error.message);
-      }
-    })
-    .catch((error: any) => {
-      console.error('HTTP request error:', error);
-      alert('Kesalahan dalam melakukan permintaan: ' + error.message);
-    });
+      })
+      .catch((error: any) => {
+        console.error('HTTP request error:', error);
+        alert('Kesalahan dalam melakukan permintaan: ' + error.message);
+      });
+  }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
-
+  toggleRegisterPasswordVisibility() {
+    this.showRegisterPassword = !this.showRegisterPassword;
+  }
   // Fungsi untuk membuka form registrasi
   openRegisterForm() {
     this.showRegisterForm = true;
@@ -115,4 +111,6 @@ export class LoginPage {
     console.log('User registered:', this.fullName, this.email, this.registerPassword);
     this.router.navigate(['register'])
   }
+
+  // Fungsi lainnya tetap sama
 }

@@ -14,11 +14,25 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
-  },  {
+  },
+  {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () =>
+      import('./register/register.module').then((m) => m.RegisterPageModule),
   },
 
+  {
+    path: 'tab',
+    loadChildren: () => import('./tab/tab.module').then( m => m.TabPageModule)
+  },
+  {
+    path: 'detail',
+    loadChildren: () => import('./detail/detail.module').then( m => m.DetailPageModule)
+  },
+  {
+    path: 'keranjang',
+    loadChildren: () => import('./keranjang/keranjang.module').then( m => m.KeranjangPageModule)
+  },
 
 ];
 
