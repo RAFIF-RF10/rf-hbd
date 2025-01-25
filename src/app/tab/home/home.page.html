@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="header">
+      <ion-text color="secondary">
+        <h1><b>LOGO</b></h1>
+      </ion-text>
+    </div>
+
+    <div class="container-find">
+      <ion-row>
+        <ion-col size="10">
+          <ion-searchbar showCancelButton="focus" class="custom" (ionInput)="onSearchChange($event)"></ion-searchbar>
+        </ion-col>
+
+        <ion-col size="2">
+          <div class="btn-add-card">
+            <ion-button class="custom" (click)="router.navigate(['/keranjang'])">
+              <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+              <ion-badge *ngIf="cartCount > 0" color="danger" class="cart-badge">{{ cartCount }}</ion-badge>
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <div class="container-filter">
+        <!-- Daftar filter -->
+        <div *ngFor="let filter of ['All', 'jangkrik', 'Uler', 'kroto', 'millet', 'essen', 'kandang']" class="filter" [class.active]="filter === selectedFilter" (click)="selectFilter(filter)">
+          <b>{{ filter }}</b>
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container-card">
+    <ion-row>
+      <!-- Menampilkan item yang sudah difilter -->
+      <ion-col size="6" *ngFor="let item of filteredItems">
+        <div class="img-container">
+          <img [src]="item.image" alt="{{ item.name }}" (click)="openDetailPage(item)">
+          <ion-button class="btn-cart" fill="solid" shape="round" (click)="openModal(item)">
+            <ion-icon slot="icon-only" name="bag-add-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="details">
+          <b>{{ item.name }}</b>
+          <p>{{ item.price | currency: 'Rp. ' }}</p>
+        </div>
+
+        <!-- Modal untuk memilih quantity -->
+        <ion-modal #itemModal [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]" [presentingElement]="ionRouterOutlet" [canDismiss]="true" style="--height: 50vh;">
+          <ng-template>
+            <ion-header>
+              <ion-toolbar>
+                <ion-title class="modal-title">Tambahkan Menu</ion-title>
+              </ion-toolbar>
+            </ion-header>
+
+            <ion-content style="--padding-bottom: 70px; --overflow: auto;">
+              <div class="modal-content">
+                <div class="modal-item-details">
+                  <img [src]="selectedItem?.image" alt="{{ selectedItem?.name }}">
+                  <div class="modal-item-info">
+                    <b>{{ selectedItem?.name }}</b>
+                    <p>{{ selectedItem?.price | currency: 'Rp. ' }}</p>
+                    <div class="qty-controls">
+                      <ion-button (click)="decrementQty()">-</ion-button>
+                      <span>{{ qty }}</span>
+                      <ion-button (click)="incrementQty()">+</ion-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ion-content>
+
+            <ion-footer slot="fixed">
+              <ion-button expand="block" class="add-to-cart-btn" (click)="addToCart()">
+                Masuk ke keranjang - Rp. {{ calculateTotal() }}
+              </ion-button>
+            </ion-footer>
+          </ng-template>
+        </ion-modal>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

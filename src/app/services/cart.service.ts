@@ -1,0 +1,54 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CartService {
+  private cartItems: any[] = [];
+  private cartItemsSubject = new BehaviorSubject<any[]>([]); // BehaviorSubject untuk reaktivitas
+  cartItems$ = this.cartItemsSubject.asObservable(); // Observable untuk berlangganan
+
+  constructor() {
+    this.loadCartFromStorage();
+  }
+
+  private saveCartToStorage() {
+    sessionStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
+
+  private loadCartFromStorage() {
+    const storedCart = sessionStorage.getItem('cartItems');
+    if (storedCart) {
+      this.cartItems = JSON.parse(storedCart);
+      this.cartItemsSubject.next(this.cartItems); // Update BehaviorSubject
+    }
+  }
+
+  addToCart(item: any, qty: number) {
+    const existingItem = this.cartItems.find((cartItem) => cartItem.name === item.name);
+    if (existingItem) {
+      existingItem.qty += qty;
+    } else {
+      this.cartItems.push({ ...item, qty });
+    }
+    this.saveCartToStorage();
+    this.cartItemsSubject.next(this.cartItems); // Emit perubahan ke BehaviorSubject
+  }
+
+  getCartItems() {
+    return this.cartItems; // Untuk akses langsung jika diperlukan
+  }
+
+  removeItem(item: any) {
+    this.cartItems = this.cartItems.filter((cartItem) => cartItem.name !== item.name);
+    this.saveCartToStorage();
+    this.cartItemsSubject.next(this.cartItems); // Emit perubahan ke BehaviorSubject
+  }
+
+  clearCart() {
+    this.cartItems = [];
+    this.saveCartToStorage();
+    this.cartItemsSubject.next(this.cartItems); // Emit perubahan ke BehaviorSubject
+  }
+}

@@ -1,0 +1,156 @@
+ion-searchbar.custom {
+    --background: rgb(244, 244, 244);
+    --color: #828282;
+    --placeholder-color: #828282;
+    --icon-color: #828282;
+    --clear-button-color: #828282;
+  
+    --border-radius: 25px;
+}
+
+.btn-add-card{
+    padding-top: 5px;
+}
+
+ion-button{
+    --background: #FF4C4C;
+    --color: #ffffff;
+    --border-radius: 12px;
+}
+
+.container-filter {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 0;
+    scrollbar-width: thin;
+  }
+  
+  .filter {
+    background-color: rgb(244, 244, 244);
+    border-radius: 20px;
+    width: auto;
+    padding: 10px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter.active {
+    background-color: #c9c9c9;
+  }
+  
+
+  .container-card {
+    .img-container {
+      position: relative;
+      text-align: center;
+      margin: 15px 0;
+  
+      img {
+        border-radius: 20px;
+        width: 165px;
+        display: block;
+        margin: 0 auto;
+      }
+  
+      .btn-cart {
+        --background: #ff4c4c;
+        --color: #ffffff;
+        --border-radius: 12px;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        z-index: 10;
+      }
+    }
+  
+    .details {
+      text-align: center;
+      margin-top: 10px;
+  
+      b {
+        font-size: 16px;
+        display: block;
+      }
+  
+      p {
+        font-size: 14px;
+        color: #828282;
+      }
+    }
+  }
+  
+  
+  .modal-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+ion-footer {
+    z-index: 1000 !important;
+}
+
+.modal-content {
+  padding: 20px;
+  
+
+  .modal-item-details {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    img {
+      width: 100px;
+      border-radius: 12px;
+    }
+
+    .modal-item-info {
+      flex: 1;
+
+      b {
+        font-size: 18px;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      p {
+        font-size: 16px;
+        color: #828282;
+        margin-bottom: 12px;
+      }
+
+      .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        ion-button {
+          --background: #ff4c4c;
+          --color: #ffffff;
+        }
+
+        span {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+.add-to-cart-btn {
+  --background: #ff4c4c;
+  --color: #ffffff;
+  font-size: 16px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.8em;
+  }
