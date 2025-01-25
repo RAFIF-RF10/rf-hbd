@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginPage {
   registerPassword: string = '';
   showRegisterPassword: boolean = false;
 
-  constructor() {}
+  constructor( private router:Router ) {}
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -112,5 +113,6 @@ export class LoginPage {
   register() {
     // Logic untuk registrasi user
     console.log('User registered:', this.fullName, this.email, this.registerPassword);
+    this.router.navigate(['register'])
   }
 }

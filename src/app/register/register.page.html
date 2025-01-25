@@ -1,6 +1,7 @@
 <ion-content>
-  <!-- List Paket -->
-  <ion-card *ngFor="let pkg of packages">
+  
+  
+  <!-- <ion-card *ngFor="let pkg of packages">
     <ion-card-header>
       <ion-card-title>{{ pkg.name }}</ion-card-title>
       <ion-card-subtitle>
@@ -15,7 +16,101 @@
         Choose {{ pkg.name }}
       </ion-button>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
+
+  <ion-grid class="top"></ion-grid>
+
+  <ion-grid class="txt">
+    <ion-row>
+      <ion-title>Member Plan</ion-title>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="slider-menu">
+
+    <div class="arrow-left">
+      <ion-button fill="clear" size="small" slot="icon-only" (click)="moveLeft()">
+        <ion-icon style="color: #424242; font-size: 2rem ;" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </div>
+    
+    <ion-grid class="card-container">
+  
+  
+      <div class="slider-container">
+  
+        
+        <ion-card class="slider-item">
+          <ion-card-header>
+            <ion-card-title>Bronze</ion-card-title>
+            <ion-card-subtitle>
+              Price: {{ getPrice('Bronze') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              Sale Price: {{ getSalePrice('Bronze') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button (click)="selectPackage('Bronze')">
+              Choose Bronze
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+  
+       
+      </div> 
+    
+      <div class="slider-container">
+        <ion-card class="slider-item">
+          <ion-card-header>
+            <ion-card-title>Silver</ion-card-title>
+            <ion-card-subtitle>
+              Price: {{ getPrice('Silver') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              Sale Price: {{ getSalePrice('Silver') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button (click)="selectPackage('Silver')">
+              Choose Silver
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    
+      <div class="slider-container">
+        <ion-card class="slider-item">
+          <ion-card-header>
+            <ion-card-title>Gold</ion-card-title>
+            <ion-card-subtitle>
+              Price: {{ getPrice('Gold') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              Sale Price: {{ getSalePrice('Gold') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button (click)="selectPackage('Gold')">
+              Choose Gold
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    
+    </ion-grid>
+    
+    <div class="arrow-right">
+      <ion-button fill="clear" size="small" slot="icon-only" (click)="moveRight()">
+        <ion-icon style="color: #424242; font-size: 2rem;" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+  </ion-grid>
+
+  
+  
+
 
   <!-- Pembayaran -->
   <div *ngIf="selectedPackage && !isPaid">
@@ -94,6 +189,9 @@
     </ion-card>
   </div>
 
+
+
+  
   <!-- Form Registrasi -->
   <div *ngIf="isPaid">
     <ion-card>
@@ -117,4 +215,20 @@
       </ion-card-content>
     </ion-card>
   </div>
+
+
+
+      
+      <ion-grid class="bottom-circle-container">
+        <ion-grid class="bottom-circle">
+          <ion-grid class="bottom-circle-inside"></ion-grid>
+        </ion-grid>
+      </ion-grid>
+    
+      
+      <div class="footer"></div>
+      
+
+
+    
 </ion-content>

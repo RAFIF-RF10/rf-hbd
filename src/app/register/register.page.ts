@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
+// import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-register',
@@ -19,15 +20,34 @@ export class RegisterPage  {
   cardNumber: string = ''; // Nomor kartu kredit
   paymentId: string = ''; // ID untuk PayPal atau Dana
 
-  constructor() {
+  constructor(private renderer: Renderer2) {
     this.loadPackages();
   }
 
   // Fungsi untuk memilih paket
-  selectPackage(pkg: any) {
-    this.selectedPackage = pkg;
+  selectPackage(pkgName: string) {
+  const selected = this.packages.find(pkg => pkg.name === pkgName); // Cari paket berdasarkan nama
+  if (selected) {
+    this.selectedPackage = selected; // Tetapkan paket yang dipilih
     this.isPaid = false; // Reset status pembayaran
+    console.log('Selected Package:', this.selectedPackage);
+  } else {
+    console.error('Package not found');
   }
+}
+
+  getPrice(pkgName: string): number {
+    const pkg = this.packages.find(p => p.name === pkgName);
+    return pkg ? pkg.price : 0;
+  }
+
+
+  getSalePrice(pkgName: string): number {
+    const pkg = this.packages.find(p => p.name === pkgName);
+    return pkg ? pkg.sale_price : 0;
+  }
+
+
 
   // Fungsi untuk melakukan pembayaran
   payForPackage() {
@@ -100,4 +120,32 @@ export class RegisterPage  {
         alert('Error during registration');
       });
   }
+
+
+  currentRightValue: number = 0; 
+
+  moveRight() {
+    if (this.currentRightValue < 200) {
+      this.currentRightValue += 100; // Tambahkan 100% ke nilai 'right'
+      this.updateSliderPosition();
+    }
+  }
+
+  // Fungsi untuk menangani klik tombol kiri
+  moveLeft() {
+    if (this.currentRightValue > 0) {
+      this.currentRightValue -= 100; // Kurangi 100% dari nilai 'right'
+      this.updateSliderPosition();
+    }
+  }
+
+  // Fungsi untuk memperbarui posisi slider
+  private updateSliderPosition() {
+    const sliders = document.querySelectorAll('.slider-container') as NodeListOf<HTMLElement>;
+    sliders.forEach((slider) => {
+      this.renderer.setStyle(slider, 'right', `${this.currentRightValue}%`);
+    });
+  }
+
+
 }

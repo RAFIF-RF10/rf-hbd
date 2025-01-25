@@ -1,6 +1,6 @@
 ion-content {
     --background: #ff6f6f;
-    height: 100vh;
+    height: auto;
 }
 
 .banner {
@@ -30,6 +30,7 @@ ion-title {
     justify-content: end;
     right: -2rem;
     top: -2.5rem;
+    bottom: 0;
     z-index: 2;
 }
 
