@@ -1,16 +1,27 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  
+
 })
 export class ProfilePage implements OnInit {
+  userData: any = null;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    this.loadUserData();
   }
 
+  loadUserData() {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      this.userData = JSON.parse(storedUserData);
+    } else {
+      console.log('No user data found in localStorage');
+    }
+  }
 }

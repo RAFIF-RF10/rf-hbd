@@ -6,7 +6,7 @@ import { ViewChild } from '@angular/core';
 import { IonRouterOutlet } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
-import { CapacitorHttp } from '@capacitor/core';  // Pastikan ini sudah diimpor
+import { CapacitorHttp } from '@capacitor/core';
 
 @Component({
   selector: 'app-home',
@@ -19,53 +19,79 @@ export class HomePage implements OnInit {
   @ViewChild('itemModal') itemModal!: IonModal;
   @ViewChild(IonRouterOutlet, { static: true }) ionRouterOutlet!: IonRouterOutlet;
 
-  selectedFilter: string = 'All';
+  selectedFilter: string = 'All'; // Default filter
   selectedItem: any = null;
   qty: number = 1;
-  cartCount: number = 0; // Menyimpan jumlah item unik
+  cartCount: number = 0;
   searchQuery: string = '';
 
-  items: any[] = []; // Menyimpan data produk yang diambil dari API
-  filteredItems: any[] = [...this.items]; // Filtered items berdasarkan pencarian atau filter kategori
+  items: any[] = []; // Data produk
+  filteredItems: any[] = []; // Produk yang ditampilkan berdasarkan filter
+  categories: any[] = []; // Daftar kategori yang diambil dari API
 
   constructor(public router: Router, private cartService: CartService) {}
 
   ngOnInit() {
-    // Ambil data produk dari API saat halaman dimuat
+    // Ambil data produk dan kategori saat halaman dimuat
+    this.getCategories();
     this.getItems();
 
-    // Update cartCount berdasarkan jumlah item unik di keranjang
+    // Update jumlah item unik di keranjang
     this.cartService.cartItems$.subscribe((items) => {
-      this.cartCount = items.length; // Hanya menghitung jumlah item unik
+      this.cartCount = items.length;
     });
   }
 
-  // Fungsi untuk mengambil data produk dari API
-  async getItems() {
+  // Fungsi untuk mengambil data kategori dari API
+  async getCategories() {
     try {
       const response = await CapacitorHttp.get({
-        url: 'https://epos.pringapus.com/api/v1/Product_category/get_products', // Ganti dengan URL API produk yang sesuai
+        url: 'https://epos.pringapus.com/api/v1/Product_category/getProductCategoryList',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (Array.isArray(response.data.data)) {
-        console.log('Produk berhasil diambil:', response);
-        this.items = response.data.data; // Menyimpan data produk yang diterima dari API
-        this.filteredItems = [...this.items]; // Menampilkan semua produk awalnya
+        console.log('Kategori berhasil diambil:', response.data.data);  // Cek data kategori
+        this.categories = response.data.data;
+        this.categories.unshift({ id: 'All', name: 'All' });  // Menambahkan kategori 'All'
       } else {
-        console.error('Data tidak dalam format array:', response.data.data);
+        console.error('Data kategori tidak dalam format array:', response.data.data);
       }
     } catch (error) {
-      console.error('Terjadi kesalahan saat mengambil produk:', error);
+      console.error('Terjadi kesalahan saat mengambil kategori:', error);
     }
   }
+
+
+// Fungsi untuk mengambil data produk dari API
+async getItems() {
+  try {
+    const response = await CapacitorHttp.get({
+      url: 'https://epos.pringapus.com/api/v1/Product_category/get_products', // URL API produk
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (Array.isArray(response.data.data)) {
+      console.log('Produk berhasil diambil:', response.data.data);
+      this.items = response.data.data;
+      this.filteredItems = [...this.items]; // Tampilkan semua produk awalnya
+    } else {
+      console.error('Data produk tidak dalam format array:', response.data);
+    }
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mengambil produk:', error);
+  }
+}
+
 
   // Fungsi untuk menambahkan item ke keranjang
   addToCart() {
     if (this.selectedItem) {
-      this.cartService.addToCart(this.selectedItem, this.qty); // Tambah item ke keranjang
+      this.cartService.addToCart(this.selectedItem, this.qty);
       this.itemModal.dismiss();
     }
   }
@@ -79,7 +105,7 @@ export class HomePage implements OnInit {
   // Fungsi untuk membuka modal dengan detail item
   openModal(item: any) {
     this.selectedItem = item;
-    this.qty = 1; // Reset qty setiap kali membuka modal
+    this.qty = 1;
     this.itemModal.present();
   }
 
@@ -87,6 +113,18 @@ export class HomePage implements OnInit {
   incrementQty() {
     this.qty += 1;
   }
+
+   selectFilter(filter: string) {
+  this.selectedFilter = filter;
+
+  // Jika memilih "All", tampilkan semua produk
+  if (filter === 'All') {
+    this.filteredItems = [...this.items];
+  } else {
+    // filter id category guis
+    this.filteredItems = this.items.filter((item) => item.id_category === filter);
+  }
+}
 
   // Fungsi untuk mengurangi kuantitas item
   decrementQty() {
@@ -100,16 +138,6 @@ export class HomePage implements OnInit {
     return this.selectedItem ? this.selectedItem.price * this.qty : 0;
   }
 
-  // Fungsi untuk memilih filter kategori produk
-  selectFilter(filter: string) {
-    this.selectedFilter = filter;
-    this.filteredItems =
-      filter === 'All'
-        ? this.items
-        : this.items.filter((item) =>
-            item.category.toLowerCase() === filter.toLowerCase()
-          );
-  }
 
   // Fungsi untuk menangani perubahan pencarian produk
   onSearchChange(event: any) {
@@ -117,8 +145,7 @@ export class HomePage implements OnInit {
     this.filteredItems = this.items.filter(
       (item) =>
         item.name.toLowerCase().includes(query) &&
-        (this.selectedFilter === 'All' ||
-          item.category.toLowerCase() === this.selectedFilter.toLowerCase())
+        (this.selectedFilter === 'All' || item.category_id === this.selectedFilter)
     );
   }
 }

@@ -22,12 +22,17 @@
         </ion-col>
       </ion-row>
 
-      <div class="container-filter">
-        <!-- Daftar filter -->
-        <div *ngFor="let filter of ['All', 'jangkrik', 'Uler', 'kroto', 'millet', 'essen', 'kandang']" class="filter" [class.active]="filter === selectedFilter" (click)="selectFilter(filter)">
-          <b>{{ filter }}</b>
-        </div>
-      </div>
+     <div class="container-filter">
+  <!-- Daftar filter kategori berdasarkan kategori yang diterima dari API -->
+  <div
+    *ngFor="let category of categories"
+    class="filter"
+    [class.active]="category.id === selectedFilter"
+    (click)="selectFilter(category.id)">
+    <b>{{ category.name }}</b> <!-- Menampilkan nama kategori -->
+  </div>
+</div>
+
     </div>
   </ion-toolbar>
 </ion-header>
