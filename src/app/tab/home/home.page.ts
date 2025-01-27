@@ -1,22 +1,21 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { IonSearchbar } from '@ionic/angular/standalone';
-import { CommonModule } from '@angular/common';
-import { IonModal } from '@ionic/angular/standalone';
-import { ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular/standalone'; // Standalone modal
 import { IonRouterOutlet } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
 import { CapacitorHttp } from '@capacitor/core';
+import { CommonModule } from '@angular/common'; // Tambahkan CommonModule untuk pipe bawaan
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonSearchbar, CommonModule, IonModal],
+  standalone: true, // Menandakan komponen ini sebagai standalone
+  imports: [CommonModule, IonModal], // Pastikan IonModal diimpor di sini
 })
 export class HomePage implements OnInit {
-  @ViewChild('itemModal') itemModal!: IonModal;
+  @ViewChild('itemModal') itemModal!: IonModal; // Referensi ke modal
   @ViewChild(IonRouterOutlet, { static: true }) ionRouterOutlet!: IonRouterOutlet;
 
   selectedFilter: string = 'All'; // Default filter
@@ -53,9 +52,9 @@ export class HomePage implements OnInit {
       });
 
       if (Array.isArray(response.data.data)) {
-        console.log('Kategori berhasil diambil:', response.data.data);  // Cek data kategori
+        console.log('Kategori berhasil diambil:', response.data.data); // Cek data kategori
         this.categories = response.data.data;
-        this.categories.unshift({ id: 'All', name: 'All' });  // Menambahkan kategori 'All'
+        this.categories.unshift({ id: 'All', name: 'All' }); // Menambahkan kategori 'All'
       } else {
         console.error('Data kategori tidak dalam format array:', response.data.data);
       }
@@ -64,35 +63,49 @@ export class HomePage implements OnInit {
     }
   }
 
+  // Fungsi untuk mengambil data produk dari API
+  async getItems() {
+    try {
+      const response = await CapacitorHttp.get({
+        url: 'https://epos.pringapus.com/api/v1/Product_category/get_products', // URL API produk
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-// Fungsi untuk mengambil data produk dari API
-async getItems() {
-  try {
-    const response = await CapacitorHttp.get({
-      url: 'https://epos.pringapus.com/api/v1/Product_category/get_products', // URL API produk
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (Array.isArray(response.data.data)) {
-      console.log('Produk berhasil diambil:', response.data.data);
-      this.items = response.data.data;
-      this.filteredItems = [...this.items]; // Tampilkan semua produk awalnya
-    } else {
-      console.error('Data produk tidak dalam format array:', response.data);
+      if (Array.isArray(response.data.data)) {
+        console.log('Produk berhasil diambil:', response.data.data);
+        this.items = response.data.data;
+        this.filteredItems = [...this.items]; // Tampilkan semua produk awalnya
+      } else {
+        console.error('Data produk tidak dalam format array:', response.data);
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan saat mengambil produk:', error);
     }
-  } catch (error) {
-    console.error('Terjadi kesalahan saat mengambil produk:', error);
   }
-}
 
+  // Fungsi untuk membuka modal dengan detail item
+  openModal(item: any) {
+    this.selectedItem = item;
+    this.qty = 1;
+
+    if (this.itemModal) {
+      this.itemModal.present().catch((error) => {
+        console.error('Error saat membuka modal:', error);
+      });
+    } else {
+      console.error('Modal belum diinisialisasi');
+    }
+  }
 
   // Fungsi untuk menambahkan item ke keranjang
   addToCart() {
     if (this.selectedItem) {
       this.cartService.addToCart(this.selectedItem, this.qty);
-      this.itemModal.dismiss();
+      if (this.itemModal) {
+        this.itemModal.dismiss();
+      }
     }
   }
 
@@ -102,29 +115,21 @@ async getItems() {
     this.router.navigate(['/detail'], { state: { item } });
   }
 
-  // Fungsi untuk membuka modal dengan detail item
-  openModal(item: any) {
-    this.selectedItem = item;
-    this.qty = 1;
-    this.itemModal.present();
-  }
-
   // Fungsi untuk menambah kuantitas item
   incrementQty() {
     this.qty += 1;
   }
 
-   selectFilter(filter: string) {
-  this.selectedFilter = filter;
+  // Fungsi untuk memilih filter produk berdasarkan kategori
+  selectFilter(filter: string) {
+    this.selectedFilter = filter;
 
-  // Jika memilih "All", tampilkan semua produk
-  if (filter === 'All') {
-    this.filteredItems = [...this.items];
-  } else {
-    // filter id category guis
-    this.filteredItems = this.items.filter((item) => item.id_category === filter);
+    if (filter === 'All') {
+      this.filteredItems = [...this.items];
+    } else {
+      this.filteredItems = this.items.filter((item) => item.id_category === filter);
+    }
   }
-}
 
   // Fungsi untuk mengurangi kuantitas item
   decrementQty() {
@@ -137,7 +142,7 @@ async getItems() {
   calculateTotal(): number {
     return this.selectedItem ? this.selectedItem.price * this.qty : 0;
   }
-
+  
 
   // Fungsi untuk menangani perubahan pencarian produk
   onSearchChange(event: any) {

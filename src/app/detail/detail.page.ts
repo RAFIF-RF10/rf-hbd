@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'; // Sudah benar, ini perlu
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular/standalone';
 import { IonRouterOutlet } from '@ionic/angular';
@@ -10,7 +10,7 @@ import { CartService } from '../services/cart.service';
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule, IonModal],
+  imports: [CommonModule, IonModal], // Pastikan CommonModule sudah di sini
 })
 export class DetailPage implements OnInit {
   @ViewChild('detailModal') detailModal!: IonModal;
