@@ -1,13 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>riwayat</ion-title>
+    <ion-title>Riwayat</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">riwayat</ion-title>
+      <ion-title size="large">Riwayat</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <ion-list *ngIf="!isLoading && riwayatList.length > 0">
+    <ion-item *ngFor="let riwayat of riwayatList">
+      <ion-label>
+        <h2>Metode pemabayaran: {{ riwayat.customer_payment_method }}</h2>
+        <p>Detail: {{ riwayat.customer_payment_detail }}</p>
+        <p>Total: {{ riwayat.customer_payment_total }}</p>
+        <p>Tanggal: {{ riwayat.created_date  }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
