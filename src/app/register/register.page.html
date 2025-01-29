@@ -1,26 +1,8 @@
 <ion-content>
-  
-  
-  <!-- <ion-card *ngFor="let pkg of packages">
-    <ion-card-header>
-      <ion-card-title>{{ pkg.name }}</ion-card-title>
-      <ion-card-subtitle>
-        Price: {{ pkg.price | currency }}
-      </ion-card-subtitle>
-      <ion-card-subtitle>
-        Sale Price: {{ pkg.sale_price | currency }}
-      </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button (click)="selectPackage(pkg)">
-        Choose {{ pkg.name }}
-      </ion-button>
-    </ion-card-content>
-  </ion-card> -->
 
   <ion-header class="top">
-    <ion-button slot="start" fill="clear" style="display: flex; align-items: center; justify-content: center;">
-        <ion-title style="color: white; font-size: small;"><ion-icon style="font-size: small ;" name="chevron-back-outline"></ion-icon> Kembali</ion-title>
+    <ion-button slot="start" fill="clear" style="display: flex; align-items: center; justify-content: center;" (click)="back()">
+        <ion-title style="color: #767676; font-size: small; font-weight: bolder;"><ion-icon style="font-size: small ;" name="chevron-back-outline"></ion-icon> Kembali</ion-title>
     </ion-button>
   </ion-header>
 
@@ -44,8 +26,25 @@
       <div class="slider-container">
   
         
-        <ion-card class="slider-item">
+        <ion-card class="slider-item" style="border: 3px solid #c5ad92;">
           <ion-card-header>
+
+            <div style="position: relative; width: 100%;">
+              <div style="position: absolute; width: 100%;">
+                <div style="position: relative; left: -5rem;">
+                  <div style="display: flex; justify-content: left; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                  </div>
+                </div>
+                <div style="position: relative; right: -5rem;">
+                  <div style="display: flex; justify-content: right; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white ; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <ion-icon style="color: #a37541;" name="cube-outline"></ion-icon>
             <ion-card-title>Bronze</ion-card-title>
             <ion-card-subtitle>
               Price: {{ getPrice('Bronze') | currency:'IDR':'symbol':'1.0-0' }}
@@ -55,7 +54,7 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-            <ion-button (click)="selectPackage('Bronze')">
+            <ion-button (click)="openModal()" style="--background: #a37541; color: white;" (click)="selectPackage('Bronze')">
               Choose Bronze
             </ion-button>
           </ion-card-content>
@@ -65,8 +64,25 @@
       </div> 
     
       <div class="slider-container">
-        <ion-card class="slider-item">
+        <ion-card class="slider-item" style="border: 3px solid #21C3E3;">
           <ion-card-header>
+
+            <div style="position: relative; width: 100%;">
+              <div style="position: absolute; width: 100%;">
+                <div style="position: relative; right: -5rem; top: -2rem;">
+                  <div style="display: flex; justify-content: right; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #C5F0FF; border-radius: 50%;"></div>
+                  </div>
+                </div>
+                <div style="position: relative; left: -5rem;">
+                  <div style="display: flex; justify-content: left; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white ; border: 1rem solid #C5F0FF; border-radius: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ion-icon style="color: #21C3E3;" name="cube-outline"></ion-icon>
             <ion-card-title>Silver</ion-card-title>
             <ion-card-subtitle>
               Price: {{ getPrice('Silver') | currency:'IDR':'symbol':'1.0-0' }}
@@ -76,7 +92,7 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-            <ion-button (click)="selectPackage('Silver')">
+            <ion-button  (click)="openModal()" style="--background: #21c3e3; color: white;" (click)="selectPackage('Silver')">
               Choose Silver
             </ion-button>
           </ion-card-content>
@@ -84,8 +100,25 @@
       </div>
     
       <div class="slider-container">
-        <ion-card class="slider-item">
+        <ion-card class="slider-item" style="border: 3px solid #FEBB4B;">
           <ion-card-header>
+
+            <div style="position: relative; width: 100%;">
+              <div style="position: absolute; width: 100%;">
+                <div style="position: relative; left: -4rem; top: -2rem;">
+                  <div style="display: flex; justify-content: left; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #FCE2CB; border-radius: 50%;"></div>
+                  </div>
+                </div>
+                <div style="position: relative; right: -5rem; bottom: -2rem;">
+                  <div style="display: flex; justify-content: right; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white ; border: 1rem solid #FCE2CB; border-radius: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ion-icon style="color: #FEBB4B;" name="cube-outline"></ion-icon>
             <ion-card-title>Gold</ion-card-title>
             <ion-card-subtitle>
               Price: {{ getPrice('Gold') | currency:'IDR':'symbol':'1.0-0' }}
@@ -95,7 +128,7 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-            <ion-button (click)="selectPackage('Gold')">
+            <ion-button (click)="openModal()" style="--background: #febb4b; color: white;" (click)="selectPackage('Gold')">
               Choose Gold
             </ion-button>
           </ion-card-content>
@@ -116,122 +149,164 @@
   
 
 
-  <!-- Pembayaran -->
-  <div *ngIf="selectedPackage && !isPaid">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Proceed to Payment for {{ selectedPackage.name }} Package</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <!-- Pilihan Pembayaran -->
-        <ion-item>
-          <ion-label>Credit Card</ion-label>
-          <ion-button (click)="paymentMethod = 'creditCard'">Select Credit Card</ion-button>
-        </ion-item>
+  <ion-modal #myModal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+    <ng-template>
+      <ion-content>
 
-        <ion-item>
-          <ion-label>PayPal</ion-label>
-          <ion-radio-group [(ngModel)]="paymentMethod" value="paypal">
-            <ion-item>
-              <ion-label>PayPal</ion-label>
-              <ion-radio slot="start" value="paypal"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-item>
+        <!-- Pembayaran -->
+        <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
+          <ion-grid>
 
-        <ion-item>
-          <ion-label>Dana</ion-label>
-          <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
-            <ion-item>
-              <ion-label>Dana</ion-label>
-              <ion-radio slot="start" value="dana"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-item>
+            <ion-header>
+              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" > 
+                <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-title style="color: black;">Payment</ion-title>
+            </ion-header>
 
-        <!-- Pilihan Kartu Kredit (Dropdown hanya untuk Credit Card) -->
-        <div *ngIf="paymentMethod === 'creditCard'">
-          <ion-item>
-            <ion-label>Card Type</ion-label>
-            <ion-select [(ngModel)]="cardType" placeholder="Select Card Type">
-              <ion-select-option value="visa">Visa</ion-select-option>
-              <ion-select-option value="masterCard">MasterCard</ion-select-option>
-              <ion-select-option value="discover">Discover</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label>Card Number</ion-label>
-            <ion-input type="text" [(ngModel)]="cardNumber"></ion-input>
-          </ion-item>
+            <ion-grid>
+
+              <!-- Pilihan Pembayaran -->
+              <div class="pay-form">
+                <ion-radio-group [(ngModel)]="paymentMethod" value="creditCard">
+                    <ion-label>Credit Card</ion-label>
+                    <ion-radio slot="end" value="creditCard"></ion-radio>
+                </ion-radio-group>
+              </div>
+
+              <div class="card-pay" *ngIf="paymentMethod === 'creditCard'">
+                <ion-title>Lengkapi Data</ion-title>
+                <ion-grid>
+                  <div style="border-bottom: 1px solid #424242;">
+                    <ion-label>Card Type</ion-label>
+                    <ion-select [(ngModel)]="cardType" placeholder=" " slot="end">
+                      <ion-select-option value="visa">Visa</ion-select-option>
+                      <ion-select-option value="masterCard">MasterCard</ion-select-option>
+                      <ion-select-option value="discover">Discover</ion-select-option>
+                    </ion-select>
+                  </div>
+                  <div>
+                    <ion-label>Card Number :</ion-label>
+                    <ion-input type="text" [(ngModel)]="cardNumber"></ion-input>
+                  </div>
+                </ion-grid>
+              </div>
+
+
+              <div class="pay-form">
+                <ion-radio-group [(ngModel)]="paymentMethod" value="paypal">
+                    <ion-label>PayPal</ion-label>
+                    <ion-radio slot="end" value="paypal"></ion-radio>
+                </ion-radio-group>
+              </div>
+
+              <div class="paypal-pay" *ngIf="paymentMethod === 'paypal'">
+                <ion-title>Lengkapi Data</ion-title>
+                <div>
+                  <ion-label>PayPal Payment ID :</ion-label>
+                  <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
+                </div>
+              </div>
+
+      
+      
+              <div class="pay-form">
+                <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
+                    <ion-label>Dana</ion-label>
+                    <ion-radio slot="end" value="dana"></ion-radio>
+                </ion-radio-group>
+              </div>
+
+              <div class="dana-pay" *ngIf="paymentMethod === 'dana'">
+                <ion-title>Lengkapi Data</ion-title>
+                <div>
+                  <ion-label>Dana Payment ID :</ion-label>
+                  <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
+                </div>
+              </div>
+      
+            </ion-grid>
+          </ion-grid>
+        </div>
+      
+      
+        
+        
+        <div class="alert-after-pay" *ngIf="isPaid && !isOpenRegister">
+          <ion-grid>
+
+            <div>
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+
+            <!-- <ion-title class="success-alert">Payment Success</ion-title> -->
+
+            <ion-button expand="block" (click)="openRegister()" >Register</ion-button>
+          </ion-grid>
         </div>
 
-        <!-- Pilihan PayPal -->
-        <div *ngIf="paymentMethod === 'paypal'">
-          <ion-item>
-            <ion-label>PayPal Payment ID</ion-label>
-            <ion-input type="text" [(ngModel)]="paymentId" placeholder="Enter PayPal Payment ID"></ion-input>
-          </ion-item>
+        
+        <div style="background-color: red; padding: 0; margin: 0; width: 100%; height: 100%;" *ngIf="isOpenRegister">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label position="floating">Name</ion-label>
+                <ion-input [(ngModel)]="name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Address</ion-label>
+                <ion-input [(ngModel)]="address"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Phone</ion-label>
+                <ion-input [(ngModel)]="phone"></ion-input>
+              </ion-item>
+              <ion-button expand="block" (click)="register()">Register</ion-button>
+            </ion-card-content>
+          </ion-card>
         </div>
 
-        <!-- Pilihan Dana -->
-        <div *ngIf="paymentMethod === 'dana'">
-          <ion-item>
-            <ion-label>Dana Payment ID</ion-label>
-            <ion-input type="text" [(ngModel)]="paymentId" placeholder="Enter Dana Payment ID"></ion-input>
-          </ion-item>
-        </div>
 
-        <!-- Order Total -->
-        <ion-item>
-          <ion-label>Total</ion-label>
-          <ion-input [value]="selectedPackage?.sale_price | currency" disabled></ion-input>
-        </ion-item>
 
-        <!-- Tombol Pembayaran -->
-        <ion-button expand="block" (click)="payForPackage()">Pay Now</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </div>
+      </ion-content>
 
+      <ion-footer *ngIf="selectedPackage && !isPaid">
+        <ion-toolbar>
+
+          <div>
+            <ion-title>Total</ion-title>
+            <ion-title>{{ selectedPackage.sale_price | currency:'IDR':'symbol':'1.0-0' }}</ion-title>
+            <!-- <ion-input [value]="selectedPackage?.sale_price | currency" disabled></ion-input> -->
+          </div>
+  
+          <div class="btn">
+            <ion-button expand="block" (click)="payForPackage()"><ion-title>Pay Now</ion-title></ion-button>
+          </div>
+
+        </ion-toolbar>
+      </ion-footer>
+
+    </ng-template>
+  </ion-modal>
 
 
   
-  <!-- Form Registrasi -->
-  <div *ngIf="isPaid">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-item>
-          <ion-label position="floating">Name</ion-label>
-          <ion-input [(ngModel)]="name"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Address</ion-label>
-          <ion-input [(ngModel)]="address"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Phone</ion-label>
-          <ion-input [(ngModel)]="phone"></ion-input>
-        </ion-item>
-        <ion-button expand="block" (click)="register()">Register</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </div>
+  <div style="position: absolute; bottom: 0; right: 0; left: 0;">
 
 
-
-      
       <ion-grid class="bottom-circle-container">
         <ion-grid class="bottom-circle">
           <ion-grid class="bottom-circle-inside"></ion-grid>
         </ion-grid>
       </ion-grid>
-    
+      
       
       <div class="footer"></div>
-      
+    
+  </div>
 
 
     

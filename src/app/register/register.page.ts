@@ -1,5 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
+import { Router } from '@angular/router'; // Import Router
 // import { Component, Renderer2 } from '@angular/core';
 
 @Component({
@@ -20,7 +21,7 @@ export class RegisterPage  {
   cardNumber: string = ''; // Nomor kartu kredit
   paymentId: string = ''; // ID untuk PayPal atau Dana
 
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2 , private router:Router) {
     this.loadPackages();
   }
 
@@ -79,7 +80,7 @@ export class RegisterPage  {
     })
       .then((response: any) => {
         if (response.data.status) {
-          this.packages = response.data.data;
+          this.packages = response.data.data; // Simpan data paket ke dalam array 
         } else {
           alert('Failed to load packages');
         }
@@ -90,7 +91,13 @@ export class RegisterPage  {
       });
   }
 
-  // Fungsi untuk melakukan registrasi
+  
+  isOpenRegister = false;
+
+  openRegister() {
+    this.isOpenRegister = true;
+  }
+  
   register() {
     if (!this.name || !this.address || !this.phone || !this.selectedPackage) {
       alert('All fields must be filled');
@@ -111,6 +118,7 @@ export class RegisterPage  {
       .then((response: any) => {
         if (response.data.status) {
           alert('Registration successful');
+          // this.isOpenRegister = true;
         } else {
           alert(response.data.message);
         }
@@ -147,5 +155,18 @@ export class RegisterPage  {
     });
   }
 
+  back() {
+    this.router.navigate(['login'])
+  }
+
+  isModalOpen = false;
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }    
 
 }
