@@ -67,16 +67,16 @@ export class HomePage implements OnInit {
   async getItems() {
     try {
       const response = await CapacitorHttp.get({
-        url: 'https://epos.pringapus.com/api/v1/Product_category/get_products', // URL API produk
+        url: 'https://epos.pringapus.com/api/v1/Product_category/get_products',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (Array.isArray(response.data.data)) {
-        console.log('Produk berhasil diambil:', response.data.data);
-        this.items = response.data.data;
-        this.filteredItems = [...this.items]; // Tampilkan semua produk awalnya
+      if (Array.isArray(response.data)) { // Validasi apakah respons berupa array
+        console.log('Produk berhasil diambil:', response.data);
+        this.items = response.data; // Simpan data produk langsung ke `items`
+        this.filteredItems = [...this.items]; // Tampilkan semua produk
       } else {
         console.error('Data produk tidak dalam format array:', response.data);
       }
@@ -84,6 +84,7 @@ export class HomePage implements OnInit {
       console.error('Terjadi kesalahan saat mengambil produk:', error);
     }
   }
+
 
   // Fungsi untuk membuka modal dengan detail item
   openModal(item: any) {
@@ -142,7 +143,7 @@ export class HomePage implements OnInit {
   calculateTotal(): number {
     return this.selectedItem ? this.selectedItem.price * this.qty : 0;
   }
-  
+
 
   // Fungsi untuk menangani perubahan pencarian produk
   onSearchChange(event: any) {

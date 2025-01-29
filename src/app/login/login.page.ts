@@ -47,9 +47,9 @@ export class LoginPage {
 
         try {
           if (response.status === 200) {
-            const userData = response.data.data;
+            const userData = response.data.data.userData; // Ambil data user dari response
             const userLevel = parseInt(userData?.users_level, 10); // Pastikan tipe data angka
-            console.log(userData);
+            console.log('User Data:', userData);
 
             if (userLevel !== undefined) {
               switch (userLevel) {
@@ -68,10 +68,19 @@ export class LoginPage {
               }
 
               // Simpan data pengguna ke localStorage
-              localStorage.setItem('user_data', JSON.stringify(userData));
+              localStorage.setItem(
+                'user',
+                JSON.stringify({
+                  id: userData.id,
+                  username: userData.username,
+                  phone: userData.phone, // Data phone sekarang ada
+                  id_outlet: userData.id_outlet,
+                  outlet_name: userData.outlet_name,
+                })
+              );
 
               // Arahkan ke halaman home
-              this.router.navigate(['/tab/home']); // Tambahkan ini
+              this.router.navigate(['/tab/home']);
             } else {
               alert('Data tidak lengkap atau level tidak valid');
             }

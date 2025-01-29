@@ -14,16 +14,17 @@ export class CartService {
   }
 
   private saveCartToStorage() {
-    sessionStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
   }
 
   private loadCartFromStorage() {
-    const storedCart = sessionStorage.getItem('cartItems');
+    const storedCart = localStorage.getItem('cartItems');
     if (storedCart) {
       this.cartItems = JSON.parse(storedCart);
-      this.cartItemsSubject.next(this.cartItems); // Update BehaviorSubject
+      this.cartItemsSubject.next(this.cartItems);
     }
   }
+
 
   addToCart(item: any, qty: number) {
     const existingItem = this.cartItems.find((cartItem) => cartItem.name === item.name);
