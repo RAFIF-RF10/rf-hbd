@@ -1,32 +1,32 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular/standalone'; // Standalone modal
+import { IonModal } from '@ionic/angular/standalone';
 import { IonRouterOutlet } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
 import { CapacitorHttp } from '@capacitor/core';
-import { CommonModule } from '@angular/common'; // Tambahkan CommonModule untuk pipe bawaan
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  standalone: true, // Menandakan komponen ini sebagai standalone
-  imports: [CommonModule, IonModal], // Pastikan IonModal diimpor di sini
+  standalone: true,
+  imports: [CommonModule, IonModal],
 })
 export class HomePage implements OnInit {
-  @ViewChild('itemModal') itemModal!: IonModal; // Referensi ke modal
+  @ViewChild('itemModal') itemModal!: IonModal;
   @ViewChild(IonRouterOutlet, { static: true }) ionRouterOutlet!: IonRouterOutlet;
 
-  selectedFilter: string = 'All'; // Default filter
+  selectedFilter: string = 'All';
   selectedItem: any = null;
   qty: number = 1;
   cartCount: number = 0;
   searchQuery: string = '';
 
-  items: any[] = []; // Data produk
-  filteredItems: any[] = []; // Produk yang ditampilkan berdasarkan filter
-  categories: any[] = []; // Daftar kategori yang diambil dari API
+  items: any[] = [];
+  filteredItems: any[] = [];
+  categories: any[] = [];
 
   constructor(public router: Router, private cartService: CartService) {}
 

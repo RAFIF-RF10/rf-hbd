@@ -23,7 +23,6 @@ export class LoginPage {
 
   constructor(private router: Router ,private storageService: StorageService) {} // Tambahkan Router di sini
 
-  // ... Fungsi lainnya tetap sama
 
   Login() { 
     if (!this.outlet_code || !this.username || !this.password) { 

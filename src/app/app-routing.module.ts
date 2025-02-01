@@ -42,6 +42,15 @@ const routes: Routes = [
     loadChildren: () => import('./custom-date/custom-date.module').then( m => m.CustomDatePageModule)
   },
 
+  {
+    path: 'send-chat',
+    loadChildren: () => import('./send-chat/send-chat.module').then( m => m.SendChatPageModule)
+  },
+  {
+    path: 'custom-date',
+    loadChildren: () => import('./custom-date/custom-date.module').then( m => m.CustomDatePageModule)
+  },
+
 
 ];
 

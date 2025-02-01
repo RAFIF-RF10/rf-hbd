@@ -35,9 +35,11 @@ export class CartService {
     }
     this.saveCartToStorage();
     this.cartItemsSubject.next(this.cartItems);
+    this.cartItemsSubject.next(this.cartItems);
   }
 
   getCartItems() {
+    return this.cartItems;
     return this.cartItems;
   }
 
@@ -50,6 +52,7 @@ export class CartService {
   clearCart() {
     this.cartItems = [];
     this.saveCartToStorage();
+    this.cartItemsSubject.next(this.cartItems);
     this.cartItemsSubject.next(this.cartItems);
   }
 }

@@ -37,6 +37,7 @@ const routes: Routes = [
     redirectTo: '/tab/home',
     pathMatch: 'full',
   },
+
 ];
 
 @NgModule({

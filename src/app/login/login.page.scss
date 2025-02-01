@@ -1,13 +1,12 @@
 ion-content {
-    --background: white;
+    --background: #ff6f6f;
     height: auto;
-    
 }
 
 .banner {
   position: relative;
-  background: #FEBB4B;
-  // background: linear-gradient(to bottom left, #ff6f6f , #de7777);
+  // background: #ff6f6f;
+  background: linear-gradient(to bottom left, #ff6f6f , #de7777);
   padding: 0;
   margin: 0;
   border-radius: 0 0 0 40px;
@@ -77,7 +76,7 @@ ion-title {
   width: 100%;
   height: 100%;
   border-radius: 50% 50%;
-  background-color: #CF8F24;
+  background-color: #FEBB4B;
   // padding: 3rem;
 }
 
@@ -85,13 +84,13 @@ ion-title {
   border-radius: 0 40px 0 0 ;
   padding: 1.2rem 0 0 0;
   // background-color: white;
-  background: white;
+  background: linear-gradient(to top right, #fffbf3 , #ffffff);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  // height: auto;
+  height: auto;
   overflow: hidden;
 }
 
@@ -129,7 +128,7 @@ ion-input {
   color: white;
   font-size: 1rem;
   font-weight: bold;
-  background: #CF8F24;
+  background: #ff6f6f;
   border-radius: 15px;
   margin-top: 1rem;
 }
@@ -173,7 +172,7 @@ ion-input {
 .bottom-circle {
   width: 9rem;
   height: 9rem;
-  background-color: #CF8F24;
+  background-color: #FEBB4B;
   border-radius: 50%;
   display: flex;
   justify-content: center;
