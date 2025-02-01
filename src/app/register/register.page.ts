@@ -20,6 +20,14 @@ export class RegisterPage  {
   cardType: string = ''; // Pilihan tipe kartu kredit
   cardNumber: string = ''; // Nomor kartu kredit
   paymentId: string = ''; // ID untuk PayPal atau Dana
+  otp: string = ''; // Menyimpan OTP yang dimasukkan
+  isOtpVerified: boolean = false;
+  isOtpSent = false;
+  otpExpireTime: number = 0; // Deklarasi variabel untuk waktu kadaluarsa OTP
+  otpSentTime: number = 0;  // Inisialisasi dengan 0
+ // Menyimpan waktu pengiriman OTP
+  otpResendCooldown: number = 60;  // Durasi cooldown 60 detik untuk kirim OTP ulang
+  otpCooldownRemaining: number = 0;
 
   constructor(private renderer: Renderer2 , private router:Router) {
     this.loadPackages();
@@ -36,7 +44,21 @@ export class RegisterPage  {
     console.error('Package not found');
   }
 }
+validatePhoneNumber(event: any) {
+  // Mengambil nilai dari input
+  let input = event.target.value;
 
+  // Menghapus semua karakter yang bukan angka
+  input = input.replace(/[^0-9]/g, '');
+
+  // Membatasi panjang input hingga 15 karakter
+  if (input.length > 15) {
+    input = input.substring(0, 15);
+  }
+
+  // Memperbarui nilai phone dengan input yang sudah difilter
+  this.phone = input;
+}
   getPrice(pkgName: string): number {
     const pkg = this.packages.find(p => p.name === pkgName);
     return pkg ? pkg.price : 0;
@@ -80,7 +102,7 @@ export class RegisterPage  {
     })
       .then((response: any) => {
         if (response.data.status) {
-          this.packages = response.data.data; // Simpan data paket ke dalam array 
+          this.packages = response.data.data; // Simpan data paket ke dalam array
         } else {
           alert('Failed to load packages');
         }
@@ -91,46 +113,136 @@ export class RegisterPage  {
       });
   }
 
-  
+
   isOpenRegister = false;
 
   openRegister() {
     this.isOpenRegister = true;
   }
-  
+
   register() {
-    if (!this.name || !this.address || !this.phone || !this.selectedPackage) {
-      alert('All fields must be filled');
-      return;
+    if (!this.name || !this.address || !this.phone) {
+        alert('All fields must be filled');
+        return;
     }
 
     const data = {
-      name: this.name,
-      address: this.address,
-      phone: this.phone,
+        name: this.name,
+        address: this.address,
+        phone: this.phone,
     };
 
     CapacitorHttp.post({
-      url: 'https://epos.pringapus.com/api/v1/Authentication/register',
-      data: data,
-      headers: { 'Content-Type': 'application/json' },
+        url: 'https://epos.pringapus.com/api/v1/Authentication/register',
+        data: data,
+        headers: { 'Content-Type': 'application/json' },
     })
-      .then((response: any) => {
+    .then((response) => {
         if (response.data.status) {
-          alert('Registration successful');
-          // this.isOpenRegister = true;
+            alert('Registration successful! OTP sent to your phone.');
+
+            // Simpan OTP di localStorage (sementara)
+            localStorage.setItem('otp', response.data.otp);
+
+            this.isOtpSent = true;
+            this.otpSentTime = Date.now();  // Simpan waktu pengiriman OTP
+            this.otpCooldownRemaining = this.otpResendCooldown; // Reset timer cooldown
+            this.startOtpCooldown();
         } else {
-          alert(response.data.message);
+            alert(response.data.message);
         }
-      })
-      .catch((err) => {
+    })
+    .catch((err) => {
         console.error(err);
         alert('Error during registration');
-      });
+    });
+  }
+
+  // Fungsi untuk memverifikasi OTP
+  verifyOtp() {
+    if (!this.otp) {
+        alert('Please enter OTP');
+        return;
+    }
+
+    // Ambil OTP dari localStorage untuk validasi
+    const storedOtp = localStorage.getItem('otp');
+
+    if (this.otp !== storedOtp) {
+        alert('Invalid OTP. Please try again.');
+        return;
+    }
+
+    // Lanjutkan verifikasi OTP
+    const data = {
+        otp: this.otp,
+        phone: this.phone, // Kirimkan nomor telepon yang sudah didaftarkan
+    };
+
+    CapacitorHttp.post({
+        url: 'https://epos.pringapus.com/api/v1/Authentication/verify_otp',
+        data: data,
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then((response) => {
+        if (response.data.status) {
+            alert('OTP verified successfully!');
+            localStorage.removeItem('otp'); // Hapus OTP setelah verifikasi
+        } else {
+            alert(response.data.message); // Misalnya, 'User not found'
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        alert('Error verifying OTP');
+    });
+  }
+
+  // Fungsi untuk mengirim OTP ulang jika cooldown sudah selesai
+  resendOtp() {
+    if (this.otpCooldownRemaining > 0) {
+      alert(`Please wait ${this.otpCooldownRemaining} seconds before requesting OTP again.`);
+      return;
+    }
+
+    // Panggil kembali API untuk mengirim OTP
+    CapacitorHttp.post({
+        url: 'https://epos.pringapus.com/api/v1/Authentication/resend_otp',
+        data: { name: this.name, address: this.address, phone: this.phone },
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then((response) => {
+      if (response.data.status) {
+          alert('OTP sent to your phone again!');
+          localStorage.setItem('otp', response.data.otp); // Simpan OTP baru
+          this.otpSentTime = Date.now();
+          this.otpCooldownRemaining = this.otpResendCooldown;
+          this.startOtpCooldown();
+      } else {
+          alert(response.data.message);
+      }
+  })
+
+    .catch((err) => {
+        console.error(err);
+        alert('Error sending OTP');
+    });
+  }
+
+  // Mulai countdown untuk cooldown OTP
+  startOtpCooldown() {
+    const interval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - this.otpSentTime) / 1000);  // Hitung detik sejak OTP dikirim
+      this.otpCooldownRemaining = Math.max(0, this.otpResendCooldown - elapsed);  // Update cooldown
+
+      if (this.otpCooldownRemaining <= 0) {
+        clearInterval(interval);  // Hentikan countdown ketika cooldown selesai
+      }
+    }, 1000);
   }
 
 
-  currentRightValue: number = 0; 
+  currentRightValue: number = 0;
 
   moveRight() {
     if (this.currentRightValue < 200) {
@@ -167,6 +279,6 @@ export class RegisterPage  {
 
   closeModal() {
     this.isModalOpen = false;
-  }    
+  }
 
 }

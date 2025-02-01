@@ -6,8 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CartService {
   private cartItems: any[] = [];
-  private cartItemsSubject = new BehaviorSubject<any[]>([]); // BehaviorSubject untuk reaktivitas
-  cartItems$ = this.cartItemsSubject.asObservable(); // Observable untuk berlangganan
+  private cartItemsSubject = new BehaviorSubject<any[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor() {
     this.loadCartFromStorage();
@@ -34,22 +34,22 @@ export class CartService {
       this.cartItems.push({ ...item, qty });
     }
     this.saveCartToStorage();
-    this.cartItemsSubject.next(this.cartItems); // Emit perubahan ke BehaviorSubject
+    this.cartItemsSubject.next(this.cartItems);
   }
 
   getCartItems() {
-    return this.cartItems; // Untuk akses langsung jika diperlukan
+    return this.cartItems;
   }
 
   removeItem(item: any) {
     this.cartItems = this.cartItems.filter((cartItem) => cartItem.name !== item.name);
     this.saveCartToStorage();
-    this.cartItemsSubject.next(this.cartItems); // Emit perubahan ke BehaviorSubject
+    this.cartItemsSubject.next(this.cartItems);
   }
 
   clearCart() {
     this.cartItems = [];
     this.saveCartToStorage();
-    this.cartItemsSubject.next(this.cartItems); // Emit perubahan ke BehaviorSubject
+    this.cartItemsSubject.next(this.cartItems);
   }
 }

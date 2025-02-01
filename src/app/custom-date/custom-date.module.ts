@@ -4,15 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RiwayatPageRoutingModule } from './riwayat-routing.module';
+import { CustomDatePageRoutingModule } from './custom-date-routing.module';
 
+import { CustomDatePage } from './custom-date.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RiwayatPageRoutingModule
+    CustomDatePageRoutingModule
   ],
+  declarations: [CustomDatePage]
 })
-export class RiwayatPageModule {}
+export class CustomDatePageModule {}

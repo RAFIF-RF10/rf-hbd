@@ -1,31 +1,56 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Pesanan</ion-title>
+    <ion-title>Campaign List</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Pesanan</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <!-- ✅ FORM TAMBAH KAMPANYE -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tambah Kampanye</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nama</ion-label>
+        <ion-input [(ngModel)]="newCampaign.name"></ion-input>
+      </ion-item>
 
-  <div class="container">
-    <ion-card *ngFor="let item of orders">
+      <ion-item>
+        <ion-label position="stacked">Deskripsi</ion-label>
+        <ion-textarea [(ngModel)]="newCampaign.description"></ion-textarea>
+ </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tanggal</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="newCampaign.date_campign"></ion-datetime>
+      </ion-item>
+
+      <!-- ✅ Dropdown Pilih Customer -->
+      <ion-item>
+        <ion-label>Customer</ion-label>
+        <ion-select [(ngModel)]="newCampaign.phone_list">
+          <ion-select-option *ngFor="let customer of customers" [value]="customer.phone">
+            {{ customer.name }} ({{ customer.phone }})
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button expand="full" (click)="addCampaign()">Tambah</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ✅ LIST KAMPANYE -->
+  <ion-list>
+    <ion-card *ngFor="let campaign of campaigns">
       <ion-card-header>
-        <ion-card-title>{{ item.name }}</ion-card-title>
+        <ion-card-title>{{ campaign.name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>Harga Satuan: Rp {{ item.price }}</p>
-        <p>Jumlah: {{ item.qty }}</p>
-        <p>Total: Rp {{ item.price * item.qty }}</p>
+        <p><strong>Deskripsi:</strong> {{ campaign.description }}</p>
+        <p><strong>Tanggal:</strong> {{ campaign.date_campign }}</p>
+        <p><strong>Nomor HP:</strong> {{ campaign.phone_list }}</p>
       </ion-card-content>
     </ion-card>
-
-    <ion-item lines="none">
-      <ion-label><strong>Total Harga:</strong></ion-label>
-      <!-- <ion-note slot="end"><strong>Rp {{ calculateTotal() }}</strong></ion-note> -->
-    </ion-item>
-  </div>
+  </ion-list>
 </ion-content>

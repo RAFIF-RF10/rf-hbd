@@ -19,13 +19,13 @@
         <ion-icon style="color: #424242; font-size: 2rem ;" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </div>
-    
+
     <ion-grid class="card-container">
-  
-  
+
+
       <div class="slider-container">
-  
-        
+
+
         <ion-card class="slider-item" style="border: 3px solid #c5ad92;">
           <ion-card-header>
 
@@ -43,7 +43,7 @@
                 </div>
               </div>
             </div>
-            
+
             <ion-icon style="color: #a37541;" name="cube-outline"></ion-icon>
             <ion-card-title>Bronze</ion-card-title>
             <ion-card-subtitle>
@@ -59,10 +59,10 @@
             </ion-button>
           </ion-card-content>
         </ion-card>
-  
-       
-      </div> 
-    
+
+
+      </div>
+
       <div class="slider-container">
         <ion-card class="slider-item" style="border: 3px solid #21C3E3;">
           <ion-card-header>
@@ -98,7 +98,7 @@
           </ion-card-content>
         </ion-card>
       </div>
-    
+
       <div class="slider-container">
         <ion-card class="slider-item" style="border: 3px solid #FEBB4B;">
           <ion-card-header>
@@ -134,9 +134,9 @@
           </ion-card-content>
         </ion-card>
       </div>
-    
+
     </ion-grid>
-    
+
     <div class="arrow-right">
       <ion-button fill="clear" size="small" slot="icon-only" (click)="moveRight()">
         <ion-icon style="color: #424242; font-size: 2rem;" name="chevron-forward-outline"></ion-icon>
@@ -145,8 +145,8 @@
 
   </ion-grid>
 
-  
-  
+
+
 
 
   <ion-modal #myModal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
@@ -158,7 +158,7 @@
           <ion-grid>
 
             <ion-header>
-              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" > 
+              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
                 <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
               </ion-button>
               <ion-title style="color: black;">Payment</ion-title>
@@ -208,8 +208,8 @@
                 </div>
               </div>
 
-      
-      
+
+
               <div class="pay-form">
                 <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
                     <ion-label>Dana</ion-label>
@@ -224,29 +224,15 @@
                   <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
                 </div>
               </div>
-      
+
             </ion-grid>
           </ion-grid>
         </div>
-      
-      
-        
-        
-        <div class="alert-after-pay" *ngIf="isPaid && !isOpenRegister">
-          <ion-grid>
 
-            <div>
-              <ion-icon name="checkmark-outline"></ion-icon>
-            </div>
 
-            <!-- <ion-title class="success-alert">Payment Success</ion-title> -->
 
-            <ion-button expand="block" (click)="openRegister()" >Register</ion-button>
-          </ion-grid>
-        </div>
 
-        
-        <div style="background-color: red; padding: 0; margin: 0; width: 100%; height: 100%;" *ngIf="isOpenRegister">
+        <div *ngIf="!isOtpSent">
           <ion-card>
             <ion-card-header>
               <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
@@ -262,16 +248,38 @@
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Phone</ion-label>
-                <ion-input [(ngModel)]="phone"></ion-input>
+                <ion-input  type="tel"
+                [(ngModel)]="phone" (input)="validatePhoneNumber($event)" required></ion-input>
               </ion-item>
               <ion-button expand="block" (click)="register()">Register</ion-button>
             </ion-card-content>
           </ion-card>
         </div>
-
-
-
       </ion-content>
+
+        <!-- Form OTP -->
+        <!-- Form OTP -->
+  <div *ngIf="isOtpSent">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Enter OTP</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">OTP</ion-label>
+          <ion-input [(ngModel)]="otp"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
+
+        <!-- Tombol Kirim Ulang OTP -->
+        <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
+          Resend OTP ({{ otpCooldownRemaining }}s)
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
 
       <ion-footer *ngIf="selectedPackage && !isPaid">
         <ion-toolbar>
@@ -281,7 +289,7 @@
             <ion-title>{{ selectedPackage.sale_price | currency:'IDR':'symbol':'1.0-0' }}</ion-title>
             <!-- <ion-input [value]="selectedPackage?.sale_price | currency" disabled></ion-input> -->
           </div>
-  
+
           <div class="btn">
             <ion-button expand="block" (click)="payForPackage()"><ion-title>Pay Now</ion-title></ion-button>
           </div>
@@ -293,7 +301,7 @@
   </ion-modal>
 
 
-  
+
   <div style="position: absolute; bottom: 0; right: 0; left: 0;">
 
 
@@ -302,12 +310,12 @@
           <ion-grid class="bottom-circle-inside"></ion-grid>
         </ion-grid>
       </ion-grid>
-      
-      
+
+
       <div class="footer"></div>
-    
+
   </div>
 
 
-    
+
 </ion-content>

@@ -1,0 +1,160 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Kelola Campaign Promosi</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddCampaignModal()">Tambah Campaign Baru</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button *ngIf="!isAllDataLoaded" (click)="loadMoreData()">
+    <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+  </ion-button>
+  <ion-loading class="custom-loading" [isOpen]="isLoading" message="Loading..." [duration]="3000"></ion-loading>
+  <ion-list>
+    <ion-item *ngFor="let campaign of campaigns; let ind = index">
+      <ion-label>
+        <h2>{{ campaign.name }}</h2>
+        <p>{{ campaign.description }}</p>
+        <p><strong>Tanggal:</strong> {{ campaign.date_campign }}</p>
+        <p><strong>Kontak:</strong> {{ campaign.phone_list.length }} kontak</p>
+      </ion-label>
+    </ion-item>    
+  </ion-list>
+
+  <ion-modal [isOpen]="isAddCampaignModalOpen" (ionModalDidDismiss)="closeAddCampaignModal()" fullscreen="true">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Tambah Campaign Baru</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeAddCampaignModal()">Tutup</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list *ngIf="customer.length > 0">
+        <ion-item>
+          <ion-label position="floating">Nama Campaign</ion-label>
+          <ion-input [(ngModel)]="chatData.name"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="floating">Deskripsi Campaign</ion-label>
+          <ion-input [(ngModel)]="chatData.description"></ion-input>
+        </ion-item>
+        <ion-list-header>
+          <ion-label>Pilih Kontak</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let contact of customer">
+          <ion-checkbox [(ngModel)]="contact.selected"></ion-checkbox>
+          <ion-label *ngIf="contact">
+            <p><strong>{{ contact.number }}</strong></p>
+            <p style="font-size: 12px; color: gray;">{{ contact.name }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-accordion-group>
+          <ion-accordion value="1">
+            <ion-item slot="header" color="light">
+              <ion-label>Real / Custom Time</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-card>
+                <ion-card-content>
+                  <ion-row>
+                    <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
+                    <ion-col size="4">Gold</ion-col>
+
+                    <ion-col size="8"><b>Limit kontak</b></ion-col>
+                    <ion-col size="4">No Limit</ion-col>
+
+                    <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
+                    <ion-col size="4">Real / Custom Time</ion-col>
+                  </ion-row>
+                  <ion-row style="border-top: 1px solid lightgray;">
+                    <ion-col size="6">
+                      <ion-button expand="block" (click)="openDialog()">Real/Custom Time</ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="2">
+            <ion-item slot="header" color="light">
+              <ion-label>Custom Time</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-card>
+                <ion-card-content>
+                    <ion-row>
+                      <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
+                      <ion-col size="4">Silver</ion-col>
+
+                      <ion-col size="8"><b>Batas Kontak</b></ion-col>
+                      <ion-col size="4">25 Kontak</ion-col>
+  
+                      <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
+                      <ion-col size="4">Custome Time</ion-col>
+                    </ion-row>
+
+                    <ion-footer>
+                      <ion-toolbar>
+                        <ion-row>
+                          <ion-col size="12" class="ion-align-items-end">
+                            <ion-button expand="block" (click)="openDialogSigle()">Custom Time</ion-button>
+                          </ion-col>
+                        </ion-row>
+                      </ion-toolbar>
+                    </ion-footer>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="3">
+            <ion-item slot="header" color="light">
+              <ion-label>Real Time</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-card>
+                <ion-card-content>
+                    <ion-row>
+                      <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
+                      <ion-col size="4">Bronze</ion-col>
+
+                      <ion-col size="8"><b>Batas Kontak</b></ion-col>
+                      <ion-col size="4">15 Kontak</ion-col>
+  
+                      <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
+                      <ion-col size="4">Real Time</ion-col>
+                    </ion-row>
+
+                    <ion-footer>
+                      <ion-toolbar>
+                        <ion-row>
+                          <ion-col size="12" class="ion-align-items-end">
+                            <ion-button expand="block" (click)="submitNewCampaign()">Kirim</ion-button>
+                          </ion-col>
+                        </ion-row>
+                      </ion-toolbar>
+                    </ion-footer>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+        
+        <!-- <ion-item>
+          <ion-label>Tanggal Campaign</ion-label>
+          <ion-datetime [(ngModel)]="selectedDate" [disabled]="membershipType === 'Basic'" (click)="checkMembership()"> </ion-datetime>
+        </ion-item>
+
+        <ion-button expand="block" (click)="submitNewCampaign()">Simpan Campaign</ion-button>         -->
+      </ion-list>
+    </ion-content>
+  </ion-modal>
+</ion-content>

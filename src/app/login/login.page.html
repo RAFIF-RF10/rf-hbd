@@ -1,6 +1,12 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
 <ion-content>
 
-  <!-- <ion-grid style="background: white; margin: 0; padding: 0; --position: relative;"> -->
+  <ion-grid style="background: white; margin: 0; padding: 0; --position: relative;">
 
     <ion-grid class="banner">
 
@@ -10,7 +16,7 @@
         </ion-grid>
       </ion-grid>
 
-      <!-- <ion-grid class="pattern">
+      <ion-grid class="pattern">
         <ion-grid class="food">
           <svg width="100%" height="100%" viewBox="0 0 440 451" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <rect width="440" height="451" fill="url(#pattern0_33_11)"/>
@@ -23,7 +29,7 @@
             </svg>
 
         </ion-grid>
-      </ion-grid> -->
+      </ion-grid>
 
       <ion-row>
         <ion-title>
@@ -32,24 +38,21 @@
       </ion-row>
     </ion-grid>
 
-  <!-- </ion-grid> -->
+  </ion-grid>
 
 
-  <ion-grid style="background: #FEBB4B; margin: 0; padding: 0; --position: relative;">
+  <ion-grid class="login-container">
 
-    
-    <ion-grid class="login-container">
-      
-      <ion-grid class="input-container">
+    <ion-grid class="input-container">
       <ion-icon name="storefront-outline"></ion-icon>
       <ion-input [(ngModel)]="outlet_code" type="text" label="Outlet Code" label-placement="floating"  required></ion-input>
     </ion-grid>
-    
+
     <ion-grid class="input-container">
       <ion-icon name="person-outline"></ion-icon>
       <ion-input [(ngModel)]="username" type="text" label="Username" label-placement="floating" required></ion-input>
     </ion-grid>
-    
+
     <ion-grid  class="input-container">
       <ion-icon name="key-outline"></ion-icon>
       <ion-input [(ngModel)]="password" label="Password" label-placement="floating" [type]="showPassword ? 'text' : 'password'" required></ion-input>
@@ -64,27 +67,26 @@
     </ion-grid>
 
     <button class="input-btn" (click)="Login()">Login</button>
-    
+
     <!-- Tombol untuk membuka form registrasi -->
     <div class="register-link">
       <p>Belum punya akun?</p>
       <button fill="clear" (click)="register()">Registrasi Sekarang</button>
     </div>
-    
-    
-    
+
+
+
     <ion-grid class="bottom-circle-container">
       <ion-grid class="bottom-circle">
         <ion-grid class="bottom-circle-inside"></ion-grid>
       </ion-grid>
     </ion-grid>
-    
+
     <div class="footer"></div>
-    
-    
+
+
   </ion-grid>
-  
-</ion-grid>
+
 
 
 

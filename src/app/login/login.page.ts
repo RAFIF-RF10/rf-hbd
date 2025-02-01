@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
 import { Router } from '@angular/router'; // Import Router
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +20,8 @@ export class LoginPage {
   registerPassword: string = '';
   showRegisterPassword: boolean = false;
 
-  constructor(private router: Router) {} // Tambahkan Router di sini
+  constructor(private router: Router, private storageService: StorageService) {} 
 
-  // ... Fungsi lainnya tetap sama
 
   Login() {
     if (!this.outlet_code || !this.username || !this.password) {
@@ -47,9 +47,9 @@ export class LoginPage {
 
         try {
           if (response.status === 200) {
-            const userData = response.data.data.userData; // Ambil data user dari response
-            const userLevel = parseInt(userData?.users_level, 10); // Pastikan tipe data angka
-            console.log('User Data:', userData);
+            const userData = response.data.data;
+            const userLevel = parseInt(userData?.users_level, 10);
+            console.log(userData);
 
             if (userLevel !== undefined) {
               switch (userLevel) {
@@ -67,20 +67,10 @@ export class LoginPage {
                   break;
               }
 
-              // Simpan data pengguna ke localStorage
-              localStorage.setItem(
-                'user',
-                JSON.stringify({
-                  id: userData.id,
-                  username: userData.username,
-                  phone: userData.phone, // Data phone sekarang ada
-                  id_outlet: userData.id_outlet,
-                  outlet_name: userData.outlet_name,
-                })
-              );
+              localStorage.setItem('user_data', JSON.stringify(userData));
 
               // Arahkan ke halaman home
-              this.router.navigate(['/tab/home']);
+              this.router.navigate(['/tab/home']); // Tambahkan ini
             } else {
               alert('Data tidak lengkap atau level tidak valid');
             }

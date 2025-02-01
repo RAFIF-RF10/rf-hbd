@@ -4,15 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RiwayatPageRoutingModule } from './riwayat-routing.module';
+import { ChatPageRoutingModule } from './chat-routing.module';
 
+import { ChatPage } from './chat.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RiwayatPageRoutingModule
+    ChatPageRoutingModule
   ],
+  declarations: [ChatPage],
 })
-export class RiwayatPageModule {}
+export class ChatPageModule {}

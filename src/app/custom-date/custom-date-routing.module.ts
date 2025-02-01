@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RiwayatPage } from './riwayat.page';
+import { CustomDatePage } from './custom-date.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RiwayatPage
+    component: CustomDatePage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RiwayatPageRoutingModule {}
+export class CustomDatePageRoutingModule {}

@@ -1,0 +1,22 @@
+.history-container {
+    padding: 16px;
+  }
+  
+  .empty-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+  }
+  
+  .empty-container img {
+    max-width: 150px;
+    margin-bottom: 16px;
+  }
+  
+  ion-note {
+    color: gray;
+  }
+  
