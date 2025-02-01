@@ -33,6 +33,15 @@ const routes: Routes = [
     path: 'keranjang',
     loadChildren: () => import('./keranjang/keranjang.module').then( m => m.KeranjangPageModule)
   },
+  {
+    path: 'send-chat',
+    loadChildren: () => import('./send-chat/send-chat.module').then( m => m.SendChatPageModule)
+  },
+  {
+    path: 'custom-date',
+    loadChildren: () => import('./custom-date/custom-date.module').then( m => m.CustomDatePageModule)
+  },
+
 
 ];
 

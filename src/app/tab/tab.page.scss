@@ -1,0 +1,27 @@
+ion-tab-bar {
+    --background : #CF8F24;
+    ion-tab-button {
+        ion-icon {
+            color : white;
+        }
+    }
+    ion-tab-button[aria-selected="true"] {
+        ion-icon {
+            --color: red;
+        }
+    }
+}
+
+
+
+// ion-tab-bar {
+//     --background: #CF8F24;
+// }
+
+// ion-tab-button {
+//     --color: white !important; /* Warna default */
+// }
+
+// ion-tab-button[aria-selected="true"] {
+//     --color: red !important; /* Warna saat tab aktif */
+// }

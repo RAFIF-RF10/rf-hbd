@@ -14,8 +14,8 @@ const routes: Routes = [
         loadChildren: () => import('./riwayat/riwayat.module').then( m => m.RiwayatPageModule)
       },
       {
-        path: 'pesanan',
-        loadChildren: () => import('./pesanan/pesanan.module').then( m => m.PesananPageModule)
+        path: 'chat',
+        loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
       },
       {
         path: 'profile',

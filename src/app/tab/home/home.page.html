@@ -1,12 +1,12 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <div class="header">
-      <ion-text color="secondary">
-        <h1><b>LOGO</b></h1>
-      </ion-text>
+    <div class="logo">
+      <img src="assets/otatea-logo.png" alt="">
     </div>
+
     <div class="container-find">
       <ion-row>
+        
         <ion-col size="10">
           <ion-searchbar
             showCancelButton="focus"
@@ -14,23 +14,21 @@
             (ionInput)="onSearchChange($event)"
           ></ion-searchbar>
         </ion-col>
+
         <ion-col size="2">
           <div class="btn-add-card">
-            <ion-button
-              class="custom"
-              (click)="router.navigate(['/keranjang'])"
-            >
-              <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
-              <ion-badge
-                *ngIf="cartCount > 0"
-                color="danger"
-                class="cart-badge"
-                >{{ cartCount }}</ion-badge
-              >
+            <ion-button class="custom" (click)="router.navigate(['/keranjang'])">
+              <ion-icon slot="icon-only" name="cart"></ion-icon>
+                <ion-badge
+                  *ngIf="cartCount > 0"
+                  >{{ cartCount }}</ion-badge
+                >
             </ion-button>
           </div>
         </ion-col>
+
       </ion-row>
+
       <div class="container-filter">
         <div
           *ngFor="let category of categories"
@@ -41,14 +39,21 @@
           <b>{{ category.name }}</b>
         </div>
       </div>
+
     </div>
   </ion-toolbar>
 </ion-header>
 
+
+
+
 <ion-content [fullscreen]="true">
+
   <div class="container-card">
-    <ion-row>
-      <ion-col size="6" *ngFor="let item of filteredItems">
+
+      
+      <ion-card size="6" *ngFor="let item of filteredItems">
+
         <div class="img-container">
           <img
             [src]="item.image"
@@ -64,15 +69,19 @@
             <ion-icon slot="icon-only" name="bag-add-outline"></ion-icon>
           </ion-button>
         </div>
+
         <div class="details">
           <b>{{ item.name }}</b>
           <p>{{ item.price | currency: 'IDR':'symbol' }}</p>
         </div>
-      </ion-col>
-    </ion-row>
+
+      </ion-card>
+
+
   </div>
 
-  <ion-modal #itemModal [canDismiss]="true">
+
+  <ion-modal #itemModal [canDismiss]="true" backdropDismiss="true" class="custom-modal"  [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5]">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -81,23 +90,25 @@
       </ion-header>
       <ion-content>
         <div class="modal-content">
-          <img [src]="selectedItem?.image" alt="{{ selectedItem?.name }}" />
-          <b>{{ selectedItem?.name }}</b>
-          <p>{{ selectedItem?.price | currency: 'IDR':'symbol' }}</p>
-          <div class="qty-controls">
-            <ion-button (click)="decrementQty()">-</ion-button>
-            <span>{{ qty }}</span>
-            <ion-button (click)="incrementQty()">+</ion-button>
+          <div class="item">
+            <img [src]="selectedItem?.image" alt="{{ selectedItem?.name }}" />
+            <div class="desc">
+              <b>{{ selectedItem?.name }}</b>
+              <p>{{ selectedItem?.price | currency: 'IDR':'symbol' }}</p>
+              <div class="qty-controls">
+                <ion-button (click)="decrementQty()">-</ion-button>
+                <span>{{ qty }}</span>
+                <ion-button (click)="incrementQty()">+</ion-button>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="btn">
+          <ion-button expand="block" (click)="addToCart()">Masuk ke Troli - Rp.{{ calculateTotal() }}</ion-button>
+          <!-- <ion-button expand="block" style=" --background :rgb(203, 81, 72); --color : white">Beli Sekarang - Rp. {{ calculateTotal() }}</ion-button> -->
         </div>
       </ion-content>
       <ion-footer>
-        <ion-button
-          expand="block"
-          (click)="addToCart()"
-        >
-          Masuk ke Keranjang - Rp. {{ calculateTotal() }}
-        </ion-button>
       </ion-footer>
     </ng-template>
   </ion-modal>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -11,9 +12,12 @@ export class ProfilePage implements OnInit {
   userData: any = null;
   username: string = '';
   password: string = '';
-  isEditing: boolean = false; // Untuk menampilkan atau menyembunyikan form edit
+  confirmPassword: string = '';
+  isEditing: boolean = false;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.loadUserData();
@@ -24,43 +28,49 @@ export class ProfilePage implements OnInit {
     if (storedUserData) {
       this.userData = JSON.parse(storedUserData);
       this.username = this.userData.userData.username;
-      this.password = ''; // Kosongkan password untuk keamanan
     } else {
       console.log('No user data found in localStorage');
     }
   }
 
   toggleEdit() {
-    this.isEditing = !this.isEditing; // Toggle antara form edit tampil atau tidak
+    this.isEditing = !this.isEditing;
+  }
+
+  togglePasswordVisibility(field: string) {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
   }
 
   async saveChanges() {
-    if (this.username || this.password) {
+    if (this.password !== this.confirmPassword) {
+      console.log('Passwords do not match');
+      return;
+    }
+
+    if (this.username && this.password) {
       const data = {
-        id: this.userData.userData.id, // Pastikan ID user dikirim
-        username: this.username || this.userData.userData.username, // Tetap gunakan username lama jika tidak diubah
-        password: this.password, // Password baru jika diinput
+        id: this.userData.userData.id,
+        username: this.username,
+        password: this.password,
       };
 
       try {
         const response = await CapacitorHttp.post({
-          url: 'https://epos.pringapus.com/api/v1/Authentication/updateUser', // Ganti dengan URL API yang sesuai
+          url: 'https://epos.pringapus.com/api/v1/Authentication/updateUser',
           data: data,
           headers: {
             'Content-Type': 'application/json',
           },
         });
 
-        console.log('API Response:', response);
-
         if (response.status === 200) {
-          // Update localStorage jika berhasil
-          if (this.username) {
-            this.userData.userData.username = this.username;
-          }
-
+          this.userData.userData.username = this.username;
           localStorage.setItem('user_data', JSON.stringify(this.userData));
-          this.isEditing = false; // Sembunyikan form setelah menyimpan
+          this.isEditing = false;
           console.log('Profile updated successfully');
         } else {
           console.error('Failed to update profile');
@@ -69,7 +79,12 @@ export class ProfilePage implements OnInit {
         console.error('Error updating profile:', error);
       }
     } else {
-      console.log('Please fill in at least one field');
+      console.log('Please fill in all fields');
     }
+  }
+
+  logout() {
+    localStorage.removeItem('user_data');
+    this.router.navigate(['/login']);
   }
 }

@@ -1,0 +1,44 @@
+ion-header {
+    ion-toolbar {
+        --background : white;
+        color: #424242;
+        padding: 0 15px;
+    }    
+}
+
+ion-content {
+    --background :white;
+    --color: #424242;
+    .profile {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 1.5rem;
+        // background: linear-gradient(to top right, #ffeda34b, white);
+        .username {
+            .label {
+                font-size: small;
+                color: #646464;
+            }
+            font-size: xx-large;
+            // background: #ebebeb;
+            padding: 5px 25px 5px 0;
+            border-radius: 10px;
+        }
+        .outlet {
+            .label {
+                font-size: small;
+                color: #646464;
+            }
+            font-size: xx-large;
+            // background: #ebebeb;
+            padding: 5px 25px 5px 0;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+    }
+    .main {
+        
+    }
+}
