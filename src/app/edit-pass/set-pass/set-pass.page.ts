@@ -1,0 +1,72 @@
+import { Component, OnInit } from '@angular/core';
+import { CapacitorHttp } from '@capacitor/core';
+import { StorageService } from 'src/app/storage.service';
+
+@Component({
+  selector: 'app-set-pass',
+  templateUrl: './set-pass.page.html',
+  styleUrls: ['./set-pass.page.scss'],
+  standalone: false,
+})
+export class SetPassPage implements OnInit {
+
+  userData: any               = null;
+  id: string                  = '';
+  username: string            = '';
+  password: string            = '';
+  confirmPassword: string     = '';
+  showPassword: boolean       = false;
+  showConfirmPassword: boolean= false;
+  constructor(private storageService: StorageService) { }
+
+  ngOnInit() {
+    this.userData = this.storageService.getUserData();
+    this.username = this.storageService.getUserName() || '';
+    this.id       = this.storageService.getId() || '';
+  }
+
+  togglePasswordVisibility(field: string) {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
+  }
+
+  async saveChanges() {
+    if (this.password !== this.confirmPassword) {
+      console.log('Passwords do not match');
+      return;
+    }
+
+    if (this.username && this.password) {
+      const data = {
+        id      : this.id,
+        username: this.username,
+        password: this.password,
+      };
+
+      try {
+        const response = await CapacitorHttp.post({
+          url: 'https://epos.pringapus.com/api/v1/Authentication/updateUser',
+          data: data,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status === 200) {
+          this.userData.username = this.username;
+          localStorage.setItem('user_data', JSON.stringify(this.userData));
+          console.log('Profile updated successfully');
+        } else {
+          console.error('Failed to update profile');
+        }
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
+    } else {
+      console.log('Please fill in all fields');
+    }
+  }
+}

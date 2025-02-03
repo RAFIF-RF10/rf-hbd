@@ -20,7 +20,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./register/register.module').then((m) => m.RegisterPageModule),
   },
-
   {
     path: 'tab',
     loadChildren: () => import('./tab/tab.module').then( m => m.TabPageModule)
@@ -41,17 +40,14 @@ const routes: Routes = [
     path: 'custom-date',
     loadChildren: () => import('./custom-date/custom-date.module').then( m => m.CustomDatePageModule)
   },
-
   {
-    path: 'send-chat',
-    loadChildren: () => import('./send-chat/send-chat.module').then( m => m.SendChatPageModule)
+    path: 'edit-pass',
+    loadChildren: () => import('./edit-pass/edit-pass.module').then( m => m.EditPassPageModule)
   },
   {
-    path: 'custom-date',
-    loadChildren: () => import('./custom-date/custom-date.module').then( m => m.CustomDatePageModule)
-  },
-
-
+    path: 'edit-membership',
+    loadChildren: () => import('./edit-membership/edit-membership.module').then( m => m.EditMembershipPageModule)
+  }
 ];
 
 @NgModule({
@@ -61,3 +57,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

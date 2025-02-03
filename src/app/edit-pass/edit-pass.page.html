@@ -1,0 +1,28 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="router.navigate(['tab/profile'])">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-text color="medium">
+    <h1>Verifikasi akun anda sebelum melanjutkan</h1>
+  </ion-text>
+  <ion-item-group class="ion-margin-horizontal ion-margin-bottom">
+    <form [formGroup]="form">
+      <div class="ion-margin-vertical">
+        <ion-item>
+          <ion-input formControlName="phone" placeholder="Phone Number" type="tel" readonly>
+          </ion-input>
+        </ion-item>
+      </div>
+    </form>
+  </ion-item-group>
+
+  <ion-button expand="block" shape="round" class="custom-login-button" (click)="OpenAlert()">Lanjut<ion-icon name="play-forward-outline" slot="end"></ion-icon></ion-button>
+</ion-content>

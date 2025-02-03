@@ -37,7 +37,8 @@ export class RegisterPage  {
   selectPackage(pkgName: string) {
   const selected = this.packages.find(pkg => pkg.name === pkgName); // Cari paket berdasarkan nama
   if (selected) {
-    this.selectedPackage = selected; // Tetapkan paket yang dipilih
+    this.selectedPackage = selected;
+    
     this.isPaid = false; // Reset status pembayaran
     console.log('Selected Package:', this.selectedPackage);
   } else {
@@ -100,10 +101,10 @@ validatePhoneNumber(event: any) {
 
   // Fungsi untuk mendapatkan daftar paket
   loadPackages() {
-    CapacitorHttp.get({
-      url: 'https://epos.pringapus.com/api/v1/Authentication/getPackages',
-      headers: { 'Content-Type': 'application/json' },
-    })
+      CapacitorHttp.get({
+        url: 'https://epos.pringapus.com/api/v1/Authentication/getPackages',
+        headers: { 'Content-Type': 'application/json' },
+      })
       .then((response: any) => {
         if (response.data.status) {
           this.packages = response.data.data; // Simpan data paket ke dalam array
