@@ -1,0 +1,82 @@
+ion-content {
+    --background : #febb4b;
+    .top {
+        // background : #febb4b;
+        background : linear-gradient(to top right , #febb4b, #ffb73c);
+        padding: 3rem .5rem 1rem .5rem;
+        ion-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Poppins';
+        }
+        ion-title:nth-child(2) {
+            color: white;
+            font-size: medium;
+            font-weight: 500;
+            font-family: 'Poppins';
+            padding-bottom: 1rem;
+        }
+        ion-searchbar.custom {
+            margin : 0 .5rem;
+            --background: rgb(255, 255, 255);
+            --color: #424242;
+            --placeholder-color: #424242;
+            --icon-color: #424242;
+            --clear-button-color: #424242;  
+            --border-radius: 25px;
+            --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+          
+    }
+
+    .bottom {
+        background : white;
+        padding: 1rem 0;
+        border-radius: 20px 20px 0 0 ;
+        ion-list {
+            background : none;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1rem 4rem 1rem;
+            .no-found {
+              background: white;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              img {
+                width: 70%;
+              }
+              ion-title {
+                --color : #424242;
+                font-weight: 500;
+                font-size: medium;
+                font-family: 'Poppins';
+              }
+            }
+            .riwayat {
+              width: 100%;
+              align-items: center;
+              margin : 8px;
+              padding: 1rem 1.5rem;
+              background : white;
+              color: #424242;
+              box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
+              border-radius: 15px;
+              line-height: .5;
+              h1 {
+                font-size: large;
+              }
+              p {
+                font-size: small;
+                color: #777676;
+              }
+            }
+      
+            
+          }
+    }
+}

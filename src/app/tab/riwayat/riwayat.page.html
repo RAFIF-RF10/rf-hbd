@@ -1,30 +1,53 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Riwayat</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Riwayat</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
   <div *ngIf="!isLoading && errorMessage" class="error-message">
     <p>{{ errorMessage }}</p>
   </div>
 
-  <ion-list *ngIf="!isLoading && riwayatList.length > 0">
-    <ion-item *ngFor="let riwayat of riwayatList">
-      <ion-label>
-        <h2>Detail: {{ riwayat.customer_payment_detail }}</h2>
-        <p>Metode pembayaran: {{ getPaymentMethod(riwayat.customer_payment_method) }}</p>
-        <p>Total: {{ formatCurrency(riwayat.customer_payment_total) }}</p>
+  <ion-grid class="top">
+    <ion-title>Haloo...</ion-title>
+    <ion-title>Riwayat Anda ada disini.</ion-title>
+    <ion-row>
+      <!-- <ion-searchbar
+      showCancelButton="focus"
+      class="custom"
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchRiwayat()"
+      ></ion-searchbar> -->
 
-        <p>Tanggal: {{ riwayat.created_date  }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+      <ion-searchbar
+      showCancelButton="focus"
+      class="custom"
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchRiwayat()"
+    ></ion-searchbar>
+
+    </ion-row>
+  
+  </ion-grid>
+
+
+  <div style="padding: 0; margin: 0; background: white; height: 100%; border-radius: 20px 20px 0 0;">
+
+    <div class="bottom">
+      <ion-list *ngIf="!isLoading && riwayatList.length > 0">
+
+        <div class="no-found" *ngIf="filteredRiwayatList?.length === 0">
+          <img src="assets/no-found.png" alt="anajy ">
+          <ion-title>Data Tidak Ditemukan.</ion-title>
+        </div>
+  
+        <div class="riwayat" *ngFor="let riwayat of filteredRiwayatList">
+            <h1>{{ riwayat.customer_payment_detail }}</h1>
+            <p>Metode pembayaran: {{ getPaymentMethod(riwayat.customer_payment_method) }}</p>
+            <p>Total: {{ formatCurrency(riwayat.customer_payment_total) }}</p>
+            <p>Tanggal: {{ riwayat.created_date  }}</p>
+        </div>
+        
+      </ion-list>
+    </div>
+
+  </div>
+
 </ion-content>

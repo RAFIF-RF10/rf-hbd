@@ -153,8 +153,8 @@
     <ng-template>
       <ion-content>
 
-        <!-- Pembayaran -->
-        <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
+        
+        <!-- <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
           <ion-grid>
 
             <ion-header>
@@ -166,7 +166,6 @@
 
             <ion-grid>
 
-              <!-- Pilihan Pembayaran -->
               <div class="pay-form">
                 <ion-radio-group [(ngModel)]="paymentMethod" value="creditCard">
                     <ion-label>Credit Card</ion-label>
@@ -227,13 +226,13 @@
 
             </ion-grid>
           </ion-grid>
-        </div>
+        </div> -->
 
 
 
 
-        <div *ngIf="!isOtpSent">
-          <ion-card>
+        <div>
+          <ion-card *ngIf="!isOtpSent">
             <ion-card-header>
               <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
             </ion-card-header>
@@ -255,39 +254,38 @@
             </ion-card-content>
           </ion-card>
         </div>
+        
+        <div >
+          <ion-card *ngIf="isOtpSent">
+            <ion-card-header>
+              <ion-card-title>Enter OTP</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label position="floating">OTP</ion-label>
+                <ion-input [(ngModel)]="otp"></ion-input>
+              </ion-item>
+              <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
+  
+              <!-- Tombol Kirim Ulang OTP -->
+              <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
+                Resend OTP ({{ otpCooldownRemaining }}s)
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </div>
       </ion-content>
 
-        <!-- Form OTP -->
-        <!-- Form OTP -->
-  <div *ngIf="isOtpSent">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Enter OTP</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-item>
-          <ion-label position="floating">OTP</ion-label>
-          <ion-input [(ngModel)]="otp"></ion-input>
-        </ion-item>
-        <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
-
-        <!-- Tombol Kirim Ulang OTP -->
-        <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
-          Resend OTP ({{ otpCooldownRemaining }}s)
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
-  </div>
+       
 
 
 
-      <ion-footer *ngIf="selectedPackage && !isPaid">
+      <!-- <ion-footer *ngIf="selectedPackage && !isPaid">
         <ion-toolbar>
 
           <div>
             <ion-title>Total</ion-title>
             <ion-title>{{ selectedPackage.sale_price | currency:'IDR':'symbol':'1.0-0' }}</ion-title>
-            <!-- <ion-input [value]="selectedPackage?.sale_price | currency" disabled></ion-input> -->
           </div>
 
           <div class="btn">
@@ -295,7 +293,7 @@
           </div>
 
         </ion-toolbar>
-      </ion-footer>
+      </ion-footer> -->
 
     </ng-template>
   </ion-modal>

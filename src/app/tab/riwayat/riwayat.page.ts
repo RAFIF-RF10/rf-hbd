@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-riwayat',
   templateUrl: './riwayat.page.html',
   styleUrls: ['./riwayat.page.scss'],
   standalone: true, // Komponen standalone
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, FormsModule],
 })
 export class RiwayatPage {
   riwayatList: any[] = []; // Untuk menyimpan data riwayat
@@ -56,6 +57,7 @@ export class RiwayatPage {
 
       if (response.data && response.data.status) {
         this.riwayatList = response.data.data; // Ambil data riwayat
+        this.filteredRiwayatList = [...this.riwayatList]; 
       } else {
         this.errorMessage = response.data.message || 'Data tidak ditemukan.';
       }
@@ -76,4 +78,15 @@ export class RiwayatPage {
     };
     return methods[method] || 'Metode tidak dikenal';
   }
+
+  searchQuery: string = '';
+  filteredRiwayatList: any[] = [...this.riwayatList];
+  searchRiwayat() {
+    this.filteredRiwayatList = this.riwayatList.filter(riwayat =>
+      riwayat.customer_payment_detail.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      riwayat.customer_payment_method.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      riwayat.created_date.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+
 }

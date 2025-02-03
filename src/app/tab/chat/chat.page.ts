@@ -469,5 +469,21 @@ export class ChatPage  {
     this.chatModal = false;
   }
 
+  getInitial(name: string): string {
+    return name ? name.charAt(0).toUpperCase() : '?';
+  }
+  
+  getBackgroundColor(name: string): string {
+    const colors = [
+      '#46e04a', '#4683b3', '#b346a4', '#e05c9a', '#bd3333',
+      '#c47449', '#fae34d', '#57de9e',
+      // '#FF5733', '#33FF57', '#3357FF', '#F4A460', '#8A2BE2',
+      // '#FFD700', '#DC143C', '#20B2AA', '#FF69B4', '#4682B4'
+    ];
+    const index = name ? name.charCodeAt(0) % colors.length : 0;
+    return colors[index];
+  }
+  
+
 
 }

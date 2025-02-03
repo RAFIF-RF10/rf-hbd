@@ -49,9 +49,13 @@
 
 <ion-content [fullscreen]="true">
 
+  <div class="no-found" *ngIf="filteredItems?.length === 0">
+    <img src="assets/no-found.png" alt="anajy ">
+    <ion-title>Data Tidak Ditemukan.</ion-title>
+  </div>
+
   <div class="container-card">
 
-      
       <ion-card size="6" *ngFor="let item of filteredItems">
 
         <div class="img-container">

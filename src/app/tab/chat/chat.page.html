@@ -1,5 +1,9 @@
 <ion-content>
 
+  <!-- <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
+
   <div class="container-find">
     <ion-row>
       
@@ -14,7 +18,7 @@
 
       <ion-col size="2">
         <div class="btn-reload">
-          <ion-button *ngIf="!isAllDataLoaded" (click)="loadMoreData()">
+          <ion-button (click)="loadMoreData()">
             <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
           </ion-button>
         </div>
@@ -28,21 +32,28 @@
 
   </div>
 
-  
-  <div class="container-main">
+  <div style="padding: 0; margin: 0; background: white; height: 100%; border-radius: 20px 20px 0 0;">
 
-    <ion-loading class="custom-loading" [isOpen]="isLoading" message="Loading..." [duration]="3000"></ion-loading>
-    <ion-list>
+    <div class="container-main">
+      
+      <ion-loading class="custom-loading" [isOpen]="isLoading" message="Loading..." [duration]="3000"></ion-loading>
+      <ion-list>
 
-      <div (click)="openChatModal(campaign)" *ngFor="let campaign of filteredCampaigns; let ind = index">
-        <div class="profile">
-          <ion-icon name="person-circle-outline"></ion-icon>
+        <div class="no-found" *ngIf="filteredCampaigns?.length === 0">
+            <img src="assets/no-found.png" alt="anajy ">
+            <ion-title>Data Tidak Ditemukan.</ion-title>
         </div>
-        <ion-grid class="name">
-          <ion-title>{{ campaign.name }}</ion-title>
-          <ion-title class="desk">{{ campaign.description }}</ion-title>
-        </ion-grid>
-      </div>  
+
+        <div (click)="openChatModal(campaign)" *ngFor="let campaign of filteredCampaigns; let ind = index">
+          <div class="profile" [ngStyle]="{'background-color': getBackgroundColor(campaign.name)}">
+            {{ getInitial(campaign.name) }}
+          </div>
+          <ion-grid class="name">
+            <ion-title>{{ campaign.name }}</ion-title>
+            <ion-title class="desk">{{ campaign.description }}</ion-title>
+          </ion-grid>
+        </div>
+        
       
       
     </ion-list>
@@ -175,7 +186,7 @@
                   </ion-grid>
                 </div>
               </ion-accordion>
-  
+              
               <ion-accordion value="2">
                 <ion-item slot="header" color="light">
                   <ion-label>Custom Time</ion-label>
@@ -183,7 +194,7 @@
                 <div class="ion-padding" slot="content">
                   <ion-grid>
                     
-                      <ion-row>
+                    <ion-row>
                         <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
                         <ion-col size="4">Silver</ion-col>
                         
@@ -191,9 +202,9 @@
                         <ion-col size="4">25 Kontak</ion-col>
                         
                         <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
-                          <ion-col size="4">Custome Time</ion-col>
+                        <ion-col size="4">Custome Time</ion-col>
                       </ion-row>
-  
+                      
                       <ion-footer>
                         <ion-toolbar>
                           <ion-row>
@@ -204,7 +215,7 @@
                         </ion-toolbar>
                       </ion-footer>
                       
-                  </ion-grid>
+                    </ion-grid>
                 </div>
               </ion-accordion>
   
@@ -215,17 +226,17 @@
                 <div class="ion-padding" slot="content">
                   <ion-grid>
                     
-                      <ion-row>
+                    <ion-row>
                         <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
                         <ion-col size="4">Bronze</ion-col>
                         
                         <ion-col size="8"><b>Batas Kontak</b></ion-col>
                         <ion-col size="4">15 Kontak</ion-col>
                         
-                          <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
-                          <ion-col size="4">Real Time</ion-col>
-                        </ion-row>
-                        
+                        <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
+                        <ion-col size="4">Real Time</ion-col>
+                      </ion-row>
+                      
                         <ion-footer>
                           <ion-toolbar>
                             <ion-row>
@@ -236,13 +247,13 @@
                           </ion-toolbar>
                         </ion-footer>
                       
-                    </ion-grid>
+                      </ion-grid>
                 </div>
               </ion-accordion>
             </ion-accordion-group> -->
 
             <ion-grid class="accordion">
-
+              
               <ion-toolbar>
                 <ion-title slot="start">* Pengaturan waktu pengiriman</ion-title>
               </ion-toolbar>
@@ -256,8 +267,8 @@
                 </ion-row>
               </ion-grid>
               <ion-grid class="value-item" *ngIf="goldPrivilege">
-                  <div class="membership">
-                    <ion-title style="background: linear-gradient(to right, #FEBB4B,#dd971d); padding: 1rem 2rem; border-radius: 15px; margin: 1rem; box-shadow: 0px 4px 10px rgba(255, 186, 57, 0.995);">
+                <div class="membership">
+                  <ion-title style="background: linear-gradient(to right, #FEBB4B,#dd971d); padding: 1rem 2rem; border-radius: 15px; margin: 1rem; box-shadow: 0px 4px 10px rgba(255, 186, 57, 0.995);">
                       Membership Gold
                     </ion-title>
                   </div>
@@ -265,15 +276,15 @@
                   <div class="btn">
                     <ion-button expand="block" (click)="openDialog()">Real/Custom Time</ion-button>
                   </div>
-              </ion-grid>
-
-
-              <ion-grid class="value" (click)="silverprivilege()">
-                <ion-row>
-                  <ion-title>Custom Time</ion-title>
-                  <ion-icon name="chevron-down-outline" *ngIf="!silverPrivilege"></ion-icon>
-                  <ion-icon name="chevron-up-outline" *ngIf="silverPrivilege"></ion-icon>
-                </ion-row>
+                </ion-grid>
+                
+                
+                <ion-grid class="value" (click)="silverprivilege()">
+                  <ion-row>
+                    <ion-title>Custom Time</ion-title>
+                    <ion-icon name="chevron-down-outline" *ngIf="!silverPrivilege"></ion-icon>
+                    <ion-icon name="chevron-up-outline" *ngIf="silverPrivilege"></ion-icon>
+                  </ion-row>
               </ion-grid>
               <ion-grid class="value-item" *ngIf="silverPrivilege">
                 <div class="membership">
@@ -288,7 +299,7 @@
               </ion-grid>
 
 
-
+              
               <ion-grid class="value" (click)="bronzeprivilege()">
                 <ion-row>
                   <ion-title>Real Time</ion-title>
@@ -306,7 +317,7 @@
                   <ion-button expand="block" (click)="submitNewCampaign()">Real Time</ion-button>
                 </div>
               </ion-grid>
-
+              
 
             </ion-grid>
             
@@ -315,7 +326,10 @@
 
       </ng-template>
     </ion-modal>
-  
-
+    
+    
   </div>
+</div>
+  
+  
 </ion-content>

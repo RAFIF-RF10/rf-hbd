@@ -1,76 +1,101 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="router.navigate(['tab/home'])">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Keranjang Saya ({{ getItemCount() }})</ion-title>
-  </ion-toolbar>
+<ion-header>
+  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])"> 
+    <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+  </ion-button>
+  <ion-title style="color: black;">Keranjang Saya ({{ getItemCount() }}) </ion-title>
 </ion-header>
 
 <ion-content>
   <!-- Pilih Semua -->
-  <ion-item>
-    <ion-checkbox
+  <div class="pilih-semua">
+    <ion-checkbox 
+      labelPlacement="end"
       slot="start"
       [checked]="selectAllChecked"
       (ionChange)="toggleSelectAll($event)"
-    ></ion-checkbox>
-    <ion-label>Pilih Semua</ion-label>
-  </ion-item>
+      ></ion-checkbox>
+    <ion-title>* Pilih Semua</ion-title>
+  </div>
 
-  <ion-card *ngFor="let item of cartItems">
-    <ion-item>
-      <ion-checkbox   [checked]="selectedItems.includes(item)" slot="start" [(ngModel)]="item.selected" (ionChange)="toggleSelection(item, $event)">
-      </ion-checkbox>
-      <ion-thumbnail slot="start">
-        <img [src]="item.image" alt="{{ item.name }}" />
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ item.name }}</h2>
-        <p>{{ item.price | currency: 'Rp. ' }} x {{ item.qty }}</p>
-        <p>{{ item.description }}</p>
-      </ion-label>
-      <ion-button slot="end" fill="clear" (click)="removeItem(item)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="decreaseQty(item)">-</ion-button>
-      <ion-label>{{ item.qty }}</ion-label>
-      <ion-button (click)="increaseQty(item)">+</ion-button>
-    </ion-item>
+  <ion-card class="item-card" *ngFor="let item of cartItems">
+    <!-- <ion-item> -->
+      <div class="main">
+        <ion-checkbox [checked]="selectedItems.includes(item)" slot="start" [(ngModel)]="item.selected" (ionChange)="toggleSelection(item, $event)">
+        </ion-checkbox>
+        <ion-thumbnail slot="start">
+          <img [src]="item.image" alt="{{ item.name }}" />
+        </ion-thumbnail>
+        <ion-grid>
+          <ion-title>{{ item.name }}</ion-title>
+          <ion-title>{{ item.price | currency: 'Rp. ' }} x {{ item.qty }}</ion-title>
+          <div class="increment">
+            <button (click)="decreaseQty(item)">-</button>
+            <ion-label>{{ item.qty }}</ion-label>
+            <button (click)="increaseQty(item)">+</button>
+          </div>
+        </ion-grid>
+        <ion-button slot="end" fill="clear" (click)="removeItem(item)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+   
+     
+   
   </ion-card>
 
-  <ion-item>
-    <ion-label>Metode Pembayaran</ion-label>
-    <ion-select   [value]="paymentMethod"
-    (ionChange)="paymentMethod = $event.detail.value; onPaymentMethodChange($event)"
-    placeholder="Pilih Metode"
-    interface="action-sheet">
-      <ion-select-option value="CA">Cash</ion-select-option>
-      <ion-select-option value="VA">Virtual Account</ion-select-option>
-      <ion-select-option value="TF">Transfer</ion-select-option>
-      <ion-select-option value="DC">Debet/Credit Card</ion-select-option>
-    </ion-select>
-  </ion-item>
+  <ion-card class="metode-card">
+    <div>
+      <ion-title>*Metode Pembayaran</ion-title>
+      <ion-select color="warning"  [value]="paymentMethod"
+      (ionChange)="paymentMethod = $event.detail.value; onPaymentMethodChange($event)"
+      placeholder="Pilih Metode"
+      interface="action-sheet"
+      slot="end">
+        <ion-select-option value="CA">Cash</ion-select-option>
+        <ion-select-option value="VA">Virtual Account</ion-select-option>
+        <ion-select-option value="TF">Transfer</ion-select-option>
+        <ion-select-option value="DC">Debet/Credit Card</ion-select-option>
+      </ion-select>
+    </div>
+  </ion-card>
 
-  <ion-item>
-    <ion-label>Opsi Pengiriman</ion-label>
-    <ion-segment [(ngModel)]="deliveryOption">
-      <ion-segment-button value="takeaway">Takeaway</ion-segment-button>
-      <ion-segment-button value="delivery">Delivery</ion-segment-button>
-    </ion-segment>
-  </ion-item>
+  <ion-card class="option-card">
+    <ion-title>*Opsi Pengiriman</ion-title>
+    <div>
+      <ion-segment color="warning" [(ngModel)]="deliveryOption">
+        <ion-segment-button value="takeaway">Takeaway</ion-segment-button>
+        <ion-segment-button value="delivery">Delivery</ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-card>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Subtotal: {{ calculateSubtotal() | currency: 'Rp. ' }}</ion-title>
-    <ion-title>Diskon: {{ discount | currency: 'Rp. ' }}</ion-title>
-    <ion-title>GST (10%): {{ gst | currency: 'Rp. ' }}</ion-title>
-    <ion-title>Total: {{ calculateTotal() | currency: 'Rp. ' }}</ion-title>
-    <ion-button expand="block" color="success" (click)="pay()">Bayar</ion-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Subtotal: </ion-label>
+          <ion-title> {{ calculateSubtotal() | currency: 'Rp. ' }}</ion-title>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label>Diskon:</ion-label>
+          <ion-title> {{ discount | currency: 'Rp. ' }}</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>GST (10%): </ion-label>
+          <ion-title> {{ gst | currency: 'Rp. ' }}</ion-title>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label>Total:</ion-label>
+          <ion-title> {{ calculateTotal() | currency: 'Rp. ' }}</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-button expand="block" (click)="pay()">
+        <ion-title>Bayar</ion-title>
+      </ion-button>
+    </ion-grid>
   </ion-toolbar>
 </ion-footer>

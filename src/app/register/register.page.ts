@@ -156,7 +156,7 @@ validatePhoneNumber(event: any) {
             this.otpSentTime = Date.now();
             this.otpCooldownRemaining = this.otpResendCooldown;
             this.startOtpCooldown();
-            this.router.navigate(['/login']);
+            // this.router.navigate(['/login']  );
         } else {
             alert(response.data.message);
         }
