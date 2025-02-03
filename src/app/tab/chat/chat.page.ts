@@ -35,7 +35,7 @@ export class ChatPage  {
   pageSize: number         = 10;
   isAllDataLoaded: boolean = false;
   isLoading: boolean       = false;
-
+  page = 1;
 
   searchQuery: string = '';
   filteredCampaigns: any[] = [...this.campaigns];
@@ -191,25 +191,34 @@ export class ChatPage  {
   }   
 
   refresh() {
-    // const id_outlet = this.storageService.getOutletId();
-    // if (!id_outlet) return;
-console.log('testing error' + this.userSign.getOutletId());
+    console.log('Testing error' + this.userSign.getOutletId());
+
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/campign/getCampignList',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { id_outlet: this.userSign.getOutletId() },
+      data: {
+        id_outlet: this.userSign.getOutletId(),
+        page: this.page,  // Kirim parameter halaman
+        page_size: 10     // Jumlah data per halaman
+      },
     }).then((response) => {
       const content = response.data;
 
       if (content.status) {
-        this.campaigns = content.data.map((campaign: any) => {
+        const newCampaigns = content.data.map((campaign: any) => {
           return {
             ...campaign,
             phone_list: JSON.parse(campaign.phone_list || '[]'),
           };
         });
+
+        // Gabungkan data baru dengan yang lama
+        this.campaigns = [...this.campaigns, ...newCampaigns];
+
+        // Tingkatkan halaman untuk permintaan berikutnya
+        this.page++;
       } else {
         alert('No campaigns found: ' + content.message);
       }
@@ -429,9 +438,36 @@ console.log('testing error' + this.userSign.getOutletId());
   goldPrivilege: boolean = false;
   silverPrivilege: boolean = false;
   bronzePrivilege: boolean = false;
-
+  chatModal: boolean = false;
+  
   goldprivilege() {
-    this.goldPrivilege = !this.goldPrivilege
+    this.goldPrivilege = !this.goldPrivilege ;
+    this.silverPrivilege = false;
+    this.bronzePrivilege = false;
   }
+
+  silverprivilege() {
+    this.silverPrivilege = !this.silverPrivilege
+    this.goldPrivilege = false;
+    this.bronzePrivilege = false;
+  }
+
+  bronzeprivilege() {
+    this.bronzePrivilege = !this.bronzePrivilege
+    this.silverPrivilege = false;
+    this.goldPrivilege = false;
+  }
+
+  selectedCampaign: any;
+
+  openChatModal(campaign: any) {
+    this.chatModal = true;
+    this.selectedCampaign = campaign;
+  }
+
+  closeChatModal() {
+    this.chatModal = false;
+  }
+
 
 }

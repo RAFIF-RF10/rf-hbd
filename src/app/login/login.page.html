@@ -6,17 +6,16 @@
 
 <ion-content>
 
-  <ion-grid style="background: white; margin: 0; padding: 0; --position: relative;">
+  
+  <ion-grid class="banner">
 
-    <ion-grid class="banner">
-
-      <ion-grid class="top-circle-container">
-        <ion-grid class="top-circle">
-          <ion-grid class="top-circle-inside"></ion-grid>
+    <ion-grid class="top-circle-container">
+      <ion-grid class="top-circle">
+        <ion-grid class="top-circle-inside"></ion-grid>
         </ion-grid>
       </ion-grid>
-
-
+      
+      
       <ion-row>
         <!-- <ion-title>
           E-Pos
@@ -26,11 +25,11 @@
         </div>
       </ion-row>
     </ion-grid>
-
-  </ion-grid>
-
-
-  <ion-grid class="login-container">
+    
+    
+    <ion-grid style="background: #febb4b; margin: 0; padding: 0; --position: relative;">
+      
+      <ion-grid class="login-container">
 
     <ion-grid class="input-container">
       <ion-icon name="storefront-outline"></ion-icon>
@@ -41,44 +40,44 @@
       <ion-icon name="person-outline"></ion-icon>
       <ion-input [(ngModel)]="username" type="text" label="Username" label-placement="floating" required></ion-input>
     </ion-grid>
-
+    
     <ion-grid  class="input-container">
       <ion-icon name="key-outline"></ion-icon>
       <ion-input [(ngModel)]="password" label="Password" label-placement="floating" [type]="showPassword ? 'text' : 'password'" required></ion-input>
       <span>
         <ion-icon
-          slot="end"
-          [name]="showPassword ? 'eye' : 'eye-off'"
-          (click)="togglePasswordVisibility()"
-          style="cursor: pointer;">
-        </ion-icon>
-      </span>
-    </ion-grid>
-
-    <button class="input-btn" (click)="Login()">Login</button>
+        slot="end"
+        [name]="showPassword ? 'eye' : 'eye-off'"
+        (click)="togglePasswordVisibility()"
+        style="cursor: pointer;">
+      </ion-icon>
+    </span>
+  </ion-grid>
+  
+  <button class="input-btn" (click)="Login()">Login</button>
 
     <!-- Tombol untuk membuka form registrasi -->
     <div class="register-link">
       <p>Belum punya akun?</p>
       <button fill="clear" (click)="register()">Registrasi Sekarang</button>
     </div>
-
-
-
+    
+    
+    
     <ion-grid class="bottom-circle-container">
       <ion-grid class="bottom-circle">
         <ion-grid class="bottom-circle-inside"></ion-grid>
       </ion-grid>
     </ion-grid>
-
+    
     <div class="footer"></div>
-
-
+    
+    
   </ion-grid>
-
-
-
-
-
+  
+</ion-grid>
+  
+  
+  
+  
 </ion-content>
- 
