@@ -18,23 +18,23 @@
       </ion-grid>
       <!-- <ion-title class="member">{{ userData.userData.member_level }}</ion-title> -->
     </ion-grid>
-    
+
     <ion-grid style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
       <ion-icon style="font-size: 5rem;" name="person-circle-outline"></ion-icon>
-      <ion-title class="member" *ngIf="userData.userData.member_level === '1'" style="color: white; background: linear-gradient(to right, #a37541, #684216) ; padding: 5px 25px; margin-top: 20px; border-radius: 1rem; ">Bronze</ion-title>
+      <ion-title class="member" *ngIf="userData.userData.member_level === '1'" style="color: white; background: linear-gradient(to right, #ffb108, #ffaa49) ; padding: 5px 25px; margin-top: 20px; border-radius: 1rem; ">Gold</ion-title>
       <ion-title class="member" *ngIf="userData.userData.member_level === '2'">Silver</ion-title>
-      <ion-title class="member" *ngIf="userData.userData.member_level === '3'">Gold</ion-title>
+      <ion-title class="member" *ngIf="userData.userData.member_level === '3'">Bronze</ion-title>
     </ion-grid>
   </ion-grid>
 
-  
+
 
   <div class="main">
 
     <div class="ion-padding">
       <ion-button expand="full" (click)="toggleEdit()">Edit Profile</ion-button>
     </div>
-    
+
     <ion-list *ngIf="isEditing">
       <ion-item>
         <ion-label position="stacked">New Username</ion-label>

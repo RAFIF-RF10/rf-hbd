@@ -45,20 +45,24 @@ export class RegisterPage  {
   }
 }
 validatePhoneNumber(event: any) {
-  // Mengambil nilai dari input
-  let input = event.target.value;
+  let input = event.target.value.replace(/[^0-9]/g, ''); // Hanya angka
 
-  // Menghapus semua karakter yang bukan angka
-  input = input.replace(/[^0-9]/g, '');
+  // Pastikan selalu diawali dengan 0
+  if (!input.startsWith('0')) {
+    input = '0' + input;
+  }
 
-  // Membatasi panjang input hingga 15 karakter
+  // Hindari lebih dari satu 0 di awal (contoh: "00" menjadi "0")
+  input = input.replace(/^0+/, '0');
+
+  // Batasi maksimal 15 digit
   if (input.length > 15) {
     input = input.substring(0, 15);
   }
 
-  // Memperbarui nilai phone dengan input yang sudah difilter
   this.phone = input;
 }
+
   getPrice(pkgName: string): number {
     const pkg = this.packages.find(p => p.name === pkgName);
     return pkg ? pkg.price : 0;
@@ -119,18 +123,22 @@ validatePhoneNumber(event: any) {
   openRegister() {
     this.isOpenRegister = true;
   }
-
   register() {
-    if (!this.name || !this.address || !this.phone) {
-        alert('All fields must be filled');
+    if (!this.name || !this.address || !this.phone || !this.selectedPackage) {
+        alert('All fields must be filled, including package selection');
         return;
     }
+
+    console.log("Selected Package:", this.selectedPackage); // Debugging
 
     const data = {
         name: this.name,
         address: this.address,
         phone: this.phone,
+        member_level: this.selectedPackage.id // Pastikan ambil `id` dari package
     };
+
+    console.log("Data sent to backend:", data); // Debugging
 
     CapacitorHttp.post({
         url: 'https://epos.pringapus.com/api/v1/Authentication/register',
@@ -141,13 +149,14 @@ validatePhoneNumber(event: any) {
         if (response.data.status) {
             alert('Registration successful! OTP sent to your phone.');
 
-            // Simpan OTP di localStorage (sementara)
+            // Simpan OTP sementara
             localStorage.setItem('otp', response.data.otp);
 
             this.isOtpSent = true;
-            this.otpSentTime = Date.now();  // Simpan waktu pengiriman OTP
-            this.otpCooldownRemaining = this.otpResendCooldown; // Reset timer cooldown
+            this.otpSentTime = Date.now();
+            this.otpCooldownRemaining = this.otpResendCooldown;
             this.startOtpCooldown();
+            this.router.navigate(['/login']);
         } else {
             alert(response.data.message);
         }
@@ -156,7 +165,8 @@ validatePhoneNumber(event: any) {
         console.error(err);
         alert('Error during registration');
     });
-  }
+}
+
 
   // Fungsi untuk memverifikasi OTP
   verifyOtp() {

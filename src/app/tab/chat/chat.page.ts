@@ -35,7 +35,7 @@ export class ChatPage  {
   pageSize: number         = 10;
   isAllDataLoaded: boolean = false;
   isLoading: boolean       = false;
-
+  page = 1;
 
   searchQuery: string = '';
   filteredCampaigns: any[] = [...this.campaigns];
@@ -44,12 +44,12 @@ export class ChatPage  {
 
   constructor(private storageService: StorageService,private alertController: AlertController,private modalController: ModalController) {}
 
-  
+
   ngOnInit() {
 
     console.log('id_outlet' + this.userSign.getOutletId());
     console.log('membership' + this.userSign.getMembershipLevel());
-    
+
     this.refresh();
     this.loadCampaigns();
     this.loadContacts();
@@ -58,12 +58,12 @@ export class ChatPage  {
 
   async openDialog() {
     const membershipLevel = this.userSign.getMembershipLevel();
-    
+
     if (membershipLevel != '1') {
       console.log('Harap upgrade membership ke level 2 atau lebih untuk memilih Real/Custom Time.');
       return;
     }
-  
+
     const alert = await this.alertController.create({
       header: 'Pilih Pengiriman Data',
       message: 'Pengiriman Apa Yang Anda Inginkan?',
@@ -76,13 +76,13 @@ export class ChatPage  {
         },
         {
           text: 'Custom Time',
-          handler: async () => { 
+          handler: async () => {
             if (membershipLevel == '1') {
               const modal = await this.modalController.create({
                 component: CustomDatePage,
                 componentProps: { selectedDate: this.selectedDate }
               });
-      
+
               modal.onDidDismiss().then((dataReturned) => {
                 if (dataReturned.data && dataReturned.data.selectedDate) {
                   this.selectedDate = dataReturned.data.selectedDate;
@@ -92,7 +92,7 @@ export class ChatPage  {
                   console.log('Tidak ada tanggal yang dipilih.');
                 }
               });
-      
+
               return await modal.present();
             } else {
               console.log('Harap upgrade membership ke level 2 untuk memilih Custom Time.');
@@ -101,18 +101,18 @@ export class ChatPage  {
         }
       ]
     });
-  
+
     await alert.present();
   }
 
   async openDialogSigle() {
     const membershipLevel = this.userSign.getMembershipLevel();
-    
+
     if (membershipLevel != '2' && membershipLevel != '1') {
       console.log('Harap upgrade membership ke level GOLD untuk memilih Custom Time.');
       return;
     }
-  
+
     const alert = await this.alertController.create({
       header: 'Pilih Pengiriman Data',
       message: 'Pengiriman Apa Yang Anda Inginkan?',
@@ -125,13 +125,13 @@ export class ChatPage  {
         },
         {
           text: 'Custom Time',
-          handler: async () => { 
+          handler: async () => {
             if (membershipLevel == '2' || membershipLevel == '1') {
               const modal = await this.modalController.create({
                 component: CustomDatePage,
                 componentProps: { selectedDate: this.selectedDate }
               });
-      
+
               modal.onDidDismiss().then((dataReturned) => {
                 if (dataReturned.data && dataReturned.data.selectedDate) {
                   this.selectedDate = dataReturned.data.selectedDate;
@@ -141,7 +141,7 @@ export class ChatPage  {
                   console.log('Tidak ada tanggal yang dipilih.');
                 }
               });
-      
+
               return await modal.present();
             } else {
               console.log('Harap upgrade membership ke level 2 untuk memilih Custom Time.');
@@ -150,11 +150,11 @@ export class ChatPage  {
         }
       ]
     });
-  
+
     await alert.present();
   }
-  
 
+// get kontak
   loadContacts() {
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/campign/getCampignCustomerList',
@@ -164,10 +164,10 @@ export class ChatPage  {
       data: { id_outlet: this.userSign.getOutletId() },
     }).then((response) => {
       const content = response.data;
-  
+
       if (content.status && Array.isArray(content.data)) {
         const uniqueContacts: { [key: string]: any } = {};
-        
+
         content.data.forEach((customer: { customer_phone: string; customer_name: string; }) => {
           if (!uniqueContacts[customer.customer_phone]) {
             uniqueContacts[customer.customer_phone] = {
@@ -178,7 +178,7 @@ export class ChatPage  {
           }
         });
         this.customer = Object.values(uniqueContacts);
-  
+
         console.log("Kontak dari API (tanpa duplikat):", this.customer);
       } else {
         console.error('Gagal mendapatkan kontak:', content.message);
@@ -188,28 +188,37 @@ export class ChatPage  {
       console.error('Error fetching contacts:', error);
       alert('Terjadi kesalahan saat mengambil daftar kontak.');
     });
-  }   
+  }
 
   refresh() {
-    // const id_outlet = this.storageService.getOutletId();
-    // if (!id_outlet) return;
-console.log('testing error' + this.userSign.getOutletId());
+    console.log('Testing error' + this.userSign.getOutletId());
+
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/campign/getCampignList',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { id_outlet: this.userSign.getOutletId() },
+      data: {
+        id_outlet: this.userSign.getOutletId(),
+        page: this.page,  // Kirim parameter halaman
+        page_size: 10     // Jumlah data per halaman
+      },
     }).then((response) => {
       const content = response.data;
 
       if (content.status) {
-        this.campaigns = content.data.map((campaign: any) => {
+        const newCampaigns = content.data.map((campaign: any) => {
           return {
             ...campaign,
             phone_list: JSON.parse(campaign.phone_list || '[]'),
           };
         });
+
+        // Gabungkan data baru dengan yang lama
+        this.campaigns = [...this.campaigns, ...newCampaigns];
+
+        // Tingkatkan halaman untuk permintaan berikutnya
+        this.page++;
       } else {
         alert('No campaigns found: ' + content.message);
       }
@@ -226,14 +235,14 @@ console.log('testing error' + this.userSign.getOutletId());
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { 
+      data: {
         id_outlet: this.userSign.getOutletId(),
         page: this.currentPage,
         page_size: this.pageSize
       },
     }).then((response) => {
       const content = response.data;
-      
+
       if (content.status) {
 
         if (this.currentPage === 1) {
@@ -247,7 +256,7 @@ console.log('testing error' + this.userSign.getOutletId());
             phone_list: JSON.parse(campaign.phone_list || '[]'),
           }))];
         }
-        
+
         this.filterCampaigns();
 
         if (content.data.length < this.pageSize) {
@@ -274,7 +283,7 @@ console.log('testing error' + this.userSign.getOutletId());
   //   if (this.userSign.getMembershipLevel() === '3') {
   //     alert('Harap upgrade membership ke GOLD / Silver untuk memilih waktu!');
   //   }
-  // } 
+  // }
 
   openAddCampaignModal() {
     this.loadContacts();
@@ -283,13 +292,13 @@ console.log('testing error' + this.userSign.getOutletId());
 
   closeAddCampaignModal() {
     this.isAddCampaignModalOpen = false;
-  }  
+  }
 
   submitNewCampaign() {
     const selectedPhones = this.customer
       .filter(contact => contact.selected)
       .map(contact => contact.number);
-  
+
     if (selectedPhones.length === 0) {
       alert('Harap pilih minimal satu kontak.');
       return;
@@ -302,7 +311,7 @@ console.log('testing error' + this.userSign.getOutletId());
         .toString().padStart(2, '0')}:${now.getMinutes()
         .toString().padStart(2, '0')}:${now.getSeconds()
         .toString().padStart(2, '0')}`;
-    
+
     const body = {
       id_outlet: this.userSign.getOutletId(),
       name: this.chatData.name.trim(),
@@ -310,7 +319,7 @@ console.log('testing error' + this.userSign.getOutletId());
       phone_list: selectedPhones,
       date_campign: formattedDate,
     };
-  
+
     if (this.chatData.name && this.chatData.description && selectedPhones.length > 0) {
       CapacitorHttp.post({
         url: 'https://epos.pringapus.com/api/v1/campign/addCampignRealTime',
@@ -335,12 +344,12 @@ console.log('testing error' + this.userSign.getOutletId());
   //   const selectedPhones = this.customer
   //     .filter(contact => contact.selected)
   //     .map(contact => contact.number);
-  
+
   //   if (selectedPhones.length === 0) {
   //     alert('Harap pilih minimal satu kontak.');
   //     return;
   //   }
-    
+
   //   const body = {
   //     id_outlet: this.userSign.getOutletId(),
   //     name: this.chatData.name.trim(),
@@ -348,7 +357,7 @@ console.log('testing error' + this.userSign.getOutletId());
   //     phone_list: selectedPhones,
   //     date_campign: selectedDate,
   //   };
-  
+
   //   if (this.chatData.name && this.chatData.description && selectedPhones.length > 0) {
   //     CapacitorHttp.post({
   //       url: 'https://epos.pringapus.com/api/v1/campign/addCampignList',
@@ -373,12 +382,12 @@ console.log('testing error' + this.userSign.getOutletId());
     const selectedPhones = this.customer
       .filter(contact => contact.selected)
       .map(contact => contact.number);
-  
+
     if (selectedPhones.length === 0) {
       alert('Harap pilih minimal satu kontak.');
       return;
     }
-  
+
     const body = {
       id_outlet: this.userSign.getOutletId(),
       name: this.chatData.name.trim(),
@@ -386,7 +395,7 @@ console.log('testing error' + this.userSign.getOutletId());
       phone_list: selectedPhones,
       date_campign: selectedDate,
     };
-  
+
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/campign/addCampignList',
       headers: { 'Content-Type': 'application/json' },
@@ -406,17 +415,17 @@ console.log('testing error' + this.userSign.getOutletId());
       alert('Gagal menambahkan campaign.');
     });
   }
-  
-  
+
+
   parseContacts(input: string): string[] {
     return input
       .split(',')
       .map(contact => contact.trim())
       .filter(contact => /^\d{9,15}$/.test(contact));
   }
-  
-  
-  
+
+
+
 
   filterCampaigns() {
     this.filteredCampaigns = this.campaigns.filter(campaign =>
@@ -424,8 +433,8 @@ console.log('testing error' + this.userSign.getOutletId());
       campaign.description.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
-  
- 
+
+
   goldPrivilege: boolean = false;
   silverPrivilege: boolean = false;
   bronzePrivilege: boolean = false;

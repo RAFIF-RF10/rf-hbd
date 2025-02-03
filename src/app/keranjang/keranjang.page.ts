@@ -16,7 +16,10 @@ export class KeranjangPage implements OnInit {
   selectedItems: any[] = [];
   selectAllChecked: boolean = false;
   paymentMethod: string = '';
-  paymentOptions: string[] = ['CA', 'VA', 'TF', 'DC']; // Metode pembayaran sesuai dengan nilai ENUM yang diizinkan
+  paymentOptions: string[] = ['CA', 'VA', 'TF', 'DC'];
+  deliveryOption: string = 'pickup'; // Default delivery option
+  discount: number = 0;
+  gst: number = 0;
 
   constructor(public router: Router, private cartService: CartService) {}
 
@@ -27,17 +30,17 @@ export class KeranjangPage implements OnInit {
 
   toggleSelection(item: any, event: any) {
     if (event.target.checked) {
-      if (!this.selectedItems.includes(item)) {
-        this.selectedItems.push(item);
-      }
+      this.selectedItems.push(item);
     } else {
       this.selectedItems = this.selectedItems.filter((i) => i !== item);
     }
     this.updateSelectAllStatus();
   }
 
+  // Mengatur "Select All"
   toggleSelectAll(event: any) {
     this.selectAllChecked = event.target.checked;
+
     if (this.selectAllChecked) {
       this.selectedItems = [...this.cartItems]; // Pilih semua item
     } else {
@@ -46,20 +49,28 @@ export class KeranjangPage implements OnInit {
   }
 
   updateSelectAllStatus() {
-    this.selectAllChecked =
-      this.cartItems.length > 0 &&
-      this.selectedItems.length === this.cartItems.length;
+    this.selectAllChecked = this.cartItems.length > 0 && this.selectedItems.length === this.cartItems.length;
+  }
+
+  calculateSubtotal(): number {
+    return this.selectedItems.reduce((total, item) => total + item.price * item.qty, 0);
   }
 
   calculateTotal(): number {
-    return this.selectedItems.reduce(
-      (total, item) => total + item.price * item.qty,
-      0
-    );
+    this.gst = this.calculateSubtotal() * 0.1; // GST 10%
+    return this.calculateSubtotal() - this.discount + this.gst;
   }
 
   getItemCount(): number {
-    return this.cartItems.length;
+    return this.cartItems.reduce((total, item) => total + item.qty, 0);
+  }
+
+  increaseQty(item: any) {
+    item.qty++;
+  }
+
+  decreaseQty(item: any) {
+    if (item.qty > 1) item.qty--;
   }
 
   async pay() {
@@ -73,38 +84,32 @@ export class KeranjangPage implements OnInit {
       return;
     }
 
-    //  Ambil data user dari localStorage
-    const userDataString = localStorage.getItem('user');
+    // Ambil data user dari localStorage
+    const user = JSON.parse(localStorage.getItem('user_data') || '{}');
 
-    if (!userDataString) {
-      alert('Data pengguna tidak ditemukan! Coba logout dan login ulang.');
+
+
+
+    if (!user || !user.userData.username || !user.userData.phone) {
+      alert('Data pengguna tidak lengkap! Pastikan nama dan nomor telepon tersedia.');
       return;
+
     }
 
-    let user;
-    try {
-      user = JSON.parse(userDataString);
-      console.log('Parsed User Data:', user);
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-      alert('Terjadi kesalahan membaca data pengguna.');
-      return;
-    }
 
-    if (!user.id_outlet || !user.username || !user.phone) {
-      alert('Data pengguna tidak lengkap! Silakan login ulang.');
-      return;
-    }
-
-    // 🔹 Persiapkan data pesanan
     const orderData = {
-      id_outlet: user.id_outlet,
-      customer_name: user.username,
-      customer_phone: user.phone,
+      id_outlet: user.userData.id_outlet,
+      customer_name: user.userData.username,
+      customer_phone: user.userData.phone,
       customer_payment_total: this.calculateTotal(),
-      customer_payment_method: this.paymentMethod, // Pastikan sesuai ENUM
-      customer_payment_detail: this.selectedItems
+      customer_payment_method: this.paymentMethod,
+      customer_payment_detail: this.selectedItems.map(item => ({
+        name: item.name,
+        price: item.price,
+        qty: item.qty
+      }))
     };
+
 
     try {
       const response = await CapacitorHttp.post({
@@ -126,6 +131,9 @@ export class KeranjangPage implements OnInit {
         this.selectedItems = [];
         this.paymentMethod = '';
         this.selectAllChecked = false;
+
+        // Simpan data pesanan ke localStorage
+        localStorage.setItem('latestOrder', JSON.stringify(orderData));
 
         this.router.navigate(['/riwayat']);
       } else {

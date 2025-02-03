@@ -10,6 +10,7 @@
 </ion-header>
 
 <ion-content>
+  <!-- Pilih Semua -->
   <ion-item>
     <ion-checkbox
       slot="start"
@@ -19,44 +20,56 @@
     <ion-label>Pilih Semua</ion-label>
   </ion-item>
 
-  <ion-list>
-    <ion-item *ngFor="let item of cartItems">
-      <ion-checkbox
-        slot="start"
-        [checked]="selectedItems.includes(item)"
-        (ionChange)="toggleSelection(item, $event)"
-      ></ion-checkbox>
+  <ion-card *ngFor="let item of cartItems">
+    <ion-item>
+      <ion-checkbox   [checked]="selectedItems.includes(item)" slot="start" [(ngModel)]="item.selected" (ionChange)="toggleSelection(item, $event)">
+      </ion-checkbox>
       <ion-thumbnail slot="start">
         <img [src]="item.image" alt="{{ item.name }}" />
       </ion-thumbnail>
       <ion-label>
         <h2>{{ item.name }}</h2>
         <p>{{ item.price | currency: 'Rp. ' }} x {{ item.qty }}</p>
+        <p>{{ item.description }}</p>
       </ion-label>
       <ion-button slot="end" fill="clear" (click)="removeItem(item)">
         <ion-icon name="trash-outline"></ion-icon>
       </ion-button>
     </ion-item>
-  </ion-list>
+    <ion-item>
+      <ion-button (click)="decreaseQty(item)">-</ion-button>
+      <ion-label>{{ item.qty }}</ion-label>
+      <ion-button (click)="increaseQty(item)">+</ion-button>
+    </ion-item>
+  </ion-card>
 
   <ion-item>
     <ion-label>Metode Pembayaran</ion-label>
-    <ion-select
-      [value]="paymentMethod"
-      (ionChange)="paymentMethod = $event.detail.value; onPaymentMethodChange($event)"
-      placeholder="Pilih Metode"
-      interface="action-sheet"
-    >
+    <ion-select   [value]="paymentMethod"
+    (ionChange)="paymentMethod = $event.detail.value; onPaymentMethodChange($event)"
+    placeholder="Pilih Metode"
+    interface="action-sheet">
       <ion-select-option value="CA">Cash</ion-select-option>
       <ion-select-option value="VA">Virtual Account</ion-select-option>
       <ion-select-option value="TF">Transfer</ion-select-option>
       <ion-select-option value="DC">Debet/Credit Card</ion-select-option>
     </ion-select>
   </ion-item>
+
+  <ion-item>
+    <ion-label>Opsi Pengiriman</ion-label>
+    <ion-segment [(ngModel)]="deliveryOption">
+      <ion-segment-button value="takeaway">Takeaway</ion-segment-button>
+      <ion-segment-button value="delivery">Delivery</ion-segment-button>
+    </ion-segment>
+  </ion-item>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
+    <ion-title>Subtotal: {{ calculateSubtotal() | currency: 'Rp. ' }}</ion-title>
+    <ion-title>Diskon: {{ discount | currency: 'Rp. ' }}</ion-title>
+    <ion-title>GST (10%): {{ gst | currency: 'Rp. ' }}</ion-title>
     <ion-title>Total: {{ calculateTotal() | currency: 'Rp. ' }}</ion-title>
     <ion-button expand="block" color="success" (click)="pay()">Bayar</ion-button>
   </ion-toolbar>

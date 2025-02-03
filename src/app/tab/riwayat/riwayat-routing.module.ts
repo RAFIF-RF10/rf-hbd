@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { RiwayatPage } from './riwayat.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RiwayatPage
-  }
+    component: RiwayatPage, // Komponen langsung digunakan di sini
+  },
 ];
 
 @NgModule({
