@@ -1,0 +1,163 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="router.navigate(['tab/profile'])">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <p>
+      <b>
+        <ion-label *ngIf="membership == '1'">Paket anda saat ini : Gold</ion-label>
+        <ion-label *ngIf="membership == '2'">Paket anda saat ini : Silver</ion-label>
+        <ion-label *ngIf="membership == '3'">Paket anda saat ini : Bronze</ion-label>
+      </b>
+        <ion-text color="medium" *ngIf="membership != '1'">
+          <b>Upgrade Paket anda untuk mendapatkan lebih banyak fitur.</b>
+        </ion-text>
+    </p>
+  </ion-item>
+  <ion-grid class="card-container">
+    <div class="slider-container" *ngFor="let pkg of packages">
+      <ion-card class="slider-item" [style.border]="pkg.color">
+        <ion-card-header>
+          <div style="position: relative; width: 100%;">
+            <div style="position: absolute; width: 100%;">
+              <div style="position: relative; left: -5rem;">
+                <div style="display: flex; justify-content: left; width: 100%;">
+                  <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                </div>
+              </div>
+              <div style="position: relative; right: -5rem;">
+                <div style="display: flex; justify-content: right; width: 100%;">
+                  <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ion-icon [style.color]="pkg.iconColor" name="cube-outline"></ion-icon>
+          <ion-card-title>{{ pkg.name }}</ion-card-title>
+          <ion-card-subtitle>Price: {{ pkg.price | currency:'IDR':'symbol':'1.0-0' }}</ion-card-subtitle>
+          <ion-card-subtitle>Sale Price: {{ pkg.salePrice | currency:'IDR':'symbol':'1.0-0' }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ul>
+            <li *ngFor="let feature of pkg.features">{{ feature }}</li>
+          </ul>
+          <ion-button
+            [disabled]="(membership == '1') || (membership == '2' && pkg.id == '3') || (membership == '3' && pkg.id == '3')"
+            (click)="(membership != pkg.id && ((membership == '2' && pkg.id != '3') || (membership == '3' && pkg.id != '3') || membership == '1')) ? openModal(pkg) : null"
+            [style.background]="pkg.buttonColor"
+            style="color: white;">
+            {{ membership == pkg.id ? 'Anda sudah menggunakan paket ini' : 'Choose ' + pkg.name }}
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-grid>
+
+
+
+
+
+<ion-modal #myModal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+  <ng-template>
+    <ion-content>
+
+      <!-- Pembayaran -->
+      <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
+        <ion-grid>
+
+          <ion-header>
+            <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
+              <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+            <ion-title style="color: black;">Payment</ion-title>
+          </ion-header>
+
+          <ion-grid>
+
+            <!-- Pilihan Pembayaran -->
+            <div class="pay-form">
+              <ion-radio-group [(ngModel)]="paymentMethod" value="creditCard">
+                  <ion-label>Credit Card</ion-label>
+                  <ion-radio slot="end" value="creditCard"></ion-radio>
+              </ion-radio-group>
+            </div>
+
+            <div class="card-pay" *ngIf="paymentMethod === 'creditCard'">
+              <ion-title>Lengkapi Data</ion-title>
+              <ion-grid>
+                <div style="border-bottom: 1px solid #424242;">
+                  <ion-label>Card Type</ion-label>
+                  <ion-select [(ngModel)]="cardType" placeholder=" " slot="end">
+                    <ion-select-option value="visa">Visa</ion-select-option>
+                    <ion-select-option value="masterCard">MasterCard</ion-select-option>
+                    <ion-select-option value="discover">Discover</ion-select-option>
+                  </ion-select>
+                </div>
+                <div>
+                  <ion-label>Card Number :</ion-label>
+                  <ion-input type="text" [(ngModel)]="cardNumber"></ion-input>
+                </div>
+              </ion-grid>
+            </div>
+
+
+            <div class="pay-form">
+              <ion-radio-group [(ngModel)]="paymentMethod" value="paypal">
+                  <ion-label>PayPal</ion-label>
+                  <ion-radio slot="end" value="paypal"></ion-radio>
+              </ion-radio-group>
+            </div>
+
+            <div class="paypal-pay" *ngIf="paymentMethod === 'paypal'">
+              <ion-title>Lengkapi Data</ion-title>
+              <div>
+                <ion-label>PayPal Payment ID :</ion-label>
+                <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
+              </div>
+            </div>
+
+
+
+            <div class="pay-form">
+              <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
+                  <ion-label>Dana</ion-label>
+                  <ion-radio slot="end" value="dana"></ion-radio>
+              </ion-radio-group>
+            </div>
+
+            <div class="dana-pay" *ngIf="paymentMethod === 'dana'">
+              <ion-title>Lengkapi Data</ion-title>
+              <div>
+                <ion-label>Dana Payment ID :</ion-label>
+                <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
+              </div>
+            </div>
+
+          </ion-grid>
+        </ion-grid>
+      </div>
+      <ion-footer *ngIf="selectedPackage && !isPaid">
+        <ion-toolbar>
+
+          <div>
+            <ion-title>Total</ion-title>
+            <ion-title>{{ selectedPackage.sale_price | currency:'IDR':'symbol':'1.0-0' }}</ion-title>
+            <!-- <ion-input [value]="selectedPackage?.sale_price | currency" disabled></ion-input> -->
+          </div>
+
+          <div class="btn">
+            <ion-button expand="block" (click)="payForPackage()"><ion-title>Pay Now</ion-title></ion-button>
+          </div>
+
+        </ion-toolbar>
+      </ion-footer>
+
+</ion-content>

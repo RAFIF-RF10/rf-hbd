@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   ngOnInit() {
     this.loadUserData();
@@ -71,6 +71,7 @@ export class ProfilePage implements OnInit {
           this.userData.userData.username = this.username;
           localStorage.setItem('user_data', JSON.stringify(this.userData));
           this.isEditing = false;
+          this.router.navigate(['tab/profile']);
           console.log('Profile updated successfully');
         } else {
           console.error('Failed to update profile');

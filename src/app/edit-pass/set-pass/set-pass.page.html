@@ -1,0 +1,33 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" class="back-button" routerLink="/edit-pass">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">New Username</ion-label>
+      <ion-input [(ngModel)]="username" placeholder="Enter New Username" clearInput></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">New Password</ion-label>
+      <ion-input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter New Password" clearInput></ion-input>
+      <ion-icon name="eye" slot="end" (click)="togglePasswordVisibility('password')"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Confirm Password</ion-label>
+      <ion-input [(ngModel)]="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm Password" clearInput></ion-input>
+      <ion-icon name="eye" slot="end" (click)="togglePasswordVisibility('confirmPassword')"></ion-icon>
+    </ion-item>
+
+    <div class="ion-padding">
+      <ion-button expand="full" (click)="saveChanges()">Save Changes</ion-button>
+    </div>
+  </ion-list>
+</ion-content>

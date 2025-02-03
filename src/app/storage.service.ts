@@ -12,6 +12,11 @@ export class StorageService {
     return data ? JSON.parse(data) : null;
   }
 
+  getId() {
+    const data = this.getUserData();
+    return data ? data.id : null;
+  }
+
   getAccessToken() {
     const data = this.getUserData();
     return data ? data.accessToken : null;
@@ -25,5 +30,15 @@ export class StorageService {
   getMembershipLevel() {
     const data = this.getUserData();
     return data ? data.userData.member_level : null;
+  }
+
+  getPhoneNumber() {
+    const data = this.getUserData();
+    return data ? data.userData.phone : null;
+  }
+
+  getUserName() {
+    const data = this.getUserData();
+    return data ? data.userData.username : null;
   }
 }
