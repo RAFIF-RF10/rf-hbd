@@ -28,6 +28,7 @@ export class RegisterPage  {
  // Menyimpan waktu pengiriman OTP
   otpResendCooldown: number = 60;  // Durasi cooldown 60 detik untuk kirim OTP ulang
   otpCooldownRemaining: number = 0;
+  otpVerify : boolean = false;
 
   constructor(private renderer: Renderer2 , private router:Router) {
     this.loadPackages();
@@ -199,6 +200,7 @@ validatePhoneNumber(event: any) {
         if (response.data.status) {
             alert('OTP verified successfully!');
             localStorage.removeItem('otp'); // Hapus OTP setelah verifikasi
+            this.otpVerify = true;
         } else {
             alert(response.data.message); // Misalnya, 'User not found'
         }
@@ -290,6 +292,10 @@ validatePhoneNumber(event: any) {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  login() {
+    this.router.navigate(['login']);
   }
 
 }

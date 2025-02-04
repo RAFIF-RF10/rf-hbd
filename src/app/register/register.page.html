@@ -1,16 +1,17 @@
 <ion-content>
 
   <ion-header class="top">
-    <ion-button slot="start" fill="clear" style="display: flex; align-items: center; justify-content: center;" (click)="back()">
-        <ion-title style="color: #767676; font-size: small; font-weight: bolder;"><ion-icon style="font-size: small ;" name="chevron-back-outline"></ion-icon> Kembali</ion-title>
+    <ion-button slot="start" fill="clear" size="small" (click)="back()" > 
+      <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
     </ion-button>
+    <ion-title style="color: black;">Member Plan</ion-title>
   </ion-header>
 
-  <ion-grid class="txt">
+  <!-- <ion-grid class="txt">
     <ion-row>
       <ion-title>Member Plan</ion-title>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
   <ion-grid class="slider-menu">
 
@@ -154,13 +155,98 @@
       <ion-content>
 
         
-        <!-- <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
+        <!-- <div class="register-form">
+          <ion-card *ngIf="!isOtpSent">
+            <ion-card-header>
+              <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label position="floating">Name</ion-label>
+                <ion-input [(ngModel)]="name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Address</ion-label>
+                <ion-input [(ngModel)]="address"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Phone</ion-label>
+                <ion-input  type="tel"
+                [(ngModel)]="phone" (input)="validatePhoneNumber($event)" required></ion-input>
+              </ion-item>
+              <ion-button expand="block" (click)="register()">Register</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </div> -->
+
+
+        <div class="register-form" *ngIf="!isOtpSent">
+          <div class="img">
+            <img src="assets/otatea-logo.png" alt="">
+          </div>
+          <!-- <ion-title>Register</ion-title> -->
+          <div class="form-container">
+
+              <ion-grid class="input-container">
+                <ion-icon name="person-outline"></ion-icon>
+                <ion-input [(ngModel)]="name" type="text" label="Name" label-placement="floating" required></ion-input>
+              </ion-grid>
+
+              <ion-grid class="input-container">
+                <ion-icon name="pin-outline"></ion-icon>
+                <ion-input [(ngModel)]="address" type="text" label="Address" label-placement="floating" required></ion-input>
+              </ion-grid>
+
+              <ion-grid class="input-container">
+                <ion-icon name="call-outline"></ion-icon>
+                <ion-input [(ngModel)]="phone" (input)="validatePhoneNumber($event)" type="text" label="Phone Number" label-placement="floating" required></ion-input>
+              </ion-grid>
+
+              <div class="btn">
+                <ion-button expand="block" (click)="register()">Register</ion-button>
+              </div>
+              
+          </div>
+          
+          <div style="position: absolute; bottom: 0; right: 0; left: 0;">
+            
+            
+            <ion-grid class="bottom-circle-container">
+              <ion-grid class="bottom-circle">
+                <ion-grid class="bottom-circle-inside"></ion-grid>
+              </ion-grid>
+            </ion-grid>
+            
+            
+            <div class="footer"></div>
+            
+          </div>
+      </div>
+
+        
+        <div class="verif-otp">
+          <ion-card *ngIf="isOtpSent && !otpVerify">
+            <ion-card-header>
+              <ion-card-title>Enter OTP</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label position="floating">OTP</ion-label>
+                <ion-input [(ngModel)]="otp"></ion-input>
+              </ion-item>
+              <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
+              <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
+                Resend OTP ({{ otpCooldownRemaining }}s)
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+
+        <div class="pembayaran" *ngIf="selectedPackage && otpVerify && !isPaid">
           <ion-grid>
 
             <ion-header>
-              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
-                <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-              </ion-button>
               <ion-title style="color: black;">Payment</ion-title>
             </ion-header>
 
@@ -226,61 +312,34 @@
 
             </ion-grid>
           </ion-grid>
-        </div> -->
 
-
-
-
-        <div>
-          <ion-card *ngIf="!isOtpSent">
-            <ion-card-header>
-              <ion-card-title>Register for {{ selectedPackage.name }} Package</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-item>
-                <ion-label position="floating">Name</ion-label>
-                <ion-input [(ngModel)]="name"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Address</ion-label>
-                <ion-input [(ngModel)]="address"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Phone</ion-label>
-                <ion-input  type="tel"
-                [(ngModel)]="phone" (input)="validatePhoneNumber($event)" required></ion-input>
-              </ion-item>
-              <ion-button expand="block" (click)="register()">Register</ion-button>
-            </ion-card-content>
-          </ion-card>
         </div>
-        
-        <div >
-          <ion-card *ngIf="isOtpSent">
-            <ion-card-header>
-              <ion-card-title>Enter OTP</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-item>
-                <ion-label position="floating">OTP</ion-label>
-                <ion-input [(ngModel)]="otp"></ion-input>
-              </ion-item>
-              <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
-  
-              <!-- Tombol Kirim Ulang OTP -->
-              <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
-                Resend OTP ({{ otpCooldownRemaining }}s)
-              </ion-button>
-            </ion-card-content>
-          </ion-card>
+
+        <div class="alert-after-pay" *ngIf="isPaid">
+          <ion-grid>
+
+            <div>
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+
+            <div class="txt">
+              <ion-title>Success</ion-title>
+              <p>Your payment was successful, thank you for choosing us. Please log in using the data we sent via OTP.</p>
+            </div>
+
+            <div class="btn">
+              <ion-button expand="block" (click)="closeModal()" >Next</ion-button>
+            </div>
+          </ion-grid>
         </div>
+
       </ion-content>
 
        
 
 
 
-      <!-- <ion-footer *ngIf="selectedPackage && !isPaid">
+      <ion-footer *ngIf="selectedPackage && otpVerify && !isPaid">
         <ion-toolbar>
 
           <div>
@@ -293,7 +352,7 @@
           </div>
 
         </ion-toolbar>
-      </ion-footer> -->
+      </ion-footer>
 
     </ng-template>
   </ion-modal>
