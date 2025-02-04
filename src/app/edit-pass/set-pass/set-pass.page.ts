@@ -23,6 +23,8 @@ export class SetPassPage implements OnInit {
     this.userData = this.storageService.getUserData();
     this.username = this.storageService.getUserName() || '';
     this.id       = this.storageService.getId() || '';
+
+
   }
 
   togglePasswordVisibility(field: string) {
@@ -34,39 +36,47 @@ export class SetPassPage implements OnInit {
   }
 
   async saveChanges() {
+
+    if (!this.id) {
+        console.error('ID is missing');
+        return;
+    }
+
     if (this.password !== this.confirmPassword) {
-      console.log('Passwords do not match');
-      return;
+        console.log('Passwords do not match');
+        return;
     }
 
-    if (this.username && this.password) {
-      const data = {
-        id      : this.id,
-        username: this.username,
-        password: this.password,
-      };
+    if (this.username) {
+        const data = {
+            id: this.id,
+            username: this.username,
+            password: this.password ? this.password : null,
+        };
 
-      try {
-        const response = await CapacitorHttp.post({
-          url: 'https://epos.pringapus.com/api/v1/Authentication/updateUser',
-          data: data,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        try {
+            const response = await CapacitorHttp.post({
+                url: 'https://epos.pringapus.com/api/v1/Authentication/updateUser',
+                data: data,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-        if (response.status === 200) {
-          this.userData.username = this.username;
-          localStorage.setItem('user_data', JSON.stringify(this.userData));
-          console.log('Profile updated successfully');
-        } else {
-          console.error('Failed to update profile');
+            if (response.status === 200) {
+                this.userData.username = this.username;
+                localStorage.setItem('user_data', JSON.stringify(this.userData));
+                console.log('Profile updated successfully');
+            } else {
+                console.error('Failed to update profile');
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
         }
-      } catch (error) {
-        console.error('Error updating profile:', error);
-      }
     } else {
-      console.log('Please fill in all fields');
+        console.log('Please fill in all fields');
     }
-  }
+}
+
+
 }

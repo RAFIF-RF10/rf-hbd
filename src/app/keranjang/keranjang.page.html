@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])"> 
+  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])">
     <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
   </ion-button>
   <ion-title style="color: black;">Keranjang Saya ({{ getItemCount() }}) </ion-title>
@@ -8,7 +8,7 @@
 <ion-content>
   <!-- Pilih Semua -->
   <div class="pilih-semua">
-    <ion-checkbox 
+    <ion-checkbox
       labelPlacement="end"
       slot="start"
       [checked]="selectAllChecked"
@@ -38,9 +38,9 @@
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
       </div>
-   
-     
-   
+
+
+
   </ion-card>
 
   <ion-card class="metode-card">
@@ -57,6 +57,19 @@
         <ion-select-option value="DC">Debet/Credit Card</ion-select-option>
       </ion-select>
     </div>
+  </ion-card>
+  <ion-card class="customer-info-card">
+    <ion-item>
+      <ion-label position="floating">Nama Pelanggan</ion-label>
+      <ion-input type="text" [(ngModel)]="customer_name" (ionInput)="onCustomerNameChange($event)"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Nomor Telepon</ion-label>
+      <ion-input type="tel" [(ngModel)]="customer_phone" (ionInput)="onCustomerPhoneChange($event)"></ion-input>
+    </ion-item>
+
+
   </ion-card>
 
   <ion-card class="option-card">

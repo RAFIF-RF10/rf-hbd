@@ -14,8 +14,9 @@ export class StorageService {
 
   getId() {
     const data = this.getUserData();
-    return data ? data.id : null;
+    return data ? data.userData?.id : null;
   }
+
 
   getAccessToken() {
     const data = this.getUserData();

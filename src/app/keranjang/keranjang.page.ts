@@ -20,6 +20,8 @@ export class KeranjangPage implements OnInit {
   deliveryOption: string = 'pickup'; // Default delivery option
   discount: number = 0;
   gst: number = 0;
+  customer_name: string = '';
+  customer_phone: string = '';
 
   constructor(public router: Router, private cartService: CartService) {}
 
@@ -72,35 +74,47 @@ export class KeranjangPage implements OnInit {
   decreaseQty(item: any) {
     if (item.qty > 1) item.qty--;
   }
+  onCustomerNameChange(event: any) {
+    // Pastikan event target adalah elemen input dan periksa null
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement) {
+      this.customer_name = inputElement.value;
+    // Debug log
+    }
+  }
+
+  onCustomerPhoneChange(event: any) {
+    // Pastikan event target adalah elemen input dan periksa null
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement) {
+      this.customer_phone = inputElement.value;
+       // Debug log
+    }
+  }
+
 
   async pay() {
+
     if (this.selectedItems.length === 0) {
       alert('Pilih setidaknya satu item sebelum melakukan pembayaran!');
       return;
     }
+    const user = JSON.parse(localStorage.getItem('user_data') || '{}');
 
-    if (!this.paymentMethod || this.paymentMethod === '') {
+    if (!this.paymentMethod) {
       alert('Pilih metode pembayaran sebelum melanjutkan!');
       return;
     }
 
-    // Ambil data user dari localStorage
-    const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-
-
-
-
-    if (!user || !user.userData.username || !user.userData.phone) {
-      alert('Data pengguna tidak lengkap! Pastikan nama dan nomor telepon tersedia.');
+    if (!user ||!this.customer_name || !this.customer_phone) {
+      alert('Silakan isi nama dan nomor telepon pelanggan!');
       return;
-
     }
-
 
     const orderData = {
       id_outlet: user.userData.id_outlet,
-      customer_name: user.userData.username,
-      customer_phone: user.userData.phone,
+      customer_name: this.customer_name,
+      customer_phone: this.customer_phone,
       customer_payment_total: this.calculateTotal(),
       customer_payment_method: this.paymentMethod,
       customer_payment_detail: this.selectedItems.map(item => ({
@@ -109,7 +123,6 @@ export class KeranjangPage implements OnInit {
         qty: item.qty
       }))
     };
-
 
     try {
       const response = await CapacitorHttp.post({
@@ -124,22 +137,17 @@ export class KeranjangPage implements OnInit {
 
       if (result.status) {
         alert('Pembayaran berhasil! Pesanan Anda telah diterima.');
-
-        // Bersihkan keranjang setelah pembayaran sukses
         this.selectedItems.forEach((item) => this.cartService.removeItem(item));
         this.cartItems = this.cartService.getCartItems();
         this.selectedItems = [];
         this.paymentMethod = '';
+        this.customer_name = '';
+        this.customer_phone = '';
         this.selectAllChecked = false;
-
-        // Simpan data pesanan ke localStorage
-        localStorage.setItem('latestOrder', JSON.stringify(orderData));
-
         this.router.navigate(['/riwayat']);
       } else {
         alert('Gagal melakukan pembayaran: ' + result.message);
       }
-
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
       alert('Terjadi kesalahan saat memproses pembayaran.');
