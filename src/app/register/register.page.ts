@@ -20,7 +20,10 @@ export class RegisterPage  {
   cardType: string = ''; // Pilihan tipe kartu kredit
   cardNumber: string = ''; // Nomor kartu kredit
   paymentId: string = ''; // ID untuk PayPal atau Dana
-  otp: string = ''; // Menyimpan OTP yang dimasukkan
+  // otp: string = '';
+
+  otp: string[] = ['', '', '', '', '', ''];
+
   isOtpVerified: boolean = false;
   isOtpSent = false;
   otpExpireTime: number = 0; // Deklarasi variabel untuk waktu kadaluarsa OTP
@@ -28,6 +31,7 @@ export class RegisterPage  {
  // Menyimpan waktu pengiriman OTP
   otpResendCooldown: number = 60;  // Durasi cooldown 60 detik untuk kirim OTP ulang
   otpCooldownRemaining: number = 0;
+  otpVerify : boolean = false;
 
   constructor(private renderer: Renderer2 , private router:Router) {
     this.loadPackages();
@@ -171,18 +175,20 @@ validatePhoneNumber(event: any) {
 
   // Fungsi untuk memverifikasi OTP
   verifyOtp() {
+
+
     if (!this.otp) {
         alert('Please enter OTP');
         return;
     }
 
     // Ambil OTP dari localStorage untuk validasi
-    const storedOtp = localStorage.getItem('otp');
+    const storedOtp = localStorage.getItem('otp') ?? '';
 
-    if (this.otp !== storedOtp) {
-        alert('Invalid OTP. Please try again.');
-        return;
-    }
+    if (this.otp.join('') !== storedOtp) {
+      alert("OTP tidak cocok!");
+      return;
+  }
 
     // Lanjutkan verifikasi OTP
     const data = {
@@ -199,6 +205,7 @@ validatePhoneNumber(event: any) {
         if (response.data.status) {
             alert('OTP verified successfully!');
             localStorage.removeItem('otp'); // Hapus OTP setelah verifikasi
+            this.otpVerify = true;
         } else {
             alert(response.data.message); // Misalnya, 'User not found'
         }
@@ -290,6 +297,24 @@ validatePhoneNumber(event: any) {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  login() {
+    this.router.navigate(['login']);
+  }
+
+  moveToNext(event: any, nextInput?: HTMLInputElement) {
+    const value = event.target.value;
+    if (value.length === 1 && nextInput) {
+      nextInput.focus();
+    }
+    // this.checkOTP();
+  }
+
+  handleBackspace(event: any, prevInput?: HTMLInputElement, currentInput?: HTMLInputElement) {
+    if (event.key === 'Backspace' && currentInput?.value === '' && prevInput) {
+      prevInput.focus();
+    }
   }
 
 }

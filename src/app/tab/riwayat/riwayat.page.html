@@ -1,9 +1,9 @@
 <ion-content [fullscreen]="true">
 
   <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
-  <div *ngIf="!isLoading && errorMessage" class="error-message">
+  <!-- <div *ngIf="!isLoading && errorMessage" class="error-message">
     <p>{{ errorMessage }}</p>
-  </div>
+  </div> -->
 
   <ion-grid class="top">
     <ion-title>Haloo...</ion-title>
@@ -31,12 +31,17 @@
   <div style="padding: 0; margin: 0; background: white; height: 100%; border-radius: 20px 20px 0 0;">
 
     <div class="bottom">
-      <ion-list *ngIf="!isLoading && riwayatList.length > 0">
 
-        <div class="no-found" *ngIf="filteredRiwayatList?.length === 0">
+      <ion-list *ngIf="!riwayatList.length || filteredRiwayatList?.length === 0">
+        <div class="no-found">
           <img src="assets/no-found.png" alt="anajy ">
           <ion-title>Data Tidak Ditemukan.</ion-title>
         </div>
+      </ion-list>
+
+      <ion-list *ngIf="!isLoading && riwayatList.length > 0">
+
+  
   
         <div class="riwayat" *ngFor="let riwayat of filteredRiwayatList">
             <h1>{{ riwayat.customer_payment_detail }}</h1>

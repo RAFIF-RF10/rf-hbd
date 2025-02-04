@@ -18,7 +18,7 @@
 
       <ion-col size="2">
         <div class="btn-reload">
-          <!-- <ion-button (click)="loadMoreData()"> -->
+          <!-- <ion-button (click)="loadMoreData()"></ion-button> -->
           <ion-button (click)="loadMoreData()">
             <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
           </ion-button>
@@ -45,7 +45,7 @@
             <ion-title>Data Tidak Ditemukan.</ion-title>
         </div>
 
-        <div (click)="openChatModal(campaign)" *ngFor="let campaign of filteredCampaigns; let ind = index">
+        <div class="main" (click)="openChatModal(campaign)" *ngFor="let campaign of filteredCampaigns; let ind = index">
           <div class="profile" [ngStyle]="{'background-color': getBackgroundColor(campaign.name)}">
             {{ getInitial(campaign.name) }}
           </div>
