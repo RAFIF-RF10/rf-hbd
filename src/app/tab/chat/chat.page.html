@@ -18,7 +18,7 @@
 
       <ion-col size="2">
         <div class="btn-reload">
-          <ion-button (click)="loadMoreData()">
+          <!-- <ion-button (click)="loadMoreData()"> -->
           <ion-button (click)="loadMoreData()">
             <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
           </ion-button>
@@ -36,7 +36,7 @@
   <div style="padding: 0; margin: 0; background: white; height: 100%; border-radius: 20px 20px 0 0;">
 
     <div class="container-main">
-      
+
       <ion-loading class="custom-loading" [isOpen]="isLoading" message="Loading..." [duration]="3000"></ion-loading>
       <ion-list>
 
@@ -54,9 +54,9 @@
             <ion-title class="desk">{{ campaign.description }}</ion-title>
           </ion-grid>
         </div>
-        
-      
-      
+
+
+
     </ion-list>
     <ion-modal class="chat-modal" [isOpen]="chatModal">
       <ng-template>
@@ -156,9 +156,9 @@
             <ion-grid class="form">
               <ion-input [(ngModel)]="chatData.description" type="text" label="Deskripsi Campaign" label-placement="floating" required></ion-input>
             </ion-grid>
-            
-            
-            
+
+
+
             <!-- <ion-accordion-group>
               <ion-accordion value="1">
                 <ion-item slot="header" color="light">
@@ -166,14 +166,14 @@
                 </ion-item>
                 <div class="ion-padding" slot="content">
                   <ion-grid>
-                    
+
                       <ion-row>
                         <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
                         <ion-col size="4">Gold</ion-col>
-                        
+
                         <ion-col size="8"><b>Limit kontak</b></ion-col>
                         <ion-col size="4">No Limit</ion-col>
-                        
+
                         <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
                         <ion-col size="4">Real / Custom Time</ion-col>
                       </ion-row>
@@ -182,29 +182,29 @@
                           <ion-button expand="block" (click)="openDialog()">Real/Custom Time</ion-button>
                         </ion-col>
                       </ion-row>
-                    
+
                   </ion-grid>
                 </div>
               </ion-accordion>
-              
+
               <ion-accordion value="2">
                 <ion-item slot="header" color="light">
                   <ion-label>Custom Time</ion-label>
                 </ion-item>
                 <div class="ion-padding" slot="content">
                   <ion-grid>
-                    
+
                     <ion-row>
                         <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
                         <ion-col size="4">Silver</ion-col>
-                        
+
                         <ion-col size="8"><b>Batas Kontak</b></ion-col>
                         <ion-col size="4">25 Kontak</ion-col>
-                        
+
                         <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
                         <ion-col size="4">Custome Time</ion-col>
                       </ion-row>
-                      
+
                       <ion-footer>
                         <ion-toolbar>
                           <ion-row>
@@ -214,29 +214,29 @@
                           </ion-row>
                         </ion-toolbar>
                       </ion-footer>
-                      
+
                     </ion-grid>
                 </div>
               </ion-accordion>
-  
+
               <ion-accordion value="3">
                 <ion-item slot="header" color="light">
                   <ion-label>Real Time</ion-label>
                 </ion-item>
                 <div class="ion-padding" slot="content">
                   <ion-grid>
-                    
+
                     <ion-row>
                         <ion-col size="8"><b><span>(Rekomendasi)</span>Membership</b></ion-col>
                         <ion-col size="4">Bronze</ion-col>
-                        
+
                         <ion-col size="8"><b>Batas Kontak</b></ion-col>
                         <ion-col size="4">15 Kontak</ion-col>
-                        
+
                         <ion-col size="8"><b>Waktu Pengiriman</b></ion-col>
                         <ion-col size="4">Real Time</ion-col>
                       </ion-row>
-                      
+
                         <ion-footer>
                           <ion-toolbar>
                             <ion-row>
@@ -246,14 +246,14 @@
                             </ion-row>
                           </ion-toolbar>
                         </ion-footer>
-                      
+
                       </ion-grid>
                 </div>
               </ion-accordion>
             </ion-accordion-group> -->
 
             <ion-grid class="accordion">
-              
+
               <ion-toolbar>
                 <ion-title slot="start">* Pengaturan waktu pengiriman</ion-title>
               </ion-toolbar>
@@ -277,8 +277,8 @@
                     <ion-button expand="block" (click)="openDialog()">Real/Custom Time</ion-button>
                   </div>
                 </ion-grid>
-                
-                
+
+
                 <ion-grid class="value" (click)="silverprivilege()">
                   <ion-row>
                     <ion-title>Custom Time</ion-title>
@@ -299,7 +299,7 @@
               </ion-grid>
 
 
-              
+
               <ion-grid class="value" (click)="bronzeprivilege()">
                 <ion-row>
                   <ion-title>Real Time</ion-title>
@@ -317,7 +317,7 @@
                   <ion-button expand="block" (click)="submitNewCampaign()">Real Time</ion-button>
                 </div>
               </ion-grid>
-              
+
 
             </ion-grid>
 
@@ -326,10 +326,10 @@
 
       </ng-template>
     </ion-modal>
-    
-    
+
+
   </div>
 </div>
-  
-  
+
+
 </ion-content>
