@@ -224,23 +224,101 @@
       </div>
 
         
-        <div class="verif-otp">
-          <ion-card *ngIf="isOtpSent && !otpVerify">
-            <ion-card-header>
-              <ion-card-title>Enter OTP</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-item>
-                <ion-label position="floating">OTP</ion-label>
-                <ion-input [(ngModel)]="otp"></ion-input>
-              </ion-item>
-              <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
-              <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
+      <div class="verif-otp" *ngIf="isOtpSent && !otpVerify">
+<!-- 
+        <ion-header>
+          <ion-title style="color: black;">Payment</ion-title>
+        </ion-header>
+
+        <ion-grid>
+
+          <ion-title> Enter the 6 digit verification code </ion-title>
+          
+          <div class="otp-input-container">
+            <div class="otp-form">
+              <ion-input
+                type="text"
+                maxlength="1"
+                [(ngModel)]="otpDigit1"
+                onkeydown="validateDigit(event, 'someField')"
+              ></ion-input>
+              <ion-input
+                type="text"
+                maxlength="1"
+                [(ngModel)]="otpDigit2"
+                onkeydown="validateDigit(event, 'someField')"
+              ></ion-input>
+              <ion-input
+                type="text"
+                maxlength="1"
+                [(ngModel)]="otpDigit3"
+                onkeydown="validateDigit(event, 'someField')"
+              ></ion-input>
+              <ion-input
+                type="text"
+                maxlength="1"
+                [(ngModel)]="otpDigit4"
+                onkeydown="validateDigit(event, 'someField')"
+              ></ion-input>
+              <ion-input
+                type="text"
+                maxlength="1"
+                [(ngModel)]="otpDigit5"
+                onkeydown="validateDigit(event, 'someField')"
+              ></ion-input>
+              <ion-input
+                type="text"
+                maxlength="1"
+                [(ngModel)]="otpDigit6"
+                onkeydown="validateDigit(event, 'someField')"
+              ></ion-input>
+            </div>
+          </div>
+            
+            
+            <ion-button expand="block" (click)="verifyOtp()">Verify OTP</ion-button>
+            <ion-button expand="block" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
+              Resend OTP ({{ otpCooldownRemaining }}s)
+            </ion-button>
+          </ion-grid> -->
+          
+
+
+          <ion-header>
+            <ion-title style="color: black;">Payment</ion-title>
+          </ion-header>
+  
+        
+        <ion-grid>
+
+          <div class="otp-container">
+
+            <p class="otp-title">Enter the 6 digit verification code</p>
+            <!-- <p class="otp-subtitle">Kode telah dikirim ke nomor <strong>{{ formattedPhone }}</strong></p> -->
+        
+            <div class="otp-inputs">
+              <input #otp1 type="text" maxlength="1" (input)="moveToNext($event, otp2)" (keydown)="handleBackspace($event, otp1)" [(ngModel)]="otp[0]">
+              <input #otp2 type="text" maxlength="1" (input)="moveToNext($event, otp3)" (keydown)="handleBackspace($event, otp1, otp2)" [(ngModel)]="otp[1]">
+              <input #otp3 type="text" maxlength="1" (input)="moveToNext($event, otp4)" (keydown)="handleBackspace($event, otp2, otp3)" [(ngModel)]="otp[2]">
+              <input #otp4 type="text" maxlength="1" (input)="moveToNext($event, otp5)" (keydown)="handleBackspace($event, otp3, otp4)" [(ngModel)]="otp[3]">
+              <input #otp5 type="text" maxlength="1" (input)="moveToNext($event, otp6)" (keydown)="handleBackspace($event, otp4, otp5)" [(ngModel)]="otp[4]">
+              <input #otp6 type="text" maxlength="1" (input)="verifyOtp()" (keydown)="handleBackspace($event, otp5, otp6)" [(ngModel)]="otp[5]">
+            </div>
+        
+            <ion-button expand="block" shape="round" color="primary" (click)="verifyOtp()">
+              Verify OTP
+            </ion-button>
+        
+            <p class="resend-text">
+              <ion-button fill="clear" color="medium" (click)="resendOtp()" [disabled]="otpCooldownRemaining > 0">
                 Resend OTP ({{ otpCooldownRemaining }}s)
               </ion-button>
-            </ion-card-content>
-          </ion-card>
-        </div>
+            </p>
+          </div>
+        </ion-grid>
+        
+
+      </div>
 
 
         <div class="pembayaran" *ngIf="selectedPackage && otpVerify && !isPaid">
