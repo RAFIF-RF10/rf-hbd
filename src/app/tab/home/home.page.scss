@@ -112,12 +112,13 @@ ion-content {
     width: 100%;
     ion-card {
       width: 90%;
+      border-radius : 20px;
       --background :white;
       --color :#424242;
       .img-container {
         position: relative;
         text-align: center;
-        margin: 15px 0;
+        // margin: 15px 0;
         img {
           border-radius: 20px;
           width: 165px;
@@ -129,7 +130,7 @@ ion-content {
           --color: #ffffff;
           --border-radius: 12px;
           position: absolute;
-          // bottom: 5px;
+          bottom: 2px;
           right: 5px;
           z-index: 10;
         }
@@ -137,10 +138,15 @@ ion-content {
       .details {
         text-align: center;
         margin-top: 10px;
-    
+        padding: 10px;
+        width: 100%;
+        text-overflow: ellipsis;
         b {
-          font-size: 16px;
+          font-size: 14px;
           display: block;
+          white-space: nowrap; /* Mencegah teks turun ke baris baru */
+          overflow: hidden; /* Menyembunyikan teks yang melebihi batas */
+          text-overflow: ellipsis; /* Menampilkan '...' */
         }
     
         p {
@@ -252,15 +258,23 @@ ion-content {
           align-items: center;
           gap: 2rem;
           padding: 1rem;
+          img {
+            width: 130px;
+            height: 130px;
+          }
           .desc {
             display: grid;
-            line-height: 0.5;
+            // line-height: 0.5;
+            // width: 60%;
             b {
-              font-size: large;
+              white-space: nowrap; /* Mencegah teks turun ke baris baru */
+              overflow: hidden; /* Menyembunyikan teks yang melebihi batas */
+              text-overflow: ellipsis; /* Menampilkan '...' */
+              font-size: medium;
             }
             .qty-controls {
               display: flex;
-              justify-content: center;
+              // justify-content: center;
               align-items: center;
               gap: 1rem;
               ion-button {

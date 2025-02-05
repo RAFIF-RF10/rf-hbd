@@ -74,6 +74,7 @@ export class KeranjangPage implements OnInit {
   decreaseQty(item: any) {
     if (item.qty > 1) item.qty--;
   }
+
   onCustomerNameChange(event: any) {
     // Pastikan event target adalah elemen input dan periksa null
     const inputElement = event.target as HTMLInputElement;
@@ -84,11 +85,22 @@ export class KeranjangPage implements OnInit {
   }
 
   onCustomerPhoneChange(event: any) {
-    // Pastikan event target adalah elemen input dan periksa null
     const inputElement = event.target as HTMLInputElement;
     if (inputElement) {
-      this.customer_phone = inputElement.value;
-       // Debug log
+      let phoneValue = inputElement.value.replace(/\D/g, ''); // Hapus semua selain angka
+
+      // Pastikan diawali dengan "0"
+      if (!phoneValue.startsWith('0')) {
+        phoneValue = '0' + phoneValue;
+      }
+
+      // Batasi maksimal 16 angka
+      if (phoneValue.length > 16) {
+        phoneValue = phoneValue.slice(0, 16);
+      }
+
+      this.customer_phone = phoneValue;
+      inputElement.value = phoneValue; // Perbarui nilai input
     }
   }
 
@@ -164,4 +176,9 @@ export class KeranjangPage implements OnInit {
   onPaymentMethodChange(event: any) {
     console.log('Metode pembayaran dipilih:', this.paymentMethod);
   }
+
+  setDefaultImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/image-not-found.png';
+  }
+
 }

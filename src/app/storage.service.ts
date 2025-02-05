@@ -28,6 +28,11 @@ export class StorageService {
     return data ? data.userData.id_outlet : null;
   }
 
+  getOutletName() {
+    const data = this.getUserData();
+    return data ? data.userData.outlet_code : null;
+  }
+
   getMembershipLevel() {
     const data = this.getUserData();
     return data ? data.userData.member_level : null;
