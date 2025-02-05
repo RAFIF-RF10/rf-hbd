@@ -12,11 +12,11 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, IonicModule, FormsModule],
 })
 export class RiwayatPage {
-  riwayatList: any[] = []; // Untuk menyimpan data riwayat
-  filteredRiwayatList: any[] = []; // Untuk filter pencarian
-  isLoading: boolean = false; // Indikator loading
-  errorMessage: string = ''; // Pesan error
-  id_outlet: string = ''; // Gunakan id_outlet sebagai filter utama
+  riwayatList: any[] = [];
+  filteredRiwayatList: any[] = [];
+  isLoading: boolean = false;
+  errorMessage: string = '';
+  id_outlet: string = '';
 
   constructor() {}
 
@@ -29,8 +29,8 @@ export class RiwayatPage {
     const storedUserData = localStorage.getItem('user_data');
 
     if (storedUserData) {
-      const userData = JSON.parse(storedUserData); // Parsing stringified data
-      this.id_outlet = userData.userData.id_outlet; // Ambil id_outlet dari localStorage
+      const userData = JSON.parse(storedUserData);
+      this.id_outlet = userData.userData.id_outlet; 
     } else {
       console.log('No user data found in localStorage');
     }
