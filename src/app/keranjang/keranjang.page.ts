@@ -76,11 +76,10 @@ export class KeranjangPage implements OnInit {
   }
 
   onCustomerNameChange(event: any) {
-    // Pastikan event target adalah elemen input dan periksa null
     const inputElement = event.target as HTMLInputElement;
     if (inputElement) {
-      this.customer_name = inputElement.value;
-    // Debug log
+      const trimmedValue = inputElement.value.trim(); // Hapus spasi di awal & akhir
+      this.customer_name = trimmedValue.length > 0 ? trimmedValue : '';
     }
   }
 

@@ -42,6 +42,7 @@ export class ChatPage  {
   hasMoreData = true;
   searchQuery: string = '';
   filteredCampaigns: any[] = [...this.campaigns];
+  showAllContacts = false;
 
   userSign = this.storageService
 
@@ -216,7 +217,9 @@ toggleSelectAll(event: any) {
     contact.selected = this.selectAllChecked;
   });
 }
-
+toggleShowContacts(state: boolean) {
+  this.showAllContacts = state;
+}
 // Cek apakah semua kontak sudah dipilih
 checkIfAllSelected() {
   this.selectAllChecked = this.customerFiltered.every(contact => contact.selected);
@@ -537,7 +540,7 @@ refresh() {
   getInitial(name: string): string {
     return name ? name.charAt(0).toUpperCase() : '?';
   }
-  
+
   getBackgroundColor(name: string): string {
     const colors = [
       '#46e04a', '#4683b3', '#b346a4', '#e05c9a', '#bd3333',
@@ -548,7 +551,7 @@ refresh() {
     const index = name ? name.charCodeAt(0) % colors.length : 0;
     return colors[index];
   }
-  
+
 
 
 }

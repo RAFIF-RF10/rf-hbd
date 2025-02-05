@@ -128,26 +128,35 @@
             <ion-grid class="form-phone">
               <ion-title>Pilih Kontak</ion-title>
 
-                <ion-searchbar showCancelButton="focus"class="custom"(ionInput)="searchContacts($event)"></ion-searchbar>
+              <ion-searchbar showCancelButton="focus" class="custom" (ionInput)="searchContacts($event)"></ion-searchbar>
 
-                <div class="pilih-semua">
-                  <ion-checkbox [(ngModel)]="selectAllChecked" (ionChange)="toggleSelectAll($event)" labelPlacement="end"></ion-checkbox>
-                  <ion-title>* Pilih Semua</ion-title>
+              <div class="pilih-semua">
+                <ion-checkbox [(ngModel)]="selectAllChecked" (ionChange)="toggleSelectAll($event)" labelPlacement="end"></ion-checkbox>
+                <ion-title>* Pilih Semua</ion-title>
+              </div>
+
+              <!-- Menampilkan kontak, hanya 3 pertama jika showAllContacts = false -->
+              <ion-item *ngFor="let contact of (showAllContacts ? customerFiltered : customerFiltered.slice(0, 3))">
+                <div class="checkbox">
+                  <ion-checkbox [(ngModel)]="contact.selected" (ionChange)="checkIfAllSelected()"></ion-checkbox>
                 </div>
+                <div class="contact" *ngIf="contact">
+                  <ion-title>{{ contact.name }}</ion-title>
+                  <ion-title>{{ contact.number }}</ion-title>
+                </div>
+              </ion-item>
 
-
-
-                <ion-item *ngFor="let contact of customerFiltered">
-                  <div class="checkbox">
-                    <ion-checkbox [(ngModel)]="contact.selected"  (ionChange)="checkIfAllSelected()"></ion-checkbox>
-                  </div>
-                  <div class="contact" *ngIf="contact">
-                    <ion-title>{{ contact.name }}</ion-title>
-                    <ion-title>{{ contact.number }}</ion-title>
-                  </div>
-                </ion-item>
-
+              <!-- Tombol "Tampilkan Semua" dan "Sembunyikan" -->
+              <div *ngIf="customerFiltered.length > 3">
+                <ion-button *ngIf="!showAllContacts" (click)="toggleShowContacts(true)">
+                  Tampilkan Semua
+                </ion-button>
+                <ion-button *ngIf="showAllContacts" (click)="toggleShowContacts(false)">
+                  Sembunyikan
+                </ion-button>
+              </div>
             </ion-grid>
+
 
             <ion-grid class="form">
               <ion-input [(ngModel)]="chatData.name" type="text" label="Nama Campaign" label-placement="floating" required></ion-input>
