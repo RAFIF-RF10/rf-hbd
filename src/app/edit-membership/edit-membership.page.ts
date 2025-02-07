@@ -37,9 +37,18 @@ export class EditMembershipPage implements OnInit {
     }
 
 
-openModal(pkg: any) {
-  this.selectedPackage = pkg;
-  this.isModalOpen = true;
+// openModal(pkg: any) {
+//   this.selectedPackage = pkg;
+//   this.isModalOpen = true;
+// }
+openModal(packageName: string) {
+  const packageData = this.packages.find(pkg => pkg.name === packageName);
+  if (packageData) {
+    this.selectedPackage = packageData;
+    this.isModalOpen = true; // Menampilkan modal pembayaran
+  } else {
+    alert('Paket tidak ditemukan');
+  }
 }
 
 
@@ -61,18 +70,24 @@ openModal(pkg: any) {
         alert('Error fetching packages');
       });
   }
-  
+
   selectPackage(pkgName: string) {
-    const selected = this.packages.find((pkg) => pkg.name === pkgName);
-    if (selected) {
-      if (selected.name === this.membership) {
-        alert('Anda sudah menggunakan paket ini');
-        return;
-      }
-      this.selectedPackage = selected; // Pilih paket berdasarkan objek yang berisi ID
-      this.isPaid = false; // Reset status pembayaran
+    this.selectedPackage = this.packages.find((pkg) => pkg.name === pkgName);
+
+    if (!this.selectedPackage) {
+      alert('Paket tidak ditemukan');
+      return;
     }
+
+    if (this.selectedPackage.name === this.membership) {
+      alert('Anda sudah menggunakan paket ini');
+      return;
+    }
+
+    console.log('Paket yang dipilih:', this.selectedPackage);
+    this.isPaid = false; // Reset status pembayaran
   }
+
 
   loadOutlets() {
     CapacitorHttp.post({
@@ -103,33 +118,33 @@ openModal(pkg: any) {
       return;
     }
 
+    if (!this.selectedPackage || !this.selectedPackage.id) {
+      alert('No package selected or invalid package');
+      return;
+    }
+
     // Simulasi pembayaran berhasil
     alert('Payment Successful!');
     this.isPaid = true; // Tandai pembayaran berhasil
 
-    // Pastikan paket dipilih
-    if (!this.selectedPackage) {
-      alert('No package selected');
-      return;
-    }
-
-    // Kirimkan ID paket (bukan nama) ke API
+    // Kirimkan ID paket dan nama membership ke API
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/Authentication/updateMembership',
       headers: { 'Content-Type': 'application/json' },
       data: {
-        id: this.id_outlet,  // Sesuai dengan format yang diharapkan API
-        member_level: this.selectedPackage.id,  // Menggunakan "member_level" bukan "membership_level"
+        id: this.id_outlet, // Gunakan id user, bukan hanya id_outlet jika diperlukan
+        member_level: this.selectedPackage.id,
       },
     })
       .then((response: any) => {
-        if (response.data.status) {
+        if (response.data && response.data.status) {
           alert('Membership updated successfully');
 
           // Update member_level di localStorage
           let userData = JSON.parse(localStorage.getItem('user_data') || '{}');
           if (userData && userData.userData) {
             userData.userData.member_level = this.selectedPackage.id;
+            userData.userData.membership_name = this.selectedPackage.name;
             localStorage.setItem('user_data', JSON.stringify(userData));
 
             // Arahkan ke halaman profile
@@ -144,6 +159,7 @@ openModal(pkg: any) {
         alert('Error updating membership');
       });
   }
+
 
 
 
@@ -179,7 +195,7 @@ openModal(pkg: any) {
     }
   }
 
-  
+
   getName(pkgName: string): string {
     const pkg = this.packages.find(p => p.name === pkgName);
     return pkg ? pkg.name : undefined ;
