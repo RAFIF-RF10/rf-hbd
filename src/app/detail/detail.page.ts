@@ -61,6 +61,7 @@ export class DetailPage implements OnInit {
   setDefaultImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/image-not-found.png';
   }
+  
   async deleteProduct(id: string) {
     if (!id) {
       console.error('ID produk tidak ditemukan');
