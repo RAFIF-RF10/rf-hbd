@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular/standalone';
 import { IonRouterOutlet } from '@ionic/angular';
 import { CartService } from '../services/cart.service';
+import { CapacitorHttp } from '@capacitor/core';
 
 @Component({
   selector: 'app-detail',

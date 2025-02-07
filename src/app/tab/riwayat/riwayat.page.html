@@ -13,6 +13,19 @@
       [(ngModel)]="searchQuery"
       (ionInput)="searchRiwayat()"
       ></ion-searchbar> -->
+      <ion-button *ngIf="isDownloadButtonVisible" expand="full" (click)="showExportAlert()">Unduh Excel</ion-button>
+
+  <!-- Form Pilih Tanggal, hanya ditampilkan jika "Pilih Tanggal" dipilih dari alert -->
+  <div *ngIf="isDateSelected" class="date-selector">
+    <ion-item>
+      <ion-label>Pilih Tanggal</ion-label>
+      <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="selectedDate"></ion-datetime>
+    </ion-item>
+
+    <!-- Tombol Unduh Data, hanya ditampilkan setelah tanggal dipilih -->
+    <ion-button expand="full" (click)="onDateSelected()">Unduh Data</ion-button>
+  </div>
+
 
       <ion-searchbar
       showCancelButton="focus"
@@ -22,7 +35,7 @@
     ></ion-searchbar>
 
     </ion-row>
-  
+
   </ion-grid>
 
 
@@ -39,15 +52,15 @@
 
       <ion-list *ngIf="!isLoading && riwayatList.length > 0">
 
-  
-  
+
+
         <div class="riwayat" *ngFor="let riwayat of filteredRiwayatList">
             <h1>{{ riwayat.customer_payment_detail }}</h1>
             <p>Metode pembayaran: {{ getPaymentMethod(riwayat.customer_payment_method) }}</p>
             <p>Total: {{ formatCurrency(riwayat.customer_payment_total) }}</p>
             <p>Tanggal: {{ riwayat.created_date  }}</p>
         </div>
-        
+
       </ion-list>
     </div>
 

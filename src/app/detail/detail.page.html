@@ -10,6 +10,11 @@
 
 <ion-content [fullscreen]="true">
   <div class="detail-container">
+    <img [src]="item?.image" alt="{{ item?.name }}" class="item-image">
+    <div class="detail-info">
+      <h1>{{ item?.name }}</h1>
+      <b>{{ item?.description }}</b>
+      <p>{{ item?.price | currency: 'Rp. ' }}</p>
     <img [src]="item.img_url" (error)="setDefaultImage($event)"  alt="{{ item?.name }}" class="item-image">
   </div>
   <div class="detail-info">
@@ -22,6 +27,9 @@
       </ion-button>
     </div>
   </div>
+  <ion-button color="danger" fill="solid" shape="round" (click)="deleteProduct(item.id)">
+    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+  </ion-button>
 
   <!-- <ion-modal #detailModal [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]" [presentingElement]="ionRouterOutlet" [canDismiss]="true">
     <ng-template>
@@ -36,6 +44,7 @@
             <img [src]="item?.image" alt="{{ item?.name }}">
             <div class="modal-item-info">
               <b>{{ item?.name }}</b>
+
               <p>{{ item?.price | currency: 'Rp. ' }}</p>
               <div class="qty-controls">
                 <ion-button (click)="decrementQty()">-</ion-button>

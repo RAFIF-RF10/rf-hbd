@@ -26,7 +26,8 @@ export class EditMembershipPage implements OnInit {
   constructor(public router: Router, private storageService: StorageService,private renderer: Renderer2 ) { }
 
     ngOnInit() {
-      this.id         = this.storageService.getId() || '';
+      this.id = this.storageService.getUserData()?.userData?.id || '';
+
       this.username   = this.storageService.getUserName() || '';
       this.id_outlet  = this.storageService.getOutletId() || '';
       console.log( this.id_outlet );
