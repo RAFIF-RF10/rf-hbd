@@ -302,6 +302,14 @@ async uploadImage(image: any) {
         console.log('Response dari API:', response.data);
         if (result.status) {
             console.log('Produk berhasil ditambahkan');
+            this.getCategories();
+            this.getListCategories();
+            this.getItems();
+            this.itemData.id_category = '';
+            this.itemData.name        = '';
+            this.itemData.description = '';
+            this.itemData.price       = '';
+            this.itemData.photo       = '';
             this.addItemModal.dismiss();
         } else {
             console.error('Gagal menambahkan produk:', result.message);
