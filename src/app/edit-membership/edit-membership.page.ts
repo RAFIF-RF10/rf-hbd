@@ -147,8 +147,10 @@ openModal(packageName: string) {
             userData.userData.membership_name = this.selectedPackage.name;
             localStorage.setItem('user_data', JSON.stringify(userData));
 
+            this.closeModal()
+
             // Arahkan ke halaman profile
-            this.router.navigate(['/tab/profile']);
+            // this.router.navigate(['/tab/profile']);
           }
         } else {
           alert('Failed to update membership');

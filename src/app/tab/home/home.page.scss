@@ -135,6 +135,15 @@ ion-content {
           display: block;
           margin: 0 auto;
         }
+        .btn-delete {
+          --background: #ff4c4c;
+          --color: #ffffff;
+          --border-radius: 12px;
+          position: absolute;
+          bottom: 2px;
+          left: 5px;
+          z-index: 10;
+        }
         .btn-cart {
           --background: #ff4c4c;
           --color: #ffffff;

@@ -311,6 +311,36 @@ async uploadImage(image: any) {
     }
   }
 
+  async deleteProduct(id: string) {
+    if (!id) {
+      console.error('ID produk tidak ditemukan');
+      return;
+    }
+
+    console.log("Menghapus produk dengan ID:", id);
+
+    const userConfirm = window.confirm("Apakah Anda yakin ingin menghapus produk ini?");
+    if (!userConfirm) return;
+
+    try {
+      const response = await CapacitorHttp.post({
+        url: `https://epos.pringapus.com/api/v1/Product_category/deleteProduct/${id}`, // ID di URL
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      console.log("Response dari server:", response);
+
+      if (response.data.status) {
+        console.log('Produk berhasil dihapus');
+        this.router.navigate(['tab/home'], { state: { deletedItemId: id } });
+      } else {
+        console.error('Gagal menghapus produk:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error saat menghapus produk:', error);
+    }
+  }
+
 
   openAddItemModal() {
     if (this.addItemModal) {

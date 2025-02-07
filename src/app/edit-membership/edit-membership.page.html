@@ -10,6 +10,7 @@
 
 <ion-content>
 
+
   <ion-grid class="slider-menu">
 
     <div class="arrow-left">
@@ -143,7 +144,7 @@
           </ion-card-header>
           <ion-card-content>
 
-            <ion-button style="--background: #febb4b; color: white; font-size: small;" *ngIf=" membership == '2' || membership == '3'  " >
+            <ion-button (click)="openModal(getName('Gold'))" style="--background: #febb4b; color: white; font-size: small;" *ngIf=" membership == '2' || membership == '3'  " >
                 {{ ' Upgrade ke ' + getName('Gold')  }}
             </ion-button>
 
@@ -171,85 +172,90 @@
 
 
 
-<ion-modal #myModal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
-  <ng-template>
-    <ion-content>
+  <ion-modal #myModal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+    <ng-template>
 
-      <!-- Pembayaran -->
-      <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
-        <ion-grid>
+      <ion-content>
 
-          <ion-header>
-            <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
-              <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-            </ion-button>
-            <ion-title style="color: black;">Payment</ion-title>
-          </ion-header>
-
+        <!-- Pembayaran -->
+        <div class="pembayaran" *ngIf="selectedPackage && !isPaid">
           <ion-grid>
 
-            <!-- Pilihan Pembayaran -->
-            <div class="pay-form">
-              <ion-radio-group [(ngModel)]="paymentMethod" value="creditCard">
-                  <ion-label>Credit Card</ion-label>
-                  <ion-radio slot="end" value="creditCard"></ion-radio>
-              </ion-radio-group>
-            </div>
+            <ion-header>
+              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
+                <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-title style="color: black;">Payment</ion-title>
+            </ion-header>
 
-            <div class="card-pay" *ngIf="paymentMethod === 'creditCard'">
-              <ion-title>Lengkapi Data</ion-title>
-              <ion-grid>
-                <div style="border-bottom: 1px solid #424242;">
-                  <ion-label>Card Type</ion-label>
-                  <ion-select [(ngModel)]="cardType" placeholder=" " slot="end">
-                    <ion-select-option value="visa">Visa</ion-select-option>
-                    <ion-select-option value="masterCard">MasterCard</ion-select-option>
-                    <ion-select-option value="discover">Discover</ion-select-option>
-                  </ion-select>
-                </div>
+            <ion-title class="text">*Selesaikan Pembayaran untuk Melanjutkan.</ion-title>
+
+            <ion-grid>
+
+              <!-- Pilihan Pembayaran -->
+              <div class="pay-form">
+                <ion-radio-group [(ngModel)]="paymentMethod" value="creditCard">
+                    <ion-label>Credit Card</ion-label>
+                    <ion-radio slot="end" value="creditCard"></ion-radio>
+                </ion-radio-group>
+              </div>
+
+              <div class="card-pay" *ngIf="paymentMethod === 'creditCard'">
+                <ion-title>Lengkapi Data</ion-title>
+                <ion-grid>
+                  <div style="border-bottom: 1px solid #424242;">
+                    <ion-label>Card Type</ion-label>
+                    <ion-select [(ngModel)]="cardType" placeholder=" " slot="end">
+                      <ion-select-option value="visa">Visa</ion-select-option>
+                      <ion-select-option value="masterCard">MasterCard</ion-select-option>
+                      <ion-select-option value="discover">Discover</ion-select-option>
+                    </ion-select>
+                  </div>
+                  <div>
+                    <ion-label>Card Number :</ion-label>
+                    <ion-input type="text" [(ngModel)]="cardNumber"></ion-input>
+                  </div>
+                </ion-grid>
+              </div>
+
+
+              <div class="pay-form">
+                <ion-radio-group [(ngModel)]="paymentMethod" value="paypal">
+                    <ion-label>PayPal</ion-label>
+                    <ion-radio slot="end" value="paypal"></ion-radio>
+                </ion-radio-group>
+              </div>
+
+              <div class="paypal-pay" *ngIf="paymentMethod === 'paypal'">
+                <ion-title>Lengkapi Data</ion-title>
                 <div>
-                  <ion-label>Card Number :</ion-label>
-                  <ion-input type="text" [(ngModel)]="cardNumber"></ion-input>
+                  <ion-label>PayPal Payment ID :</ion-label>
+                  <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
                 </div>
-              </ion-grid>
-            </div>
-
-
-            <div class="pay-form">
-              <ion-radio-group [(ngModel)]="paymentMethod" value="paypal">
-                  <ion-label>PayPal</ion-label>
-                  <ion-radio slot="end" value="paypal"></ion-radio>
-              </ion-radio-group>
-            </div>
-
-            <div class="paypal-pay" *ngIf="paymentMethod === 'paypal'">
-              <ion-title>Lengkapi Data</ion-title>
-              <div>
-                <ion-label>PayPal Payment ID :</ion-label>
-                <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
               </div>
-            </div>
 
 
 
-            <div class="pay-form">
-              <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
-                  <ion-label>Dana</ion-label>
-                  <ion-radio slot="end" value="dana"></ion-radio>
-              </ion-radio-group>
-            </div>
-
-            <div class="dana-pay" *ngIf="paymentMethod === 'dana'">
-              <ion-title>Lengkapi Data</ion-title>
-              <div>
-                <ion-label>Dana Payment ID :</ion-label>
-                <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
+              <div class="pay-form">
+                <ion-radio-group [(ngModel)]="paymentMethod" value="dana">
+                    <ion-label>Dana</ion-label>
+                    <ion-radio slot="end" value="dana"></ion-radio>
+                </ion-radio-group>
               </div>
-            </div>
 
+              <div class="dana-pay" *ngIf="paymentMethod === 'dana'">
+                <ion-title>Lengkapi Data</ion-title>
+                <div>
+                  <ion-label>Dana Payment ID :</ion-label>
+                  <ion-input type="text" [(ngModel)]="paymentId" placeholder=""></ion-input>
+                </div>
+              </div>
+
+            </ion-grid>
           </ion-grid>
-        </ion-grid>
-      </div>
+        </div>
+      </ion-content>
+
       <ion-footer *ngIf="selectedPackage && !isPaid">
         <ion-toolbar>
 
@@ -260,10 +266,29 @@
           </div>
 
           <div class="btn">
-            <ion-button expand="block" (click)="payForPackage()"><ion-title>Pay Now</ion-title></ion-button>
+            <ion-button expand="block"  (click)="payForPackage()"><ion-title>Pay Now</ion-title></ion-button>
           </div>
 
         </ion-toolbar>
       </ion-footer>
+
+    </ng-template>
+  </ion-modal>
+
+
+  <div style="position: absolute; bottom: 0; right: 0; left: 0;">
+
+
+    <ion-grid class="bottom-circle-container">
+      <ion-grid class="bottom-circle">
+        <ion-grid class="bottom-circle-inside"></ion-grid>
+      </ion-grid>
+    </ion-grid>
+
+
+    <div class="footer"></div>
+
+</div>
+  
 
 </ion-content>

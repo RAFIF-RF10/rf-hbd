@@ -30,8 +30,17 @@ ion-content {
       border-radius: 16px;
       padding: 16px;
       box-shadow: 0 7px 10px rgba(0, 0, 0, 0.2); 
+      --wheel-fade-background-rgb: 255,255,255;
     }
     
+    ion-datetime::part(wheel-item) {
+      color: #febb4b;
+    }
+    
+    ion-datetime::part(wheel-item active) {
+      color: #CF8F24;
+    }
+
     ion-datetime::part(calendar-day) {
       color: #424242;
     }

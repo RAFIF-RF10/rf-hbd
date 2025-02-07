@@ -79,14 +79,32 @@
             alt=" {{ item.name }} "
             (click)="openDetailPage(item)"
           />
-          <ion-button
-            class="btn-cart"
-            fill="solid"
-            shape="round"
-            (click)="openModal(item)"
-          >
-            <ion-icon slot="icon-only" name="bag-add-outline"></ion-icon>
-          </ion-button>
+
+          
+
+
+            <ion-button
+              class="btn-delete"
+              fill="solid"
+              shape="round"
+              (click)="deleteProduct(item.id)"
+            >
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+  
+            <ion-button
+              class="btn-cart"
+              fill="solid"
+              shape="round"
+              (click)="openModal(item)"
+            >
+              <ion-icon slot="icon-only" name="bag-add-outline"></ion-icon>
+            </ion-button>
+
+            
+          
+
+
         </div>
 
         <div class="details">
