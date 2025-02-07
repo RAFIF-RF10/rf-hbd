@@ -97,9 +97,10 @@ export class StorageService {
 
   getMembershipLevel() {
     const userData = this.getUserData()?.userData;
-    console.log("Mengambil Outlet Code:", userData?.member_level);
-    return localStorage.getItem('member_level') || '';
+    console.log("Mengambil Membership Level:", userData?.member_level);
+    return userData?.member_level || ''; // Mengambil langsung dari objek userData
   }
+
 
   getPhoneNumber() {
     const userData = this.getUserData()?.userData;
@@ -112,4 +113,8 @@ export class StorageService {
     console.log("Mengambil Outlet Code:", userData?.username);
     return localStorage.getItem('username') || '';
   }
+
+ 
+
+
 }
