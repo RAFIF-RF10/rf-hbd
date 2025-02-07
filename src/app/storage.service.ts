@@ -30,10 +30,10 @@
 //     return data ? data.outlet_code : null;
 //   }
 
-//   getMembershipLevel() {
-//     const data = this.getUserData();
-//     return data ? data.member_level : null;
-//   }
+  // getMembershipLevel() {
+  //   const data = this.getUserData();
+  //   return data ? data.member_level : null;
+  // }
 
 //   getPhoneNumber() {
 //     const data = this.getUserData();
@@ -97,14 +97,25 @@ export class StorageService {
 
   getMembershipLevel() {
     const userData = this.getUserData()?.userData;
-    console.log("Mengambil Outlet Code:", userData?.member_level);
-    return localStorage.getItem('member_level') || '';
+    console.log("Mengambil Membership Level:", userData?.member_level);
+    return userData?.member_level || '';
   }
+  // getMembershipLevel() {
+  //   const userData = this.getUserData()?.userData;
+  //   console.log("Mengambil Outlet Code:", userData?.member_level);
+  //   return localStorage.getItem('member_level') || '';
+  // }
 
+
+  // getPhoneNumber() {
+  //   const userData = this.getUserData()?.userData;
+  //   console.log("Mengambil Outlet Code:", userData?.phone);
+  //   return localStorage.getItem('phone') || '';
+  // }
   getPhoneNumber() {
     const userData = this.getUserData()?.userData;
-    console.log("Mengambil Outlet Code:", userData?.phone);
-    return localStorage.getItem('phone') || '';
+    console.log("Mengambil Nomor HP:", userData?.phone);
+    return userData?.phone || ''; // Ambil langsung dari userData
   }
 
   getUserName() {

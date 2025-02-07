@@ -1,3 +1,4 @@
+
 <ion-header>
   <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/profile'])">
     <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
@@ -51,12 +52,12 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-           
-            <ion-button style="--background: #ff4d4d ; color: white;  font-size: small " *ngIf=" membership == '3' " > 
+
+            <ion-button style="--background: #ff4d4d ; color: white;  font-size: small " *ngIf=" membership == '3' " >
               {{ 'Member saat ini.' }}
             </ion-button>
-            
-            <ion-button style="--background: #727272; color: white; opacity: 50%; font-size: small;" *ngIf=" membership == '2' || membership == '1' " > 
+
+            <ion-button style="--background: #727272; color: white; opacity: 50%; font-size: small;" *ngIf=" membership == '2' || membership == '1' " >
               {{ ' Member dibawah anda. '  }}
             </ion-button>
 
@@ -96,15 +97,15 @@
           </ion-card-header>
           <ion-card-content>
 
-            <ion-button (click)="openModal(getName('Silver'))"  style="--background: #21c3e3; color: white; font-size: small;" *ngIf=" membership == '3'  " >
+            <ion-button (click)="openModal(getName('Silver'))"  style="--background: #21c3e3; color: white; font-size: small;" *ngIf=" membership == '3' " >
               {{ ' Upgrade ke ' + getName('Silver')  }}
             </ion-button>
 
-            <ion-button style="--background: #ff4d4d; color: white; font-size: small ;" *ngIf=" membership == '2' " > 
+            <ion-button style="--background: #ff4d4d; color: white; font-size: small ;" *ngIf=" membership == '2' " >
                 {{ 'Member saat ini.' }}
             </ion-button>
 
-            <ion-button style="--background: #727272; color: white; opacity: 50%; font-size: small;" *ngIf=" membership == '1' " > 
+            <ion-button style="--background: #727272; color: white; opacity: 50%; font-size: small;" *ngIf=" membership == '1' " >
               {{ ' Member dibawah anda. '  }}
             </ion-button>
 
@@ -141,15 +142,15 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-           
+
             <ion-button style="--background: #febb4b; color: white; font-size: small;" *ngIf=" membership == '2' || membership == '3'  " >
                 {{ ' Upgrade ke ' + getName('Gold')  }}
             </ion-button>
 
-            <ion-button style="--background: #ff4d4d; color: white; font-size: small ;" *ngIf=" membership == '1' " > 
+            <ion-button style="--background: #ff4d4d; color: white; font-size: small ;" *ngIf=" membership == '1' " >
                 {{ 'Member anda tertinggi. ' }}
             </ion-button>
-            
+
 
           </ion-card-content>
         </ion-card>
