@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from './storage.service';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -15,7 +16,7 @@ import { StorageService } from './storage.service';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

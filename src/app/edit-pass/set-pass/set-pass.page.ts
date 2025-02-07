@@ -22,7 +22,8 @@ export class SetPassPage implements OnInit {
   ngOnInit() {
     this.userData = this.storageService.getUserData();
     this.username = this.storageService.getUserName() || '';
-    this.id       = this.storageService.getId() || '';
+    this.id = this.storageService.getUserData()?.userData?.id || '';
+
 
 
   }

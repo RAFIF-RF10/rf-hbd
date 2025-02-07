@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
-import { Router } from '@angular/router'; // Import Router
+import { Device } from '@capacitor/device';
+import { Router } from '@angular/router';
 import { StorageService } from '../storage.service';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -11,85 +13,125 @@ import { StorageService } from '../storage.service';
   standalone: false,
 })
 export class LoginPage {
-  outlet_code: string = '';
-  username: string = '';
-  password: string = '';
-  showPassword: boolean = false;
-  showRegisterForm: boolean = false;
-  fullName: string = '';
-  email: string = '';
-  registerPassword: string = '';
+  outlet_code: string           = '';
+  username: string              = '';
+  password: string              = '';
+  fullName: string              = '';
+  email: string                 = '';
+  registerPassword: string      = '';
+  deviceToken: string           = '';
   showRegisterPassword: boolean = false;
+  showPassword: boolean         = false;
+  showRegisterForm: boolean     = false;
 
-  constructor(private router: Router ,private storageService: StorageService) {} // Tambahkan Router di sini
-
-
-  Login() { 
-    if (!this.outlet_code || !this.username || !this.password) { 
-      alert('Form harus diisi dengan lengkap'); 
-      return; 
-    } 
- 
-    const data = { 
-      outlet_code: this.outlet_code, 
-      username: this.username, 
-      password: this.password, 
-    }; 
- 
-    CapacitorHttp.post({ 
-      url: 'https://epos.pringapus.com/api/v1/Authentication/getUserLogin', 
-      data: data, 
-      headers: { 
-        'Content-Type': 'application/json', 
-      }, 
-    }) 
-      .then((response: any) => { 
-        console.log('Response:', response); // Log response untuk debugging 
- 
-        try { 
-          if (response.status === 200) { 
-            const userData = response.data.data; 
-            const userLevel = parseInt(userData?.users_level, 10); 
-            console.log(userData); 
- 
-            if (userLevel !== undefined) { 
-              switch (userLevel) { 
-                case 1: 
-                  // alert('Login sukses sebagai admin'); 
-                  break; 
-                case 2: 
-                  // alert('Login sukses sebagai penjual'); 
-                  break; 
-                case 3: 
-                  // alert('Login sukses sebagai pembeli'); 
-                  break; 
-                default: 
-                  // alert('Login sukses sebagai user lain'); 
-                  break; 
-              } 
- 
-              localStorage.setItem('user_data', JSON.stringify(userData)); 
- 
-              // Arahkan ke halaman home 
-              this.router.navigate(['/tab/home']); // Tambahkan ini 
-            } else { 
-              alert('Data tidak lengkap atau level tidak valid'); 
-            } 
-          } else { 
-            alert('Gagal login: ' + (response.data?.message || 'Unknown error')); 
-          } 
-        } catch (error: any) { 
-          console.error('Error processing response:', error); 
-          alert('Error parsing response: ' + error.message); 
-        } 
-      }) 
-      .catch((error: any) => { 
-        console.error('HTTP request error:', error); 
-        alert('Kesalahan dalam melakukan permintaan: ' + error.message); 
-      }); 
+  constructor(private router: Router ,private storageService: StorageService, private alertController: AlertController,) {
+    this.getDeviceToken();
   }
 
+
+  async getDeviceToken() {
+    const info = await Device.getId();
+    this.deviceToken = info.identifier;
+  }
+
+  async Login() {
+    if (!this.outlet_code || !this.username || !this.password) {
+      alert('Form harus diisi dengan lengkap');
+      return;
+    }
   
+    const data = {
+      outlet_code: this.outlet_code,
+      username: this.username,
+      password: this.password,
+      device_token: this.deviceToken,
+    };
+  
+    try {
+      const response: any = await CapacitorHttp.post({
+        url: 'https://epos.pringapus.com/api/v1/Authentication/getUserLogin',
+        data: data,
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      console.log(response);
+  
+      if (response.status === 200) {
+        const userData = response.data.data;
+  
+        if (response.data.forceLogout) {
+          const alert = await this.alertController.create({
+            header: 'Peringatan',
+            message: 'Akun ini sedang digunakan di perangkat lain. Apakah Anda ingin melogout perangkat sebelumnya?',
+            buttons: [
+              {
+                text: 'Tidak',
+                role: 'cancel',
+                handler: () => {
+                  console.log('User membatalkan login');
+                },
+              },
+              {
+                text: 'Ya, Logout Perangkat Lama',
+                handler: async () => {
+                  await this.forceLogout(userData.deviceToken);
+                  this.Login();
+                },
+              },
+            ],
+          });
+  
+          await alert.present();
+          return;
+        }
+  
+        localStorage.setItem('user_data', JSON.stringify(userData));
+        localStorage.setItem('access_token', userData.accessToken);
+        localStorage.setItem('device_token', userData.deviceToken);
+  
+        this.router.navigate(['/tab/home']);
+      } else {
+        alert('Gagal login: ' + (response.data?.message || 'Unknown error'));
+      }
+    } catch (error: any) {
+      console.error('HTTP request error:', error);
+      alert('Kesalahan dalam melakukan permintaan: ' + error.message);
+    }
+  }  
+  
+  async forceLogout(deviceToken: string) {
+    try {
+      await CapacitorHttp.post({
+        url: 'https://epos.pringapus.com/api/v1/Authentication/forceLogout',
+        data: { device_token: deviceToken },
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      localStorage.clear();
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Gagal logout perangkat lama:', error);
+    }
+  }
+  
+  ionViewWillEnter() {
+    setInterval(async () => {
+      const currentDeviceToken = localStorage.getItem('device_token');
+      const response = await CapacitorHttp.post({
+        url: 'https://epos.pringapus.com/api/v1/Authentication/checkDeviceToken',
+        data: { device_token: currentDeviceToken },
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      if (!response.data.valid) {
+        alert('Silahkan login kembali.');
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
+    }, 5000);
+  }
+    
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }

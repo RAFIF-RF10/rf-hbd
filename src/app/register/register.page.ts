@@ -20,7 +20,6 @@ export class RegisterPage  {
   cardType: string = ''; // Pilihan tipe kartu kredit
   cardNumber: string = ''; // Nomor kartu kredit
   paymentId: string = ''; // ID untuk PayPal atau Dana
-  // otp: string = '';
 
   otp: string[] = ['', '', '', '', '', ''];
 
@@ -42,7 +41,7 @@ export class RegisterPage  {
   const selected = this.packages.find(pkg => pkg.name === pkgName); // Cari paket berdasarkan nama
   if (selected) {
     this.selectedPackage = selected;
-    
+
     this.isPaid = false; // Reset status pembayaran
     console.log('Selected Package:', this.selectedPackage);
   } else {

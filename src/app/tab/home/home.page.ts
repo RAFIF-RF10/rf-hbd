@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
   items: any[] = [];
   filteredItems: any[] = [];
   categories: any[] = [];
+  categoriesList: any[] = [];
 
   itemData: {
     id_category : string;
@@ -45,20 +46,44 @@ export class HomePage implements OnInit {
   id_outlet: string = '';
   outlet_name: string = '';
 
-  constructor(public router: Router, private cartService: CartService, private storageService: StorageService) {}
+  constructor(public router: Router, private cartService: CartService, private storageService: StorageService) { this.router.events.subscribe(() => {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation && navigation.extras.state && navigation.extras.state['deletedItemId']) {
+      this.removeDeletedItem(navigation.extras.state['deletedItemId']);
+    }
+  });}
 
   ngOnInit() {
-    // Ambil data produk dan kategori saat halaman dimuat
     this.getCategories();
+    this.getListCategories();
     this.getItems();
 
-    // Update jumlah item unik di keranjang
+
     this.cartService.cartItems$.subscribe((items) => {
       this.cartCount = items.length;
     });
 
-    this.id_outlet = this.storageService.getOutletId();
-    this.outlet_name = this.storageService.getOutletName();
+    this.id_outlet    = this.storageService.getOutletId();
+    this.outlet_name  = this.storageService.getOutletCode();
+  }
+
+  async getListCategories() {
+    try {
+      const response = await CapacitorHttp.get({
+        url: 'https://epos.pringapus.com/api/v1/Product_category/getProductCategoryList',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (Array.isArray(response.data.data)) {
+        this.categoriesList = response.data.data;
+      } else {
+        console.error('Data kategori tidak dalam format array:', response.data.data);
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan saat mengambil kategori:', error);
+    }
   }
 
   async getCategories() {
@@ -116,6 +141,10 @@ export class HomePage implements OnInit {
       console.error('Modal belum diinisialisasi');
     }
   }
+removeDeletedItem(id: string) {
+  this.items = this.items.filter(item => item.id !== id);
+  this.filteredItems = [...this.items]; // Update tampilan langsung
+}
 
   addToCart() {
     if (this.selectedItem) {
@@ -165,7 +194,7 @@ export class HomePage implements OnInit {
         (this.selectedFilter === 'All' || item.category_id === this.selectedFilter)
     );
   }
-  
+
   /////////////jangan dihapuscommentnya
   //  source: CameraSource.Prompt
   //  source: CameraSource.Photos
@@ -174,7 +203,7 @@ export class HomePage implements OnInit {
     try {
         const image = await Camera.getPhoto({
             quality: 90,
-            allowEditing: true,
+            allowEditing: false,
             resultType: CameraResultType.Uri,
             source: CameraSource.Prompt
         });
@@ -186,48 +215,46 @@ export class HomePage implements OnInit {
         console.error('Error memilih gambar:', error);
     }
   }
+// const resizedBlob = await this.resizeImage(blob, 500, 500);
+async uploadImage(image: any) {
+  try {
+      const response = await fetch(image.webPath!);
+      const blob = await response.blob();
+      const resizedBlob = await this.resizeImage(blob, 500, 500);
+      const fileType = resizedBlob.type || 'image/jpeg';
 
-  async uploadImage(image: any) {
-    try {
-        const response = await fetch(image.webPath!);
-        const blob = await response.blob();
+      if (fileType !== 'image/jpeg' && fileType !== 'image/jpg' && fileType !== 'image/png') {
+          console.error('Format gambar tidak didukung. Harap unggah file JPG atau PNG.');
+          return;
+      }
 
-        const resizedBlob = await this.resizeImage(blob, 500, 500);
-        const fileType = resizedBlob.type;
-        if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-            console.error('Format gambar tidak didukung. Harap unggah file JPG atau PNG.');
-            return;
-        }
+      // const fileName = `Img_${Date.now()}.${fileType.split('/')[1]}`;
+      const fileName = `Img_${Date.now()}.jpg`;
+      const formData = new FormData();
+      formData.append('file', blob, fileName);
+      formData.append('id_outlet', this.id_outlet);
+      formData.append('outlet_name', this.outlet_name);
 
-        const fileName = `Img_${Date.now()}.${fileType.split('/')[1]}`;
+      const uploadResponse = await fetch('https://epos.pringapus.com/api/v1/Product_category/uploadImage', {
+          method: 'POST',
+          body: formData
+      });
 
-        const formData = new FormData();
-        formData.append('file', blob, fileName);
-        formData.append('id_outlet', this.id_outlet);
-        formData.append('outlet_name', this.outlet_name);
+      const result = await uploadResponse.json();
+      console.log('Response dari upload:', result);
 
-        const options = {
-            url: 'https://epos.pringapus.com/api/v1/Product_category/uploadImage',
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            data: formData
-        };
+      if (result.status) {
+          console.log('Gambar berhasil diunggah:', result.file_url);
+          this.itemData.photo       = result.file_url;
+      } else {
+          console.error('Gagal mengunggah gambar:', result.message);
+      }
 
-        const uploadResponse = await CapacitorHttp.post(options);
-        const result = uploadResponse.data;
-
-        if (result.status) {
-            console.log('Gambar berhasil diunggah:', result.file_url);
-            this.itemData.photo = result.file_url;
-        } else {
-            console.error('Gagal mengunggah gambar:', result.message);
-        }
-    } catch (error) {
-        console.error('Error saat mengunggah gambar:', error);
-    }
+  } catch (error) {
+      console.error('Error saat mengunggah gambar:', error);
   }
+}
+
 
   async resizeImage(blob: Blob, width: number, height: number): Promise<Blob> {
     return new Promise((resolve, reject) => {
@@ -263,6 +290,7 @@ export class HomePage implements OnInit {
         img_url     : this.itemData.photo
     };
 
+    console.log('data request ser'+formData);
     try {
         const response = await CapacitorHttp.post({
             url: 'https://epos.pringapus.com/api/v1/product_category/addProduct',
@@ -273,7 +301,16 @@ export class HomePage implements OnInit {
         const result = response.data;
         console.log('Response dari API:', response.data);
         if (result.status) {
-            console.log('Produk berhasil ditambahkan');
+          console.log('Produk berhasil ditambahkan');
+          this.getListCategories();
+          this.getCategories();
+          this.getItems();
+          this.itemData.id_category = '';
+          this.itemData.name        = '';
+          this.itemData.description = '';
+          this.itemData.price       = '';
+          this.itemData.photo       = '';
+          this.addItemModal.dismiss();
         } else {
             console.error('Gagal menambahkan produk:', result.message);
         }
@@ -282,15 +319,10 @@ export class HomePage implements OnInit {
     }
   }
 
+
   openAddItemModal() {
     if (this.addItemModal) {
       this.addItemModal.present();
     }
   }
-
-
-  setDefaultImage(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/image-not-found.png';
-  }
-
 }
