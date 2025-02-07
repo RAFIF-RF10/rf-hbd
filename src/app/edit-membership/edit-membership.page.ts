@@ -34,6 +34,8 @@ export class EditMembershipPage implements OnInit {
       this.loadPackages();
       this.loadOutlets();
     }
+
+
 openModal(pkg: any) {
   this.selectedPackage = pkg;
   this.isModalOpen = true;
@@ -58,6 +60,7 @@ openModal(pkg: any) {
         alert('Error fetching packages');
       });
   }
+  
   selectPackage(pkgName: string) {
     const selected = this.packages.find((pkg) => pkg.name === pkgName);
     if (selected) {
@@ -174,6 +177,13 @@ openModal(pkg: any) {
       this.updateSliderPosition();
     }
   }
+
+  
+  getName(pkgName: string): string {
+    const pkg = this.packages.find(p => p.name === pkgName);
+    return pkg ? pkg.name : undefined ;
+  }
+
   getPrice(pkgName: string): number {
     const pkg = this.packages.find(p => p.name === pkgName);
     return pkg ? pkg.price : 0;

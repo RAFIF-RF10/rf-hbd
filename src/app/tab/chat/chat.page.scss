@@ -2,13 +2,20 @@ ion-content {
   --background : #febb4b;
   .container-find {
     padding: 2rem .8rem ;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 999;
     ion-searchbar.custom {
       --background: rgb(255, 255, 255);
       --color: #424242;
       --placeholder-color: #424242;
       --icon-color: #424242;
       --clear-button-color: #424242;  
-      --border-radius: 25px;
+      --border-radius: 15px;
       --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
     .btn-reload{
@@ -55,21 +62,21 @@ ion-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem;
+      padding: 1rem 1rem 5rem 1rem;
       .main {
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         margin : 8px;
-        padding: 1rem;
+        padding: 1rem ;
         background :white;
         color: #424242;
         border-radius: 15px;
         box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
         .profile {
-          width: 3.5rem;
-          height: 3.5rem;
+          width: 3rem;
+          height: 3rem;
           border-radius: 50%;
           display: flex;
           justify-content: center;
@@ -106,6 +113,27 @@ ion-content {
           }
         }
       }
+
+      .tampilkan-btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 7rem;
+        .label {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          ion-title {
+            color: #CF8F24;
+            font-size: small;
+          }
+          ion-icon {
+            color: #CF8F24;
+            font-size: large;
+          }
+        }
+      }
+
       .no-found {
         background: white;
         display: flex;
@@ -272,7 +300,7 @@ ion-content {
           --placeholder-color: #424242;
           --icon-color: #424242;
           --clear-button-color: #424242;  
-          --border-radius: 25px;
+          --border-radius: 15px;
           --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         }
         .pilih-semua {
@@ -291,7 +319,7 @@ ion-content {
           
           ion-checkbox::part(container) {
             // --color : white;
-            border-radius: 3px;
+            border-radius: 6px;
             border: 2px solid #febb4b;
           }
           ion-title {
@@ -308,7 +336,7 @@ ion-content {
           .checkbox {
             padding: 1rem;
             ion-checkbox {
-              --size: 23px;
+              --size: 20px;
               --checkbox-background : white;
               --checkbox-background-checked: #febb4b;
               color: white;
@@ -325,7 +353,7 @@ ion-content {
           .contact {
             color: #424242;
             ion-title {
-              font-size: x-large;
+              font-size: medium;
             }
             ion-title:nth-child(2) {
               font-size: small;
@@ -333,6 +361,25 @@ ion-content {
             }
           }
         }
+        .tampilkan-btn {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          .label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            ion-title {
+              color: #CF8F24;
+              font-size: small;
+            }
+            ion-icon {
+              color: #CF8F24;
+              font-size: large;
+            }
+          }
+        }
+
       }
 
       .accordion {

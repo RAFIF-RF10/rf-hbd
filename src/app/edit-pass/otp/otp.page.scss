@@ -1,43 +1,86 @@
-.otp-container {
-    text-align: center;
-  }
-  
-  .otp-title {
-    font-size: 22px;
+ion-header{
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background : white;
+  ion-title {
     font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .otp-subtitle {
-    color: gray;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
-  .otp-inputs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .otp-inputs input {
-    width: 45px;
-    height: 50px;
-    font-size: 22px;
+    font-size: larger;
     text-align: center;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    outline: none;
-    transition: 0.3s;
   }
-  
-  .otp-inputs input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  ion-button {
+    position: absolute;
+    left: 1rem;
   }
+}
+
+ion-content {
+  --background : white;
+
+  ion-grid {
+    background : white;
+    color: #424242;
+    margin : 2rem;
+    .otp-container {
+      text-align: center;
+        ion-title {
+          color: #424242;
+          text-align: center;
+        }
+        .otp-title {
+          font-size: medium;
+          color: #424242;
+          // font-weight: bold;
+          margin: 1rem 0 2rem 0;
+        }
+        .otp-inputs {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin: 1rem;
+        }
+        
+        .otp-inputs input {
+          width: 45px;
+          height: 50px;
+          font-size: 22px;
+          text-align: center;
+          background: transparent;
+          border: 2px solid #ccc;
+          border-radius: 10px;
+          outline: none;
+          transition: 0.3s;
+        }
+        
+        .otp-inputs input:focus {
+          border-color: #FEBB4B;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    
+        .btn {
+          ion-button {
+            margin: 3rem 0 0 0;
+            --background : #CF8F24;
+            ion-title {
+              color: white;
+              font-size: medium;
+            }
+          }
+        }
   
-  .resend-text {
-    margin-top: 10px;
-    font-size: 14px;
-  }  
+        .resend-text {
+          margin-top: 10px;
+          font-size: 14px;
+          ion-button {
+            ion-title {
+              --color : #858585;
+              font-size: medium;
+            }
+          }
+        }  
+        
+      }
+    }
+}

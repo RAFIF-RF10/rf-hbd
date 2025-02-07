@@ -19,7 +19,7 @@ export class OtpPage implements OnInit {
   resendDisabled: boolean = true;
   countdown: number = 60;
 
-  constructor(private router: Router, private toastController: ToastController, private storageService: StorageService) { }
+  constructor(public router: Router, private toastController: ToastController, private storageService: StorageService) { }
 
   ngOnInit() {
     this.telepon = this.storageService.getPhoneNumber() || '';

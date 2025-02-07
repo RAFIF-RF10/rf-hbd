@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
     name        : string;
     description : string;
     price       : string;
-    photo       : string;
+    photo       : string | undefined;
   } = {
     id_category : '',
     name        : '',
@@ -176,7 +176,7 @@ export class HomePage implements OnInit {
             quality: 90,
             allowEditing: true,
             resultType: CameraResultType.Uri,
-            source: CameraSource.Prompt
+            source: CameraSource.Photos
         });
 
         if (image.webPath) {
@@ -274,6 +274,7 @@ export class HomePage implements OnInit {
         console.log('Response dari API:', response.data);
         if (result.status) {
             console.log('Produk berhasil ditambahkan');
+            this.addItemModal.dismiss();
         } else {
             console.error('Gagal menambahkan produk:', result.message);
         }
@@ -288,9 +289,16 @@ export class HomePage implements OnInit {
     }
   }
 
+  closeAddItemModal() {
+    this.addItemModal.dismiss();
+  }
 
   setDefaultImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/image-not-found.png';
+  }
+
+  closePhoto() {
+    this.itemData.photo = undefined;
   }
 
 }

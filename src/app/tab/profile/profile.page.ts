@@ -108,6 +108,10 @@ export class ProfilePage implements OnInit {
     });
 }
 
+  profileEdit : boolean = false;
 
+  openProfileEdit() {
+    this.profileEdit = !this.profileEdit
+  }
 
 }

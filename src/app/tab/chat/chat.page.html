@@ -7,7 +7,7 @@
   <div class="container-find">
     <ion-row>
 
-      <ion-col size="10">
+      <ion-col size="12">
         <ion-searchbar
           showCancelButton="focus"
           class="custom"
@@ -16,14 +16,13 @@
         ></ion-searchbar>
       </ion-col>
 
-      <ion-col size="2">
+      <!-- <ion-col size="2">
         <div class="btn-reload">
-          <!-- <ion-button (click)="loadMoreData()"></ion-button> -->
           <ion-button (click)="loadMoreData()">
             <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
           </ion-button>
         </div>
-      </ion-col>
+      </ion-col> -->
 
     </ion-row>
 
@@ -33,7 +32,7 @@
 
   </div>
 
-  <div style="padding: 0; margin: 0; background: white; height: 100%; border-radius: 20px 20px 0 0;">
+  <div style="padding: 0; margin-top: 12rem; width: 100%; position: fixed; overflow-y: scroll; background: white; height: 100%; border-radius: 20px 20px 0 0;">
 
     <div class="container-main">
 
@@ -55,9 +54,16 @@
           </ion-grid>
         </div>
 
-
-
-    </ion-list>
+        <div class="tampilkan-btn" *ngIf="filteredCampaigns?.length != 0 ">
+          <ion-button fill="clear" (click)="loadMoreData()">
+            <div class="label">
+              <ion-icon name="chevron-down-outline"></ion-icon>
+              <ion-title>Tampilkan Lebih Banyak</ion-title>
+            </div>
+          </ion-button>
+        </div>
+        
+      </ion-list>
     <ion-modal class="chat-modal" [isOpen]="chatModal">
       <ng-template>
 
@@ -147,14 +153,21 @@
               </ion-item>
 
               <!-- Tombol "Tampilkan Semua" dan "Sembunyikan" -->
-              <div *ngIf="customerFiltered.length > 3">
-                <ion-button *ngIf="!showAllContacts" (click)="toggleShowContacts(true)">
-                  Tampilkan Semua
+              <div class="tampilkan-btn" *ngIf="customerFiltered.length > 3">
+                <ion-button fill="clear" *ngIf="!showAllContacts" (click)="toggleShowContacts(true)">
+                  <div class="label">
+                    <ion-icon name="chevron-down-outline"></ion-icon>
+                    <ion-title>Tampilkan Semua</ion-title>
+                  </div>
                 </ion-button>
-                <ion-button *ngIf="showAllContacts" (click)="toggleShowContacts(false)">
-                  Sembunyikan
+                <ion-button fill="clear" *ngIf="showAllContacts" (click)="toggleShowContacts(false)">
+                  <div class="label">
+                    <ion-icon name="chevron-up-outline"></ion-icon>
+                    <ion-title>Sembunyikan</ion-title>
+                  </div>
                 </ion-button>
               </div>
+
             </ion-grid>
 
 
@@ -312,7 +325,8 @@
               <ion-grid class="value" (click)="bronzeprivilege()">
                 <ion-row>
                   <ion-title>Real Time</ion-title>
-                  <ion-icon name="chevron-down-outline"></ion-icon>
+                  <ion-icon name="chevron-down-outline" *ngIf="!bronzePrivilege"></ion-icon>
+                  <ion-icon name="chevron-up-outline" *ngIf="bronzePrivilege"></ion-icon>
                 </ion-row>
               </ion-grid>
               <ion-grid class="value-item" *ngIf="bronzePrivilege">

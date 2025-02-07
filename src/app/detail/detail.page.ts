@@ -56,4 +56,9 @@ export class DetailPage implements OnInit {
   calculateTotal(): number {
     return this.item ? this.item.price * this.qty : 0;
   }
+
+  setDefaultImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/image-not-found.png';
+  }
+
 }

@@ -1,15 +1,14 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar class="custom-toolbar">
-    <ion-buttons slot="start">
-      <ion-button fill="clear" class="back-button" routerLink="/edit-pass">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<ion-header>
+  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['/edit-pass'])">
+    <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+  </ion-button>
+  <ion-title style="color: black;">Edit Profile</ion-title>
 </ion-header>
 
+
 <ion-content>
-  <ion-list>
+
+  <!-- <ion-list>
     <ion-item>
       <ion-label position="stacked">New Username</ion-label>
       <ion-input [(ngModel)]="username" placeholder="Enter New Username" clearInput></ion-input>
@@ -29,5 +28,46 @@
     <div class="ion-padding">
       <ion-button expand="full" (click)="saveChanges()">Save Changes</ion-button>
     </div>
-  </ion-list>
+  </ion-list> -->
+
+
+  <ion-grid class="login-container">
+
+    <ion-grid class="input-container">
+      <ion-input [(ngModel)]="username" type="text" label="Enter New Username" label-placement="floating"  required></ion-input>
+    </ion-grid>
+    
+    <ion-grid  class="input-container">
+      <ion-input [(ngModel)]="password" label="New Password" label-placement="floating" [type]="showPassword ? 'text' : 'password'" required></ion-input>
+      <span>
+        <ion-icon
+        slot="end"
+        [name]="showPassword ? 'eye' : 'eye-off'"
+        (click)="togglePasswordVisibility('password')"
+        style="cursor: pointer;">
+      </ion-icon>
+      </span>
+    </ion-grid>
+
+    <ion-grid  class="input-container">
+      <ion-input [(ngModel)]="confirmPassword" label="Confirm Password" label-placement="floating" [type]="showConfirmPassword ? 'text' : 'password'" required></ion-input>
+      <span>
+        <ion-icon
+        slot="end"
+        [name]="showConfirmPassword ? 'eye' : 'eye-off'"
+        (click)="togglePasswordVisibility('confirmPassword')"
+        style="cursor: pointer;">
+      </ion-icon>
+      </span>
+    </ion-grid>
+
+    <ion-grid class="btn">
+      <ion-button expand="block" shape="round" (click)="saveChanges()">
+        <ion-title>Simpan Perubahan</ion-title>
+      </ion-button>
+    </ion-grid>
+
+  </ion-grid>
+
+
 </ion-content>

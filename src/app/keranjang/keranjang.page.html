@@ -30,7 +30,7 @@
         </ion-checkbox>
         <ion-thumbnail slot="start">
           <!-- <img src="assets/menu.png" alt="{{ item.name }}" /> -->
-          <img [src]="item.image" (error)="setDefaultImage($event)" alt="{{ item.name }}" />
+          <img [src]="item.img_url" (error)="setDefaultImage($event)" alt="{{ item.name }}" />
         </ion-thumbnail>
         <ion-grid>
           <ion-title>{{ item.name }}</ion-title>

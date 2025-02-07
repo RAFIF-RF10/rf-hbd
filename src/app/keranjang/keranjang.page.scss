@@ -206,14 +206,14 @@ ion-footer {
     ion-toolbar {
         --background : white;
         --color : #424242;
-        padding: 1.5rem;
+        padding:1rem 1.5rem 1.5rem 1.5rem;
         ion-grid {
             ion-row {
                 ion-col {
                     padding:10px 2rem;
                     ion-title {
                         padding: 0;
-                        font-size: medium;
+                        font-size: small;
                     }
                     ion-label {
                         font-size: small;
@@ -224,8 +224,10 @@ ion-footer {
             ion-button {
                 --background : #cf8f24;
                 --border-radius: 10px;
+                margin-top: 10px;
                 ion-title {
                     --color : white;
+                    font-size: medium;
                 }
             }
         }

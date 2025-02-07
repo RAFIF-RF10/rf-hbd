@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
 import { StorageService } from 'src/app/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-set-pass',
@@ -17,7 +18,7 @@ export class SetPassPage implements OnInit {
   confirmPassword: string     = '';
   showPassword: boolean       = false;
   showConfirmPassword: boolean= false;
-  constructor(private storageService: StorageService) { }
+  constructor(private storageService: StorageService, public router: Router) { }
 
   ngOnInit() {
     this.userData = this.storageService.getUserData();
@@ -67,6 +68,7 @@ export class SetPassPage implements OnInit {
                 this.userData.username = this.username;
                 localStorage.setItem('user_data', JSON.stringify(this.userData));
                 console.log('Profile updated successfully');
+                this.router.navigate(['tab/profile'])
             } else {
                 console.error('Failed to update profile');
             }

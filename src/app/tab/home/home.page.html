@@ -49,6 +49,14 @@
 
 <ion-content [fullscreen]="true">
 
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button (click)="openAddItemModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
   <div class="no-found" *ngIf="filteredItems?.length === 0">
     <img src="assets/no-found.png" alt="anajy ">
     <ion-title>Data Tidak Ditemukan.</ion-title>
@@ -65,7 +73,7 @@
             (click)="openDetailPage(item)"
           /> -->
           <img
-            [src]="item.image"
+            [src]="item.img_url"
             (error)="setDefaultImage($event)"
             alt=" {{ item.name }} "
             (click)="openDetailPage(item)"
@@ -93,63 +101,81 @@
 
 
 
-  <ion-col size="2">
+  <!-- <ion-col size="2">
     <ion-button fill="solid" color="primary" (click)="openAddItemModal()">
       <ion-icon slot="icon-only" name="add-circle"></ion-icon>
       Tambah Item
     </ion-button>
-  </ion-col>
+  </ion-col> -->
 
-  <ion-modal #addItemModal [canDismiss]="true" backdropDismiss="true" >
+  <ion-modal class="add-modal" #addItemModal [canDismiss]="true" backdropDismiss="true" >
     <ng-template>
+
       <ion-header>
-        <ion-toolbar>
-          <ion-title>Tambah Menu</ion-title>
-        </ion-toolbar>
+        <ion-button slot="start" fill="clear" size="small" (click)="closeAddItemModal()" >
+          <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+          <ion-title style="color: black;"> Tambahkan Item </ion-title>
       </ion-header>
+
       <ion-content>
+
         <div class="modal-content">
-          <ion-item>
-            <ion-label position="floating">Nama Produk</ion-label>
-            <ion-input [(ngModel)]="itemData.name" type="text"></ion-input>
-          </ion-item>
+
+          <ion-grid class="form">
+            <ion-input [(ngModel)]="itemData.name" type="text" label="Nama Item" label-placement="floating" required></ion-input>
+          </ion-grid>
           
-          <ion-item>
-            <ion-label position="floating">Deskripsi</ion-label>
-            <ion-textarea [(ngModel)]="itemData.description"></ion-textarea>
-          </ion-item>
-          
-          <ion-item>
-            <ion-label position="floating">Kategori</ion-label>
-            <ion-select [(ngModel)]="itemData.id_category">
-              <ion-select-option *ngFor="let category of categories" [value]="category.id">
-                {{ category.name }}
+          <ion-grid class="form">
+            <ion-input [(ngModel)]="itemData.description" type="text" label="Deskripsi Item" label-placement="floating" required></ion-input>
+          </ion-grid>
+
+          <ion-grid class="form">
+            <ion-select label="Kategori Item" label-placement="floating" [(ngModel)]="itemData.id_category">
+              <ion-select-option [value]="categories[1].id">
+                {{ categories[1].name }}
+              </ion-select-option>
+              <ion-select-option [value]="categories[2].id">
+                {{ categories[2].name }}
               </ion-select-option>
             </ion-select>
-          </ion-item>
+          </ion-grid>
           
-          <ion-item>
-            <ion-label position="floating">Harga</ion-label>
-            <ion-input [(ngModel)]="itemData.price" type="number"></ion-input>
-          </ion-item>
+          <ion-grid class="form">
+            <ion-input [(ngModel)]="itemData.price" type="number" label="Harga Item" label-placement="floating" required></ion-input>
+          </ion-grid>
           
-          <ion-item>
-            <ion-label position="floating">Foto Produk</ion-label>
-            <ion-button (click)="choosePhoto()">Pilih Foto</ion-button>
-          </ion-item>
+          <ion-grid class="photo-btn">
+              <ion-button expand="block" (click)="choosePhoto()"><ion-icon name="camera-outline"></ion-icon>Pilih Foto</ion-button>
+          </ion-grid>
           
-          <ion-img *ngIf="itemData.photo" [src]="itemData.photo"></ion-img>
+          <ion-grid class="photo-container">
+            <div style="display: flex; justify-content: end; width: 100%;">
+              <ion-button size="small" color="danger" *ngIf="itemData.photo" (click)="closePhoto()"><ion-icon slot="icon-only" name="close-outline"></ion-icon></ion-button>
+            </div>
+            <ion-img *ngIf="itemData.photo" [src]="itemData.photo"></ion-img>
+          </ion-grid>
+
         </div>
   
-        <ion-button expand="block" (click)="addProduct()">Tambah Item</ion-button>
+        
       </ion-content>
+      
+      <ion-footer>
+        <ion-toolbar>
+          <ion-grid>
+              <ion-button expand="block" (click)="addProduct()">
+                <ion-title>Tambah Item</ion-title>
+              </ion-button>            
+          </ion-grid>
+        </ion-toolbar>
+      </ion-footer>
+      
+
+
     </ng-template>
   </ion-modal>
   
-
-
-
-
 
 
 
@@ -164,7 +190,7 @@
         <div class="modal-content">
           <div class="item">
             <!-- <img src="assets/menu.png" alt="{{ selectedItem?.name }}" /> -->
-            <img [src]="selectedItem?.image" (error)="setDefaultImage($event)" alt="{{ selectedItem?.name }}" />
+            <img [src]="selectedItem?.img_url" (error)="setDefaultImage($event)" alt="{{ selectedItem?.name }}" />
             <div class="desc">
               <b>{{ selectedItem?.name }}</b>
               <p>{{ selectedItem?.price | currency: 'IDR':'symbol' }}</p>
@@ -188,3 +214,5 @@
 
   
 </ion-content>
+
+

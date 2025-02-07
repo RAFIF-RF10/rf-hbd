@@ -1,65 +1,170 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="router.navigate(['tab/profile'])">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<ion-header>
+  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/profile'])">
+    <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+  </ion-button>
+  <ion-title style="color: black;" *ngIf="membership == '1'">Member anda (Gold) </ion-title>
+  <ion-title style="color: black;" *ngIf="membership == '2'">Member anda (Silver) </ion-title>
+  <ion-title style="color: black;" *ngIf="membership == '3'">Member anda (Bronze) </ion-title>
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <p>
-      <b>
-        <ion-label *ngIf="membership == '1'">Paket anda saat ini : Gold</ion-label>
-        <ion-label *ngIf="membership == '2'">Paket anda saat ini : Silver</ion-label>
-        <ion-label *ngIf="membership == '3'">Paket anda saat ini : Bronze</ion-label>
-      </b>
-        <ion-text color="medium" *ngIf="membership != '1'">
-          <b>Upgrade Paket anda untuk mendapatkan lebih banyak fitur.</b>
-        </ion-text>
-    </p>
-  </ion-item>
-  <ion-grid class="card-container">
-    <div class="slider-container" *ngFor="let pkg of packages">
-      <ion-card class="slider-item" [style.border]="pkg.color">
-        <ion-card-header>
-          <div style="position: relative; width: 100%;">
-            <div style="position: absolute; width: 100%;">
-              <div style="position: relative; left: -5rem;">
-                <div style="display: flex; justify-content: left; width: 100%;">
-                  <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+
+  <ion-grid class="slider-menu">
+
+    <div class="arrow-left">
+      <ion-button fill="clear" size="small" slot="icon-only" (click)="moveLeft()">
+        <ion-icon style="color: #424242; font-size: 2rem ;" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <ion-grid class="card-container">
+
+
+      <div class="slider-container">
+
+
+        <ion-card class="slider-item" style="border: 3px solid #c5ad92;">
+          <ion-card-header>
+
+            <div style="position: relative; width: 100%;">
+              <div style="position: absolute; width: 100%;">
+                <div style="position: relative; left: -5rem;">
+                  <div style="display: flex; justify-content: left; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                  </div>
                 </div>
-              </div>
-              <div style="position: relative; right: -5rem;">
-                <div style="display: flex; justify-content: right; width: 100%;">
-                  <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                <div style="position: relative; right: -5rem;">
+                  <div style="display: flex; justify-content: right; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white ; border: 1rem solid #dac7b3; border-radius: 50%;"></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <ion-icon [style.color]="pkg.iconColor" name="cube-outline"></ion-icon>
-          <ion-card-title>{{ pkg.name }}</ion-card-title>
-          <ion-card-subtitle>Price: {{ pkg.price | currency:'IDR':'symbol':'1.0-0' }}</ion-card-subtitle>
-          <ion-card-subtitle>Sale Price: {{ pkg.salePrice | currency:'IDR':'symbol':'1.0-0' }}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <ul>
-            <li *ngFor="let feature of pkg.features">{{ feature }}</li>
-          </ul>
-          <ion-button
-            [disabled]="(membership == '1') || (membership == '2' && pkg.id == '3') || (membership == '3' && pkg.id == '3')"
-            (click)="(membership != pkg.id && ((membership == '2' && pkg.id != '3') || (membership == '3' && pkg.id != '3') || membership == '1')) ? openModal(pkg) : null"
-            [style.background]="pkg.buttonColor"
-            style="color: white;">
-            {{ membership == pkg.id ? 'Anda sudah menggunakan paket ini' : 'Choose ' + pkg.name }}
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
+            <ion-icon style="color: #a37541;" name="cube-outline"></ion-icon>
+            <ion-card-title> {{ getName('Bronze') }} </ion-card-title>
+            <ion-card-subtitle>
+              Price: {{ getPrice('Bronze') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              Sale Price: {{ getSalePrice('Bronze') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+           
+            <ion-button style="--background: #ff4d4d ; color: white;  font-size: small " *ngIf=" membership == '3' " > 
+              {{ 'Member saat ini.' }}
+            </ion-button>
+            
+            <ion-button style="--background: #727272; color: white; opacity: 50%; font-size: small;" *ngIf=" membership == '2' || membership == '1' " > 
+              {{ ' Member dibawah anda. '  }}
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+
+      </div>
+
+      <div class="slider-container">
+        <ion-card class="slider-item" style="border: 3px solid #21C3E3;">
+          <ion-card-header>
+
+            <div style="position: relative; width: 100%;">
+              <div style="position: absolute; width: 100%;">
+                <div style="position: relative; right: -5rem; top: -2rem;">
+                  <div style="display: flex; justify-content: right; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #C5F0FF; border-radius: 50%;"></div>
+                  </div>
+                </div>
+                <div style="position: relative; left: -5rem;">
+                  <div style="display: flex; justify-content: left; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white ; border: 1rem solid #C5F0FF; border-radius: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ion-icon style="color: #21C3E3;" name="cube-outline"></ion-icon>
+            <ion-card-title> {{ getName('Silver') }} </ion-card-title>
+            <ion-card-subtitle>
+              Price: {{ getPrice('Silver') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              Sale Price: {{ getSalePrice('Silver') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+
+            <ion-button (click)="openModal(getName('Silver'))"  style="--background: #21c3e3; color: white; font-size: small;" *ngIf=" membership == '3'  " >
+              {{ ' Upgrade ke ' + getName('Silver')  }}
+            </ion-button>
+
+            <ion-button style="--background: #ff4d4d; color: white; font-size: small ;" *ngIf=" membership == '2' " > 
+                {{ 'Member saat ini.' }}
+            </ion-button>
+
+            <ion-button style="--background: #727272; color: white; opacity: 50%; font-size: small;" *ngIf=" membership == '1' " > 
+              {{ ' Member dibawah anda. '  }}
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="slider-container">
+        <ion-card class="slider-item" style="border: 3px solid #FEBB4B;">
+          <ion-card-header>
+
+            <div style="position: relative; width: 100%;">
+              <div style="position: absolute; width: 100%;">
+                <div style="position: relative; left: -4rem; top: -2rem;">
+                  <div style="display: flex; justify-content: left; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white; border: 1rem solid #FCE2CB; border-radius: 50%;"></div>
+                  </div>
+                </div>
+                <div style="position: relative; right: -5rem; bottom: -2rem;">
+                  <div style="display: flex; justify-content: right; width: 100%;">
+                    <div style="width: 5rem; height: 5rem; background-color: white ; border: 1rem solid #FCE2CB; border-radius: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ion-icon style="color: #FEBB4B;" name="cube-outline"></ion-icon>
+            <ion-card-title>{{ getName('Gold') }}</ion-card-title>
+            <ion-card-subtitle>
+              Price: {{ getPrice('Gold') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              Sale Price: {{ getSalePrice('Gold') | currency:'IDR':'symbol':'1.0-0' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+           
+            <ion-button style="--background: #febb4b; color: white; font-size: small;" *ngIf=" membership == '2' || membership == '3'  " >
+                {{ ' Upgrade ke ' + getName('Gold')  }}
+            </ion-button>
+
+            <ion-button style="--background: #ff4d4d; color: white; font-size: small ;" *ngIf=" membership == '1' " > 
+                {{ 'Member anda tertinggi. ' }}
+            </ion-button>
+            
+
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+    </ion-grid>
+
+    <div class="arrow-right">
+      <ion-button fill="clear" size="small" slot="icon-only" (click)="moveRight()">
+        <ion-icon style="color: #424242; font-size: 2rem;" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
     </div>
+
   </ion-grid>
+
 
 
 

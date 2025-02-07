@@ -1,26 +1,29 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="router.navigate(['tab/home'])">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<ion-header>
+  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])" >
+    <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+  </ion-button>
+  <div class="label">
+    <!-- <ion-icon name="information-circle-outline"></ion-icon> -->
+    <ion-title style="color: black;"> Detail Item </ion-title>
+  </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="detail-container">
-    <img [src]="item?.image" alt="{{ item?.name }}" class="item-image">
-    <div class="detail-info">
-      <h1>{{ item?.name }}</h1>
-      <p>{{ item?.price | currency: 'Rp. ' }}</p>
+    <img [src]="item.img_url" (error)="setDefaultImage($event)"  alt="{{ item?.name }}" class="item-image">
+  </div>
+  <div class="detail-info">
+    <h1>{{ item.name }}</h1>
+    <p>{{ item.description }}</p>
+    <div class="price">
+      <p>{{ item.price | currency: 'Rp. ' }}</p>
       <ion-button class="btn-cart" fill="solid" shape="round" (click)="openModal(item)">
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
     </div>
   </div>
 
-  <ion-modal #detailModal [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]" [presentingElement]="ionRouterOutlet" [canDismiss]="true">
+  <!-- <ion-modal #detailModal [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]" [presentingElement]="ionRouterOutlet" [canDismiss]="true">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -49,5 +52,41 @@
         </ion-button>
       </ion-footer>
     </ng-template>
+  </ion-modal> -->
+
+
+  <ion-modal class="custom-modal" #detailModal [initialBreakpoint]="0.55" [breakpoints]="[0, 0.55]" [presentingElement]="ionRouterOutlet" [canDismiss]="true">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="modal-title">Tambahkan Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div class="modal-content">
+          <div class="item">
+            <!-- <img src="assets/menu.png" alt="{{ selectedItem?.name }}" /> -->
+            <img [src]="item.img_url" (error)="setDefaultImage($event)" alt="{{ item.name }}" />
+            <div class="desc">
+              <b>{{ item.name }}</b>
+              <p>{{ item.price | currency: 'IDR':'symbol' }}</p>
+              <div class="qty-controls">
+                <ion-button (click)="decrementQty()">-</ion-button>
+                <span>{{ qty }}</span>
+                <ion-button (click)="incrementQty()">+</ion-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btn">
+          <ion-button expand="block" (click)="addToCart(item)">Masuk ke Troli - Rp.{{ calculateTotal() }}</ion-button>
+          <!-- <ion-button expand="block" style=" --background :rgb(203, 81, 72); --color : white">Beli Sekarang - Rp. {{ calculateTotal() }}</ion-button> -->
+        </div>
+      </ion-content>
+      <ion-footer>
+      </ion-footer>
+    </ng-template>
   </ion-modal>
+
+
 </ion-content>
