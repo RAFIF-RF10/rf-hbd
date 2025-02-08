@@ -46,6 +46,10 @@ ion-content {
     }
     
     ion-datetime::part(calendar-day today) {
+      color: #CF8F24;
+    }
+
+    ion-datetime::part(calendar-day active) {
       color: white;
     }
     

@@ -1,12 +1,15 @@
 ion-content {
     --background : #febb4b;
+
+  
+
     .top {
         // background : #febb4b;
         position: fixed;
         z-index: 999;
         width: 100%;
         background : linear-gradient(to top right , #febb4b, #ffb73c);
-        padding: 3rem .5rem 1rem .5rem;
+        padding: 2.5rem 1rem 1rem 1rem;
         ion-title {
             color: white;
             font-size: 2rem;
@@ -29,6 +32,30 @@ ion-content {
             --clear-button-color: #424242;  
             --border-radius: 15px;
             --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .add-btn {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
+          button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 0;
+            width: 70%;
+            background : none;
+            border: 2px solid white;
+            color: white;
+            border-radius: 20px;
+            font-weight: 900;
+            ion-icon {
+              font-size: large;
+            }
+          }
         }
 
     }
@@ -96,4 +123,116 @@ ion-item {
 
 ion-button {
   margin-top: 10px;
+}
+
+
+ion-modal {
+
+  ion-header {
+    background :white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    ion-title {
+      font-weight: bold;
+      font-size: larger;
+      text-align: center;
+    }
+    ion-button {
+      --background : none;
+      position: absolute;
+      left: 1rem;
+    }
+  }
+  
+  
+  ion-content {
+    --background : white;
+    .date-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+      ion-datetime {
+        background: white;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 7px 10px rgba(0, 0, 0, 0.2); 
+        --wheel-fade-background-rgb: 255,255,255;
+      }
+      
+      ion-datetime::part(wheel-item) {
+        color: #febb4b;
+      }
+      
+      ion-datetime::part(wheel-item active) {
+        color: #CF8F24;
+      }
+  
+      ion-datetime::part(calendar-day) {
+        color: #424242;
+      }
+      
+      ion-datetime::part(calendar-day today) {
+        color: #CF8F24;
+      }
+  
+      ion-datetime::part(calendar-day active) {
+        color: white;
+      }
+      
+      ion-datetime::part(calendar-day):focus {
+        background-color: rgba(209, 181, 98, 0.2);
+        box-shadow: 0px 0px 0px 4px rgba(209, 181, 98, 0.2);
+      }
+      
+      /*
+      * Custom Material Design Datetime Day Parts
+      * -------------------------------------------
+      */
+      
+      ion-datetime.md::part(calendar-day active),
+      ion-datetime.md::part(calendar-day active):focus {
+        background-color: #febb4b;
+        border-color: #febb4b;
+        color: #fff;
+      }
+      
+      ion-datetime.md::part(calendar-day today) {
+        border-color: #febb4b;
+      }
+      
+      
+      ion-button {
+        --background: #3880ff;
+        --border-radius: 24px;
+        --color: #ffffff;
+      }
+    }
+  }
+    
+  
+  ion-footer {
+    ion-toolbar {
+      --background : white;
+      .btn {
+        display: flex;
+        justify-content: center;
+        ion-button {
+          width: 70%;
+          height: auto;
+          --border-radius: 30px;
+          --background: #CF8F24;
+          margin: 2rem 0 2rem 0;
+          ion-title {
+            color: white;
+            font-size: medium;
+          }
+        }
+      }
+    }
+  }
+
 }

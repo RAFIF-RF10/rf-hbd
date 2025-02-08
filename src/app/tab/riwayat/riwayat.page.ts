@@ -233,4 +233,9 @@
         riwayat.created_date.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
+
+    closeDateModal() {
+      this.isDateSelected = false;
+    }
+
   }

@@ -1,28 +1,19 @@
-<ion-content [fullscreen]="true">
+<!-- <ion-content [fullscreen]="true">
 
   <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
-  <!-- <div *ngIf="!isLoading && errorMessage" class="error-message">
-    <p>{{ errorMessage }}</p>
-  </div> -->
 
   <ion-grid class="top">
     <ion-row>
-      <!-- <ion-searchbar
-      showCancelButton="focus"
-      class="custom"
-      [(ngModel)]="searchQuery"
-      (ionInput)="searchRiwayat()"
-      ></ion-searchbar> -->
+
       <ion-button *ngIf="isDownloadButtonVisible" expand="full" (click)="showExportAlert()">Unduh Excel</ion-button>
 
-  <!-- Form Pilih Tanggal, hanya ditampilkan jika "Pilih Tanggal" dipilih dari alert -->
   <div *ngIf="isDateSelected" class="date-selector">
     <ion-item>
       <ion-label>Pilih Tanggal</ion-label>
       <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="selectedDate"></ion-datetime>
     </ion-item>
 
-    <!-- Tombol Unduh Data, hanya ditampilkan setelah tanggal dipilih -->
+
     <ion-button expand="full" (click)="onDateSelected()">Unduh Data</ion-button>
   </div>
 
@@ -66,4 +57,116 @@
 
   </div>
 
+</ion-content> -->
+
+
+
+
+
+
+<ion-content [fullscreen]="true">
+
+  <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
+  <!-- <div *ngIf="!isLoading && errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div> -->
+
+  <ion-grid class="top">
+    <ion-row>
+      
+      
+      <!-- <div *ngIf="isDateSelected" class="date-selector">
+        <ion-item>
+          <ion-label>Pilih Tanggal</ion-label>
+          <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="selectedDate"></ion-datetime>
+        </ion-item>
+
+
+        <ion-button expand="full" (click)="onDateSelected()">Unduh Data</ion-button>
+      </div> -->
+      
+      <ion-searchbar
+      showCancelButton="focus"
+      class="custom"
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchRiwayat()"
+      ></ion-searchbar>
+      
+    </ion-row>
+
+    <div class="add-btn">
+      <button expand="full" (click)="showExportAlert()"><ion-icon name="cloud-download-outline"></ion-icon>Unduh Excel</button>
+    </div>
+  
+  </ion-grid>
+
+
+  <div style="padding: 0; margin-top: 12rem ; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
+
+    <div class="bottom">
+
+      <ion-list *ngIf="!riwayatList.length || filteredRiwayatList?.length === 0">
+        <div class="no-found">
+          <img src="assets/no-found.png" alt="anajy ">
+          <ion-title>Data Tidak Ditemukan.</ion-title>
+        </div>
+      </ion-list>
+
+      <ion-list *ngIf="!isLoading && riwayatList.length > 0">
+
+  
+  
+        <div class="riwayat" *ngFor="let riwayat of filteredRiwayatList">
+            <h1>{{ riwayat.customer_payment_detail }}</h1>
+            <p>Metode pembayaran: {{ getPaymentMethod(riwayat.customer_payment_method) }}</p>
+            <p>Total: {{ formatCurrency(riwayat.customer_payment_total) }}</p>
+            <p>Tanggal: {{ riwayat.created_date  }}</p>
+        </div>
+        
+      </ion-list>
+    </div>
+
+  </div>
+
 </ion-content>
+
+
+
+
+<ion-modal [isOpen]="isDateSelected" >
+  <ng-template>
+
+
+    <ion-header>
+      <ion-button slot="start" fill="clear" size="small" (click)="closeDateModal()" > 
+        <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-title style="color: black;">Pilih Tanggal</ion-title>
+    </ion-header>
+    
+    <ion-content class="ion-padding">
+    
+      <ion-grid>
+        <div class="date-container">
+          <ion-datetime color="warning" display-format="YYYY-MM-DD" [(ngModel)]="selectedDate"></ion-datetime>
+        </div>
+      </ion-grid>
+    
+    </ion-content>
+    
+    <ion-footer>
+      <ion-toolbar>
+        
+        <div class="btn">
+          <ion-button expand="block" (click)="onDateSelected()">
+            <ion-title>Unduh Data</ion-title>
+          </ion-button>        
+        </div>
+    
+      </ion-toolbar>
+    </ion-footer>
+    
+
+
+  </ng-template>
+</ion-modal>
