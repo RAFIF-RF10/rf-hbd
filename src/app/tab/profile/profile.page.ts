@@ -86,26 +86,8 @@ export class ProfilePage implements OnInit {
 
   logout() {
     // Ambil data user sebelum logout
-    const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-    const username = user?.userData?.username;
-
-    // Simpan keranjang user saat ini
-    if (username) {
-      const cartItems = localStorage.getItem('cartItems');
-      if (cartItems) {
-        localStorage.setItem(`cart_${username}`, cartItems);
-      }
-    }
-
-    // Hapus data user tetapi biarkan keranjang tetap tersimpan
-    localStorage.removeItem('user_data');
-    localStorage.removeItem('cartItems'); // Hapus cartItems global agar user lain tidak mendapatkannya
-    sessionStorage.clear();
-
-    // Redirect ke halaman login
-    this.router.navigate(['/login']).then(() => {
-      location.reload();
-    });
+    localStorage.clear();
+    this.router.navigate(['/login']);
 }
 
   profileEdit : boolean = false;
