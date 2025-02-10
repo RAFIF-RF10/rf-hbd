@@ -124,7 +124,12 @@ export class StorageService {
     return localStorage.getItem('username') || '';
   }
 
- 
+  getUserLevel() {
+    const userData = this.getUserData()?.userData;
+    console.log("Mengambil User Level:", userData?.users_level);
+    return userData?.users_level || ''; 
+  }
+
 
 
 }

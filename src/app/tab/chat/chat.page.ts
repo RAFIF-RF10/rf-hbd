@@ -17,7 +17,7 @@ export class ChatPage {
   isAddCampaignModalOpen = false;
   membershipType: string | null = null;
   id_outlet: string | null = null;
-
+  user_level: string = '';
   chatData: {
     name: string;
     description: string;
@@ -61,6 +61,7 @@ export class ChatPage {
     this.loadCampaigns();
     this.loadContacts();
     this.filteredCampaigns = [...this.campaigns];
+    this.user_level  = this.storageService.getUserLevel();
   }
 
   async presentAlert(header: string, message: string) {
@@ -235,16 +236,16 @@ export class ChatPage {
   checkIfAllSelected() {
     this.selectAllChecked = this.customerFiltered.every(contact => contact.selected);
   }
-  
+
   refresh() {
     console.log('Testing error' + this.userSign.getOutletId());
-  
+
     if (!this.hasMoreData) {
       this.hasMoreData = true;
       this.page = 1;
       this.campaigns = [];
     }
-  
+
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/campign/getCampignList',
       headers: {
@@ -257,25 +258,25 @@ export class ChatPage {
       },
     }).then((response) => {
       const content = response.data;
-  
+
       if (content.status) {
         const newCampaigns = content.data.map((campaign: any) => ({
           ...campaign,
           phone_list: JSON.parse(campaign.phone_list || '[]'),
         }));
-  
+
         if (newCampaigns.length === 0) {
           this.hasMoreData = false;
           this.presentAlert('Information', 'Semua data sudah dimuat.'); // Use AlertController
           return;
         }
-  
+
         if (this.page === 1) {
           this.campaigns = newCampaigns;
         } else {
           this.campaigns = [...this.campaigns, ...newCampaigns];
         }
-  
+
         this.page++;
       } else {
         this.hasMoreData = false;
@@ -286,7 +287,7 @@ export class ChatPage {
       this.presentAlert('Error', 'Sorry, we encountered an error while fetching data. Please try again later.'); // Use AlertController
     });
   }
-  
+
   loadCampaigns() {
     this.isLoading = true;
     CapacitorHttp.post({
@@ -301,9 +302,9 @@ export class ChatPage {
       },
     }).then((response) => {
       const content = response.data;
-  
+
       if (content.status) {
-  
+
         if (this.currentPage === 1) {
           this.campaigns = content.data.map((campaign: any) => ({
             ...campaign,
@@ -315,9 +316,9 @@ export class ChatPage {
             phone_list: JSON.parse(campaign.phone_list || '[]'),
           }))];
         }
-  
+
         this.filterCampaigns();
-  
+
         if (content.data.length < this.pageSize) {
           this.isAllDataLoaded = true;
         }
@@ -330,34 +331,34 @@ export class ChatPage {
       this.presentAlert('Error', 'Sorry, we encountered an error while fetching data. Please try again later.'); // Use AlertController
     });
   }
-  
+
   loadMoreData() {
     if (!this.isAllDataLoaded) {
       this.currentPage += 1;
       this.loadCampaigns();
     }
   }
-  
+
   openAddCampaignModal() {
     this.loadContacts();
     this.isAddCampaignModalOpen = true;
   }
-  
+
   closeAddCampaignModal() {
     this.isAddCampaignModalOpen = false;
   }
-  
+
 
   submitNewCampaign() {
     const selectedPhones = this.customer
       .filter(contact => contact.selected)
       .map(contact => contact.number);
-  
+
     if (selectedPhones.length === 0) {
       this.presentAlert('Warning', 'Harap pilih minimal satu kontak.'); // Use AlertController
       return;
     }
-  
+
     let formattedDate = '';
     const now = new Date();
     formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1)
@@ -366,7 +367,7 @@ export class ChatPage {
       .toString().padStart(2, '0')}:${now.getMinutes()
       .toString().padStart(2, '0')}:${now.getSeconds()
       .toString().padStart(2, '0')}`;
-  
+
     const body = {
       id_outlet: this.userSign.getOutletId(),
       name: this.chatData.name.trim(),
@@ -374,7 +375,7 @@ export class ChatPage {
       phone_list: selectedPhones,
       date_campign: formattedDate,
     };
-  
+
     if (this.chatData.name && this.chatData.description && selectedPhones.length > 0) {
       CapacitorHttp.post({
         url: 'https://epos.pringapus.com/api/v1/campign/addCampignRealTime',
@@ -382,19 +383,19 @@ export class ChatPage {
         data: body,
       }).then(() => {
         this.presentAlert('Success', 'Campaign berhasil ditambahkan!'); // Use AlertController
-  
+
         const newCampaign = {
           name: body.name,
           description: body.description,
           phone_list: body.phone_list,
           date_campign: body.date_campign,
         };
-  
+
         this.campaigns.unshift(newCampaign);
-  
+
         this.chatData.name = '';
         this.chatData.description = '';
-  
+
         this.closeAddCampaignModal();
       }).catch((error) => {
         console.error('Error adding campaign:', error);
@@ -404,17 +405,17 @@ export class ChatPage {
       this.presentAlert('Warning', 'Form tidak boleh kosong!'); // Use AlertController
     }
   }
-  
+
   submitNewModalCampaign(selectedDate: string) {
     const selectedPhones = this.customer
       .filter(contact => contact.selected)
       .map(contact => contact.number);
-  
+
     if (selectedPhones.length === 0) {
       this.presentAlert('Warning', 'Harap pilih minimal satu kontak.'); // Use AlertController
       return;
     }
-  
+
     const body = {
       id_outlet: this.userSign.getOutletId(),
       name: this.chatData.name.trim(),
@@ -422,7 +423,7 @@ export class ChatPage {
       phone_list: selectedPhones,
       date_campign: selectedDate,
     };
-  
+
     CapacitorHttp.post({
       url: 'https://epos.pringapus.com/api/v1/campign/addCampignList',
       headers: { 'Content-Type': 'application/json' },
@@ -442,7 +443,7 @@ export class ChatPage {
       this.presentAlert('Error', 'Gagal menambahkan campaign.'); // Use AlertController
     });
   }
-  
+
     parseContacts(input: string): string[] {
     return input
       .split(',')

@@ -45,7 +45,7 @@ export class HomePage implements OnInit {
 
   id_outlet: string = '';
   outlet_name: string = '';
-
+  user_level: string = '';
   constructor(public router: Router, private cartService: CartService, private storageService: StorageService) { this.router.events.subscribe(() => {
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras.state && navigation.extras.state['deletedItemId']) {
@@ -65,6 +65,7 @@ export class HomePage implements OnInit {
 
     this.id_outlet    = this.storageService.getOutletId();
     this.outlet_name  = this.storageService.getOutletCode();
+    this.user_level  = this.storageService.getUserLevel();
   }
 
   async getListCategories() {

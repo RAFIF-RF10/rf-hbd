@@ -20,7 +20,7 @@
     </ion-row>
 
     <div class="add-btn">
-      <button (click)="openAddCampaignModal()"><ion-icon name="person-add-outline"></ion-icon> Tambah Campaign Baru</button>
+      <button *ngIf="user_level === '1'"  (click)="openAddCampaignModal()"><ion-icon name="person-add-outline"></ion-icon> Tambah Campaign Baru</button>
     </div>
 
   </div>
@@ -55,7 +55,7 @@
             </div>
           </ion-button>
         </div>
-        
+
       </ion-list>
 
     <ion-modal class="chat-modal" [isOpen]="chatModal">

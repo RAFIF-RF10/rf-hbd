@@ -6,7 +6,7 @@
 
     <div class="container-find">
       <ion-row>
-        
+
         <ion-col size="10">
           <ion-searchbar
             showCancelButton="focus"
@@ -51,7 +51,7 @@
 
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button (click)="openAddItemModal()">
+    <ion-fab-button *ngIf="user_level === '1'" (click)="openAddItemModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -64,7 +64,7 @@
 
   <div class="container-card">
 
-      
+
       <ion-card size="6" *ngFor="let item of filteredItems">
 
         <div class="img-container">
@@ -80,10 +80,11 @@
             (click)="openDetailPage(item)"
           />
 
-          
+
 
 
             <ion-button
+            *ngIf="user_level === '1'"
               class="btn-delete"
               fill="solid"
               shape="round"
@@ -91,8 +92,9 @@
             >
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
-  
+
             <ion-button
+
               class="btn-cart"
               fill="solid"
               shape="round"
@@ -101,8 +103,8 @@
               <ion-icon slot="icon-only" name="bag-add-outline"></ion-icon>
             </ion-button>
 
-            
-          
+
+
 
 
         </div>
@@ -130,10 +132,9 @@
     <ng-template>
 
       <ion-header>
-        <ion-toolbar>
-          <ion-button slot="start" fill="clear" size="small" (click)="closeAddItemModal()" >
-            <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-          </ion-button>
+        <ion-button  slot="start" fill="clear" size="small" (click)="closeAddItemModal()" >
+          <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+        </ion-button>
           <ion-title style="color: black;"> Tambahkan Item </ion-title>
         </ion-toolbar>
       </ion-header>
@@ -145,7 +146,7 @@
           <ion-grid class="form">
             <ion-input [(ngModel)]="itemData.name" type="text" label="Nama Item" label-placement="floating" required></ion-input>
           </ion-grid>
-          
+
           <ion-grid class="form">
             <ion-input [(ngModel)]="itemData.description" type="text" label="Deskripsi Item" label-placement="floating" required></ion-input>
           </ion-grid>
@@ -160,15 +161,15 @@
               </ion-select-option>
             </ion-select>
           </ion-grid>
-          
+
           <ion-grid class="form">
             <ion-input [(ngModel)]="itemData.price" type="number" label="Harga Item" label-placement="floating" required></ion-input>
           </ion-grid>
-          
+
           <ion-grid class="photo-btn">
               <ion-button expand="block" (click)="choosePhoto()"><ion-icon name="camera-outline"></ion-icon>Pilih Foto</ion-button>
           </ion-grid>
-          
+
           <ion-grid class="photo-container">
             <div style="display: flex; justify-content: end; width: 100%;">
               <ion-button size="small" color="danger" *ngIf="itemData.photo" (click)="closePhoto()"><ion-icon slot="icon-only" name="close-outline"></ion-icon></ion-button>
@@ -177,25 +178,25 @@
           </ion-grid>
 
         </div>
-  
-        
+
+
       </ion-content>
-      
+
       <ion-footer>
         <ion-toolbar>
           <ion-grid>
               <ion-button expand="block" (click)="addProduct()">
                 <ion-title>Tambah Item</ion-title>
-              </ion-button>            
+              </ion-button>
           </ion-grid>
         </ion-toolbar>
       </ion-footer>
-      
+
 
 
     </ng-template>
   </ion-modal>
-  
+
 
 
 
