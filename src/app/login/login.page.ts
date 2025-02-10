@@ -13,21 +13,34 @@ import { AlertController } from '@ionic/angular';
   standalone: false,
 })
 export class LoginPage {
-  outlet_code: string           = '';
-  username: string              = '';
-  password: string              = '';
-  fullName: string              = '';
-  email: string                 = '';
-  registerPassword: string      = '';
-  deviceToken: string           = '';
+  outlet_code: string = '';
+  username: string = '';
+  password: string = '';
+  fullName: string = '';
+  email: string = '';
+  registerPassword: string = '';
+  deviceToken: string = '';
   showRegisterPassword: boolean = false;
-  showPassword: boolean         = false;
-  showRegisterForm: boolean     = false;
+  showPassword: boolean = false;
+  showRegisterForm: boolean = false;
 
-  constructor(private router: Router ,private storageService: StorageService, private alertController: AlertController,) {
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private alertController: AlertController,
+  ) {
     this.getDeviceToken();
   }
 
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 
   async getDeviceToken() {
     const info = await Device.getId();
@@ -36,29 +49,29 @@ export class LoginPage {
 
   async Login() {
     if (!this.outlet_code || !this.username || !this.password) {
-      alert('Form harus diisi dengan lengkap');
+      this.presentAlert('Perhatian', 'Form harus diisi dengan lengkap');
       return;
     }
-  
+
     const data = {
       outlet_code: this.outlet_code,
       username: this.username,
       password: this.password,
       device_token: this.deviceToken,
     };
-  
+
     try {
       const response: any = await CapacitorHttp.post({
         url: 'https://epos.pringapus.com/api/v1/Authentication/getUserLogin',
         data: data,
         headers: { 'Content-Type': 'application/json' },
       });
-  
+
       console.log(response);
-  
+
       if (response.status === 200) {
         const userData = response.data.data;
-  
+
         if (response.data.forceLogout) {
           const alert = await this.alertController.create({
             header: 'Peringatan',
@@ -80,25 +93,25 @@ export class LoginPage {
               },
             ],
           });
-  
+
           await alert.present();
           return;
         }
-  
+
         localStorage.setItem('user_data', JSON.stringify(userData));
         localStorage.setItem('access_token', userData.accessToken);
         localStorage.setItem('device_token', userData.deviceToken);
-  
+
         this.router.navigate(['/tab/home']);
       } else {
-        alert('Gagal login: ' + (response.data?.message || 'Unknown error'));
+        this.presentAlert('Gagal Login', 'Gagal login: ' + (response.data?.message || 'Unknown error'));
       }
     } catch (error: any) {
       console.error('HTTP request error:', error);
-      alert('Kesalahan dalam melakukan permintaan: ' + error.message);
+      this.presentAlert('Error', 'Kesalahan dalam melakukan permintaan: ' + error.message);
     }
-  }  
-  
+  }
+
   async forceLogout(deviceToken: string) {
     try {
       await CapacitorHttp.post({
@@ -106,14 +119,14 @@ export class LoginPage {
         data: { device_token: deviceToken },
         headers: { 'Content-Type': 'application/json' },
       });
-  
+
       localStorage.clear();
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Gagal logout perangkat lama:', error);
     }
   }
-  
+
   ionViewWillEnter() {
     setInterval(async () => {
       const currentDeviceToken = localStorage.getItem('device_token');
@@ -122,15 +135,14 @@ export class LoginPage {
         data: { device_token: currentDeviceToken },
         headers: { 'Content-Type': 'application/json' },
       });
-  
+
       if (!response.data.valid) {
-        alert('Silahkan login kembali.');
+        this.presentAlert('Sesi Berakhir', 'Silahkan login kembali.');
         localStorage.clear();
         this.router.navigate(['/login']);
       }
     }, 5000);
   }
-    
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -153,7 +165,7 @@ export class LoginPage {
   register() {
     // Logic untuk registrasi user
     console.log('User registered:', this.fullName, this.email, this.registerPassword);
-    this.router.navigate(['register'])
+    this.router.navigate(['register']);
   }
 
   // Fungsi lainnya tetap sama
