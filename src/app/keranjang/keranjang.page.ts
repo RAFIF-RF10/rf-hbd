@@ -164,7 +164,6 @@ export class KeranjangPage implements OnInit {
       if (result.status) {
         this.presentAlert('Sukses', 'Pembayaran berhasil! Pesanan Anda telah diterima.');
         this.cartService.setRefreshRiwayat();
-
         this.selectedItems.forEach((item) => this.cartService.removeItem(item));
         this.cartItems = this.cartService.getCartItems();
         this.selectedItems = [];

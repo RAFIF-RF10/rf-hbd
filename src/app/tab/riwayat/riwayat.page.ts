@@ -49,6 +49,16 @@ export class RiwayatPage {
       localStorage.removeItem('refresh_riwayat'); // Hapus flag setelah refresh
     }
   }
+  ionViewWillEnter() {
+    this.loadUserData();
+    this.fetchRiwayat();
+
+    // 🔥 Cek apakah perlu refresh setelah pembayaran
+    if (localStorage.getItem('refresh_riwayat') === 'true') {
+      this.fetchRiwayat();
+      localStorage.removeItem('refresh_riwayat'); // Hapus flag setelah refresh
+    }
+  }
 
 
   loadUserData() {
