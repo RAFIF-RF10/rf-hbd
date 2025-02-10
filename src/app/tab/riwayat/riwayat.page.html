@@ -1,23 +1,12 @@
 <ion-content [fullscreen]="true">
 
-  <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
+  <!-- <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner> -->
   <!-- <div *ngIf="!isLoading && errorMessage" class="error-message">
     <p>{{ errorMessage }}</p>
   </div> -->
 
   <ion-grid class="top">
     <ion-row>
-      
-      
-      <!-- <div *ngIf="isDateSelected" class="date-selector">
-        <ion-item>
-          <ion-label>Pilih Tanggal</ion-label>
-          <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="selectedDate"></ion-datetime>
-        </ion-item>
-
-
-        <ion-button expand="full" (click)="onDateSelected()">Unduh Data</ion-button>
-      </div> -->
       
       <ion-searchbar
       showCancelButton="focus"

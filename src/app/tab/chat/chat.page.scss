@@ -2,34 +2,37 @@ ion-content {
   --background : #febb4b;
   --padding-top : 2rem;
   .container-find {
-    padding: 2rem .8rem ;
+    // background : #febb4b;
     position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background: #febb4b;
     z-index: 999;
+    width: 100%;
+    background : linear-gradient(to top right , #febb4b, #ffb73c);
+    padding: 2.5rem 1rem 1rem 1rem;
+    ion-title {
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        font-family: 'Poppins';
+    }
+    ion-title:nth-child(2) {
+        color: white;
+        font-size: medium;
+        font-weight: 500;
+        font-family: 'Poppins';
+        padding-bottom: 1rem;
+    }
     ion-searchbar.custom {
-      --background: rgb(255, 255, 255);
-      --color: #424242;
-      --placeholder-color: #424242;
-      --icon-color: #424242;
-      --clear-button-color: #424242;  
-      --border-radius: 15px;
-      --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        margin : 0 .5rem;
+        --background: rgb(255, 255, 255);
+        --color: #424242;
+        --placeholder-color: #424242;
+        --icon-color: #424242;
+        --clear-button-color: #424242;  
+        --border-radius: 15px;
+        --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
-    .btn-reload{
-      padding-top: 5px;
-      ion-button{
-        --background: white;
-        --border-radius: 12px;
-        ion-icon {
-          color: #CF8F24;
-        }
-      }
-    }
+
+
     .add-btn {
       width: 100%;
       display: flex;
@@ -52,7 +55,8 @@ ion-content {
         }
       }
     }
-  }
+
+}
 
   .container-main {
     padding: 1rem .5rem;

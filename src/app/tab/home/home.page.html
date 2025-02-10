@@ -17,7 +17,7 @@
 
         <ion-col size="2">
           <div class="btn-add-card">
-            <ion-button class="custom" (click)="router.navigate(['/keranjang'])">
+            <ion-button class="custom" fill="clear" (click)="router.navigate(['/keranjang'])">
               <ion-icon slot="icon-only" name="cart"></ion-icon>
                 <ion-badge
                   *ngIf="cartCount > 0"
@@ -49,12 +49,14 @@
 
 <ion-content>
 
-
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="user_level === '1'">
-    <ion-fab-button *ngIf="user_level === '1'" (click)="openAddItemModal()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <div style="padding: 0; padding-bottom: 16rem; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
+    
+    
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="user_level === '1'">
+      <ion-fab-button *ngIf="user_level === '1'" (click)="openAddItemModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
 
   <div class="no-found" *ngIf="filteredItems?.length === 0">
@@ -63,8 +65,8 @@
   </div>
 
   <div class="container-card">
-
-
+    
+    
       <ion-card size="6" *ngFor="let item of filteredItems">
 
         <div class="img-container">
@@ -233,6 +235,8 @@
       </ion-footer>
     </ng-template>
   </ion-modal>
+  
+  </div>
 </ion-content>
 
 

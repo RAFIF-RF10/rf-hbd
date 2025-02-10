@@ -7,20 +7,17 @@
   <div class="container-find">
     <ion-row>
 
-      <ion-col size="12">
         <ion-searchbar
           showCancelButton="focus"
           class="custom"
           [(ngModel)]="searchQuery"
           (ionInput)="filterCampaigns()"
         ></ion-searchbar>
-      </ion-col>
-
 
     </ion-row>
 
     <div class="add-btn">
-      <button *ngIf="user_level === '1'"  (click)="openAddCampaignModal()"><ion-icon name="person-add-outline"></ion-icon> Tambah Campaign Baru</button>
+      <button *ngIf="user_level === '1'"  (click)="openAddCampaignModal()"><ion-icon name="person-add-outline"></ion-icon> Campaign Baru</button>
     </div>
 
   </div>
