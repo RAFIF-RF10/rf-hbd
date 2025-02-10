@@ -1,24 +1,18 @@
 ion-header {
-  padding: 20px 0;
+  ion-toolbar {
+    --background : white;
+    padding-top: 45px;
+    padding-bottom: 15px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background : white;
-  .label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    ion-title {
-      font-weight: bold;
-      font-size: larger;
-      text-align: center;
-      padding: 0;
-    }
-    ion-icon {
-      color :#626262;
-      font-size: 2rem;
-    }
+  background: white;
+  ion-title {
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
   }
   ion-button {
     position: absolute;

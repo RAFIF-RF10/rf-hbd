@@ -1,8 +1,8 @@
 ion-header {
   ion-toolbar {
     --background : white;
-    padding-top: 60px;
-    padding-bottom: 20px;
+    padding-top: 45px;
+    padding-bottom: 15px;
   }
   display: flex;
   flex-direction: column;
@@ -172,12 +172,17 @@ ion-content {
     height: 100%;
     padding: 0;
     margin: 0;
-    ion-header{
-      padding: 20px 0;
+    ion-header {
+      ion-toolbar {
+        --background : white;
+        padding-top: 45px;
+        padding-bottom: 15px;
+      }
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: white;
       ion-title {
         font-weight: bold;
         font-size: larger;
@@ -418,12 +423,16 @@ ion-content {
   flex-direction: column;
   justify-content: center;
   ion-header {
-    background : white;
-    padding: 20px 0;
+    ion-toolbar {
+      --background : white;
+      padding-top: 45px;
+      padding-bottom: 15px;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: white;
     ion-title {
       font-weight: bold;
       font-size: larger;
@@ -433,7 +442,7 @@ ion-content {
       position: absolute;
       left: 1rem;
     }
-    }
+  }
     
   .img {
     display: flex;
@@ -486,12 +495,17 @@ ion-content {
   
   .verif-otp {
     background: white;
-    ion-header{
-      padding: 20px 0;
+    ion-header {
+      ion-toolbar {
+        --background : white;
+        padding-top: 45px;
+        padding-bottom: 15px;
+      }
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: white;
       ion-title {
         font-weight: bold;
         font-size: larger;

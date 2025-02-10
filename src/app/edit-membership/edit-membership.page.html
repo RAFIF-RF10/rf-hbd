@@ -1,11 +1,14 @@
 
 <ion-header>
-  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/profile'])">
-    <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-  </ion-button>
-  <ion-title style="color: black;" *ngIf="membership == '1'">Member anda (Gold) </ion-title>
-  <ion-title style="color: black;" *ngIf="membership == '2'">Member anda (Silver) </ion-title>
-  <ion-title style="color: black;" *ngIf="membership == '3'">Member anda (Bronze) </ion-title>
+  <ion-toolbar>
+
+    <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/profile'])">
+      <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title style="color: black;" *ngIf="membership == '1'">Member anda (Gold) </ion-title>
+    <ion-title style="color: black;" *ngIf="membership == '2'">Member anda (Silver) </ion-title>
+    <ion-title style="color: black;" *ngIf="membership == '3'">Member anda (Bronze) </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -182,10 +185,13 @@
           <ion-grid>
 
             <ion-header>
-              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
-                <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-              </ion-button>
-              <ion-title style="color: black;">Payment</ion-title>
+              <ion-toolbar>
+
+                <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" >
+                  <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+                </ion-button>
+                <ion-title style="color: black;">Payment</ion-title>
+              </ion-toolbar>
             </ion-header>
 
             <ion-title class="text">*Selesaikan Pembayaran untuk Melanjutkan.</ion-title>

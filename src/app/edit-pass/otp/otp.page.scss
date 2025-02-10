@@ -1,10 +1,14 @@
-ion-header{
-  padding: 20px 0;
+ion-header {
+  ion-toolbar {
+    --background : white;
+    padding-top: 45px;
+    padding-bottom: 15px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background : white;
+  background: white;
   ion-title {
     font-weight: bold;
     font-size: larger;

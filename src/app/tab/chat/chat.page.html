@@ -57,17 +57,21 @@
         </div>
         
       </ion-list>
+
     <ion-modal class="chat-modal" [isOpen]="chatModal">
       <ng-template>
 
         <ion-header>
-          <ion-button slot="start" fill="clear" size="small" (click)="closeChatModal()" >
-            <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-          </ion-button>
-          <div class="label">
-            <ion-icon name="information-circle-outline"></ion-icon>
-            <ion-title style="color: black;"> Detail </ion-title>
-          </div>
+          <ion-toolbar>
+            
+            <ion-button slot="start" fill="clear" size="small" (click)="closeChatModal()" >
+              <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+            <div class="label">
+              <!-- <ion-icon name="information-circle-outline"></ion-icon> -->
+              <ion-title style="color: black;"> Detail </ion-title>
+            </div>
+          </ion-toolbar>
         </ion-header>
 
         <ion-content>
@@ -113,10 +117,12 @@
       <ng-template>
 
         <ion-header>
-          <ion-button slot="start" fill="clear" size="small" (click)="closeAddCampaignModal()" >
-            <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-          </ion-button>
-          <ion-title style="color: black;">Tambah Campaign</ion-title>
+          <ion-toolbar>
+            <ion-button slot="start" fill="clear" size="small" (click)="closeAddCampaignModal()" >
+              <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+            <ion-title style="color: black;">Tambah Campaign</ion-title>
+          </ion-toolbar>
         </ion-header>
 
 

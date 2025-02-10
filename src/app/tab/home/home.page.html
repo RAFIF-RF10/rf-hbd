@@ -47,7 +47,7 @@
 
 
 
-<ion-content [fullscreen]="true">
+<ion-content>
 
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
@@ -130,10 +130,12 @@
     <ng-template>
 
       <ion-header>
-        <ion-button slot="start" fill="clear" size="small" (click)="closeAddItemModal()" >
-          <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-        </ion-button>
+        <ion-toolbar>
+          <ion-button slot="start" fill="clear" size="small" (click)="closeAddItemModal()" >
+            <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+          </ion-button>
           <ion-title style="color: black;"> Tambahkan Item </ion-title>
+        </ion-toolbar>
       </ion-header>
 
       <ion-content>

@@ -8,6 +8,7 @@ ion-content {
     align-items: center;
     justify-content: center;
     width: 100%;
+    background: #febb4b;
     z-index: 999;
     ion-searchbar.custom {
       --background: rgb(255, 255, 255);
@@ -159,25 +160,20 @@ ion-content {
   --background : white;
   height: 100%;
   ion-header {
-    padding: 20px 0;
+    ion-toolbar {
+      --background : white;
+      padding-top: 45px;
+      padding-bottom: 15px;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      ion-title {
-        font-weight: bold;
-        font-size: larger;
-        text-align: center;
-        padding: 0;
-      }
-      ion-icon {
-        color :#626262;
-        font-size: 1.5rem;
-      }
+    background: white;
+    ion-title {
+      font-weight: bold;
+      font-size: larger;
+      text-align: center;
     }
     ion-button {
       position: absolute;
@@ -243,11 +239,16 @@ ion-content {
   --background : white;
   height: 100%;
   ion-header {
-    padding: 20px 0;
+    ion-toolbar {
+      --background : white;
+      padding-top: 45px;
+      padding-bottom: 15px;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: white;
     ion-title {
       font-weight: bold;
       font-size: larger;

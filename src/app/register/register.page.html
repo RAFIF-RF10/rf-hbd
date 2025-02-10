@@ -3,7 +3,7 @@
     <ion-button slot="start" fill="clear" size="small" (click)="back()" > 
       <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
     </ion-button>
-    <ion-title style="color: black;">Member</ion-title>
+    <ion-title style="color: black;">Member Plan</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -155,10 +155,12 @@
         <div class="register-form" *ngIf="!isOtpSent">
 
           <ion-header>
-            <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" > 
-              <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-            </ion-button>
-            <ion-title style="color: black;">Registrasi</ion-title>
+            <ion-toolbar>
+              <ion-button slot="start" fill="clear" size="small" (click)="closeModal()" > 
+                <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-title style="color: black;">Registrasi</ion-title>
+            </ion-toolbar>
           </ion-header>
 
           <div class="img">
@@ -207,7 +209,9 @@
       <div class="verif-otp" *ngIf="isOtpSent && !otpVerify">
 
           <ion-header>
-            <ion-title style="color: black;">Verifikasi OTP</ion-title>
+            <ion-toolbar>
+              <ion-title style="color: black;">Verifikasi OTP</ion-title>
+            </ion-toolbar>
           </ion-header>
   
         
@@ -250,7 +254,9 @@
 
             
             <ion-header>
-              <ion-title style="color: black;">Payment</ion-title>
+              <ion-toolbar>
+                <ion-title style="color: black;">Payment</ion-title>
+              </ion-toolbar>
             </ion-header>
             
             <ion-title class="text">*Selesaikan Pembayaran untuk Melanjutkan.</ion-title>

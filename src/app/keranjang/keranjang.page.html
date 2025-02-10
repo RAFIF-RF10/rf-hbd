@@ -1,8 +1,10 @@
 <ion-header>
-  <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])">
-    <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
-  </ion-button>
-  <ion-title style="color: black;">Keranjang Saya ({{ getItemCount() }}) </ion-title>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])">
+      <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title style="color: black;">Keranjang Saya ({{ getItemCount() }}) </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>

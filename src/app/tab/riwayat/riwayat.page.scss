@@ -129,19 +129,22 @@ ion-button {
 ion-modal {
 
   ion-header {
-    background :white;
-    padding: 20px 0; 
+    ion-toolbar {
+      --background : white;
+      padding-top: 45px;
+      padding-bottom: 15px;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: white;
     ion-title {
       font-weight: bold;
       font-size: larger;
       text-align: center;
     }
     ion-button {
-      --background : none;
       position: absolute;
       left: 1rem;
     }
