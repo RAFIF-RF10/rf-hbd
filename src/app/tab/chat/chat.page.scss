@@ -1,5 +1,6 @@
 ion-content {
   --background : #febb4b;
+  --padding-top : 2rem;
   .container-find {
     padding: 2rem .8rem ;
     position: fixed;
@@ -63,7 +64,7 @@ ion-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem 1rem 5rem 1rem;
+      padding: 1rem 1rem 12rem 1rem;
       .main {
         width: 100%;
         display: flex;

@@ -2,7 +2,7 @@ ion-header {
   ion-toolbar {
     --background :white;
     .logo {
-      padding: 2rem 0 1rem 2rem ;
+      padding: 4.5rem 0 1rem 2rem ;
       img {
         width: 40%;
       }
@@ -112,7 +112,7 @@ ion-content {
   .container-card {
     display: grid;
     margin-top: 1rem;
-    padding: 0 1rem 2rem 1rem;
+    padding: 0 1rem 3rem 1rem;
     align-items: center;
     justify-content: center;
     place-items: center;

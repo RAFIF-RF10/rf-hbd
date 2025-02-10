@@ -50,7 +50,7 @@
 <ion-content>
 
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="user_level === '1'">
     <ion-fab-button *ngIf="user_level === '1'" (click)="openAddItemModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -132,6 +132,7 @@
     <ng-template>
 
       <ion-header>
+        <ion-toolbar>
         <ion-button  slot="start" fill="clear" size="small" (click)="closeAddItemModal()" >
           <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
         </ion-button>
