@@ -57,4 +57,16 @@ export class CartService {
     this.saveCartToStorage();
     this.cartItemsSubject.next(this.cartItems);
   }
+
+  setRefreshRiwayat() {
+    localStorage.setItem('refresh_riwayat', 'true');
+  }
+
+  shouldRefreshRiwayat() {
+    return localStorage.getItem('refresh_riwayat') === 'true';
+  }
+
+  clearRefreshRiwayat() {
+    localStorage.removeItem('refresh_riwayat');
+  }
 }

@@ -38,7 +38,18 @@ export class RiwayatPage {
   ngOnInit() {
     this.loadUserData();
     this.fetchRiwayat();
+
   }
+  ionViewWillEnter() {
+    this.loadUserData();
+    this.fetchRiwayat();
+
+    if (localStorage.getItem('refresh_riwayat') === 'true') {
+      this.fetchRiwayat();
+      localStorage.removeItem('refresh_riwayat'); // Hapus flag setelah refresh
+    }
+  }
+
 
   loadUserData() {
     const storedUserData = localStorage.getItem('user_data');
