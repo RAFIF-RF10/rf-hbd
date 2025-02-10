@@ -30,8 +30,8 @@ export class RiwayatPage {
   isDownloadButtonVisible: boolean = true;
 
   constructor(
-    private alertController: AlertController, 
-    private file: File, 
+    private alertController: AlertController,
+    private file: File,
     private fileOpener: FileOpener
   ) {}
 
@@ -204,25 +204,22 @@ export class RiwayatPage {
 
     await alert.present();
   }
-
+////JANGAN DI RUBAHH!!!!!///
   getPaymentMethod(method: string): string {
-    switch (method) {
-      case 'cash':
-        return 'Tunai';
-      case 'debit':
-        return 'Debit';
-      case 'credit':
-        return 'Kredit';
-      default:
-        return 'Tidak Diketahui';
-    }
+    const methods: { [key: string]: string } = {
+      CA: 'Cash',
+      VA: 'Virtual Account',
+      TF: 'Transfer',
+      DC: 'Debit/Credit Card'
+    };
+    return methods[method] || 'Metode tidak dikenal';
   }
 
     onDateSelected() {
       this.filterRiwayatByDate(); // Filter berdasarkan tanggal yang dipilih
       this.exportToExcel(); // Ekspor data sesuai tanggal
     }
-   
+
     searchQuery: string = '';
     searchRiwayat() {
       this.filteredRiwayatList = this.riwayatList.filter(riwayat =>
