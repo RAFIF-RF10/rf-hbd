@@ -57,6 +57,7 @@ export class CartService {
     this.saveCartToStorage();
     this.cartItemsSubject.next(this.cartItems);
   }
+
   setRefreshRiwayat() {
     localStorage.setItem('refresh_riwayat', 'true');
   }

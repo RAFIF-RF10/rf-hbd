@@ -171,7 +171,6 @@ export class KeranjangPage implements OnInit {
         this.customer_name = '';
         this.customer_phone = '';
         this.selectAllChecked = false;
-        this.router.navigate(['/riwayat']);
       } else {
         this.presentAlert('Gagal', 'Gagal melakukan pembayaran: ' + result.message);
       }
