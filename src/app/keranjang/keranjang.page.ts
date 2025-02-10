@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 import { CapacitorHttp } from '@capacitor/core';
+import { AlertController } from '@ionic/angular'; // Import AlertController
 
 @Component({
   selector: 'app-keranjang',
@@ -23,11 +24,25 @@ export class KeranjangPage implements OnInit {
   customer_name: string = '';
   customer_phone: string = '';
 
-  constructor(public router: Router, private cartService: CartService) {}
+  constructor(
+    public router: Router,
+    private cartService: CartService,
+    private alertController: AlertController // Inject AlertController
+  ) { }
 
   ngOnInit() {
     this.cartItems = this.cartService.getCartItems();
     console.log('Nilai awal paymentMethod:', this.paymentMethod);
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
   toggleSelection(item: any, event: any) {
@@ -102,23 +117,23 @@ export class KeranjangPage implements OnInit {
       inputElement.value = phoneValue; // Perbarui nilai input
     }
   }
-  
+
 
   async pay() {
 
     if (this.selectedItems.length === 0) {
-      alert('Pilih setidaknya satu item sebelum melakukan pembayaran!');
+      this.presentAlert('Perhatian', 'Pilih setidaknya satu item sebelum melakukan pembayaran!');
       return;
     }
     const user = JSON.parse(localStorage.getItem('user_data') || '{}');
 
     if (!this.paymentMethod) {
-      alert('Pilih metode pembayaran sebelum melanjutkan!');
+      this.presentAlert('Perhatian', 'Pilih metode pembayaran sebelum melanjutkan!');
       return;
     }
 
-    if (!user ||!this.customer_name || !this.customer_phone) {
-      alert('Silakan isi nama dan nomor telepon pelanggan!');
+    if (!user || !this.customer_name || !this.customer_phone) {
+      this.presentAlert('Perhatian', 'Silakan isi nama dan nomor telepon pelanggan!');
       return;
     }
 
@@ -147,7 +162,7 @@ export class KeranjangPage implements OnInit {
       const result = response.data;
 
       if (result.status) {
-        alert('Pembayaran berhasil! Pesanan Anda telah diterima.');
+        this.presentAlert('Sukses', 'Pembayaran berhasil! Pesanan Anda telah diterima.');
         this.selectedItems.forEach((item) => this.cartService.removeItem(item));
         this.cartItems = this.cartService.getCartItems();
         this.selectedItems = [];
@@ -157,11 +172,11 @@ export class KeranjangPage implements OnInit {
         this.selectAllChecked = false;
         this.router.navigate(['/riwayat']);
       } else {
-        alert('Gagal melakukan pembayaran: ' + result.message);
+        this.presentAlert('Gagal', 'Gagal melakukan pembayaran: ' + result.message);
       }
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
-      alert('Terjadi kesalahan saat memproses pembayaran.');
+      this.presentAlert('Error', 'Terjadi kesalahan saat memproses pembayaran.');
     }
   }
 

@@ -13,10 +13,16 @@ import { StorageService } from '../storage.service';
 })
 export class EditPassPage implements OnInit {
 
-  form!   : FormGroup;
-  telepon : string = '';
+  form!: FormGroup;
+  telepon: string = '';
 
-  constructor(public router: Router, private storageService: StorageService, private fb: FormBuilder, private alertController: AlertController, private toastController: ToastController, ) { }
+  constructor(
+    public router: Router,
+    private storageService: StorageService,
+    private fb: FormBuilder,
+    private alertController: AlertController,
+    private toastController: ToastController,
+  ) { }
 
   ngOnInit() {
     this.telepon = this.storageService.getPhoneNumber() || '';
@@ -48,7 +54,7 @@ export class EditPassPage implements OnInit {
       buttons: [
         {
           text: 'Batal',
-          handler: () => {}
+          handler: () => { }
         },
         {
           text: 'Lanjutkan',
@@ -65,7 +71,7 @@ export class EditPassPage implements OnInit {
     await alert.present();
   }
 
-  sendOTP() {
+  async sendOTP() { // Added async keyword
     this.telepon = this.storageService.getPhoneNumber() || '';
     if (!this.telepon) {
       this.presentToast('Nomor telepon tidak ditemukan!', 'danger');
@@ -74,14 +80,16 @@ export class EditPassPage implements OnInit {
     const body = {
       phone: this.telepon,
     };
-    CapacitorHttp.post({
-      url: 'https://epos.pringapus.com/api/v1/Authentication/requestOtp',
-      headers: { 'Content-Type': 'application/json' },
-      data: body,
-    }).then(() => {
-    }).catch((error) => {
-      console.error('Error adding campaign:', error);
-      alert('Gagal menambahkan campaign.');
-    });
+    try { // Added try-catch block
+      const response = await CapacitorHttp.post({ // Await the response
+        url: 'https://epos.pringapus.com/api/v1/Authentication/requestOtp',
+        headers: { 'Content-Type': 'application/json' },
+        data: body,
+      });
+      // Handle successful response if needed (e.g., console.log(response))
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      this.presentToast('Gagal mengirim OTP. Silakan coba lagi.', 'danger'); // Use toast
+    }
   }
 }

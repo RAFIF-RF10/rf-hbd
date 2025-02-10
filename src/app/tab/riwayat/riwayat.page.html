@@ -1,69 +1,3 @@
-<!-- <ion-content [fullscreen]="true">
-
-  <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
-
-  <ion-grid class="top">
-    <ion-row>
-
-      <ion-button *ngIf="isDownloadButtonVisible" expand="full" (click)="showExportAlert()">Unduh Excel</ion-button>
-
-  <div *ngIf="isDateSelected" class="date-selector">
-    <ion-item>
-      <ion-label>Pilih Tanggal</ion-label>
-      <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="selectedDate"></ion-datetime>
-    </ion-item>
-
-
-    <ion-button expand="full" (click)="onDateSelected()">Unduh Data</ion-button>
-  </div>
-
-
-      <ion-searchbar
-      showCancelButton="focus"
-      class="custom"
-      [(ngModel)]="searchQuery"
-      (ionInput)="searchRiwayat()"
-    ></ion-searchbar>
-
-    </ion-row>
-
-  </ion-grid>
-
-
-  <div style="padding: 0; margin-top: 9rem ; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
-
-    <div class="bottom">
-
-      <ion-list *ngIf="!riwayatList.length || filteredRiwayatList?.length === 0">
-        <div class="no-found">
-          <img src="assets/no-found.png" alt="anajy ">
-          <ion-title>Data Tidak Ditemukan.</ion-title>
-        </div>
-      </ion-list>
-
-      <ion-list *ngIf="!isLoading && riwayatList.length > 0">
-
-
-
-        <div class="riwayat" *ngFor="let riwayat of filteredRiwayatList">
-            <h1>{{ riwayat.customer_payment_detail }}</h1>
-            <p>Metode pembayaran: {{ getPaymentMethod(riwayat.customer_payment_method) }}</p>
-            <p>Total: {{ formatCurrency(riwayat.customer_payment_total) }}</p>
-            <p>Tanggal: {{ riwayat.created_date  }}</p>
-        </div>
-
-      </ion-list>
-    </div>
-
-  </div>
-
-</ion-content> -->
-
-
-
-
-
-
 <ion-content [fullscreen]="true">
 
   <ion-spinner *ngIf="isLoading" class="loading-spinner"></ion-spinner>
@@ -101,7 +35,7 @@
   </ion-grid>
 
 
-  <div style="padding: 0; margin-top: 12rem ; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
+  <div style="padding: 0; margin-top: 14rem ; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
 
     <div class="bottom">
 
