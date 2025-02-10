@@ -1,9 +1,9 @@
 ion-header {
   ion-toolbar {
     --background : white;
-    padding-top: 2rem;
   }
-  padding: 20px 0;
+  padding-top: var(--ion-safe-area-top);
+  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
