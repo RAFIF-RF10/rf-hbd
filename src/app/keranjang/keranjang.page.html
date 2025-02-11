@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  
+
   <!-- Pilih Semua -->
   <div class="pilih-semua">
     <ion-checkbox
@@ -56,18 +56,23 @@
   <ion-card class="metode-card">
     <div>
       <ion-title>*Metode Pembayaran</ion-title>
-      <ion-select color="warning"  [value]="paymentMethod"
-      (ionChange)="paymentMethod = $event.detail.value; onPaymentMethodChange($event)"
-      placeholder="Pilih Metode"
-      interface="action-sheet"
-      slot="end">
-        <ion-select-option value="CA">Cash</ion-select-option>
-        <ion-select-option value="VA">Virtual Account</ion-select-option>
-        <ion-select-option value="TF">Transfer</ion-select-option>
-        <ion-select-option value="DC">Debet/Credit Card</ion-select-option>
-      </ion-select>
+      <ion-select color="warning"
+  [value]="paymentMethod"
+  (ionChange)="paymentMethod = $event.detail.value; onPaymentMethodChange($event)"
+  placeholder="Pilih Metode"
+  interface="action-sheet"
+  slot="end">
+
+  <!-- Loop metode pembayaran -->
+  <ion-select-option *ngFor="let method of paymentOptions" [value]="method.code">
+    {{ method.name }}
+  </ion-select-option>
+
+</ion-select>
+
     </div>
   </ion-card>
+
 
 
   <ion-card class="customer-info-card">

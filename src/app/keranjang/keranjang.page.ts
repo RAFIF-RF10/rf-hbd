@@ -17,7 +17,7 @@ export class KeranjangPage implements OnInit {
   selectedItems: any[] = [];
   selectAllChecked: boolean = false;
   paymentMethod: string = '';
-  paymentOptions: string[] = ['CA', 'VA', 'TF', 'DC'];
+  paymentOptions: { code: string, name: string }[] = [];
   deliveryOption: string = 'pickup'; // Default delivery option
   discount: number = 0;
   gst: number = 0;
@@ -33,6 +33,58 @@ export class KeranjangPage implements OnInit {
   ngOnInit() {
     this.cartItems = this.cartService.getCartItems();
     console.log('Nilai awal paymentMethod:', this.paymentMethod);
+    this.getPaymentMethod();
+  }
+
+  paymentMethodMapping: { [key: string]: string } = {
+    'CA': 'Cash',
+    'TF': 'Transfer',
+    'DC': 'Debit Card'
+  };
+
+  async getPaymentMethod() {
+    const user = JSON.parse(localStorage.getItem('user_data') || '{}');
+
+    if (!user || !user.userData || !user.userData.outlet_code) {
+      this.presentAlert('Error', 'ID Outlet tidak ditemukan!');
+      return;
+    }
+
+    try {
+      const response = await CapacitorHttp.get({
+        url: `https://epos.pringapus.com/api/v1/cart/get_payment_method/${user.userData.outlet_code}`,
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const result = response.data;
+
+      if (result.status) {
+        const paymentCodes = result.data.payment_method.split(',');
+
+        this.paymentOptions = paymentCodes.map((code: string) => ({
+          code: code.trim(), // Kode metode pembayaran
+          name: this.getPaymentName(code.trim()) // Nama metode pembayaran
+        }));
+
+
+        console.log('Metode pembayaran:', this.paymentOptions); // Debugging
+      } else {
+        this.presentAlert('Error', 'Metode pembayaran tidak ditemukan!');
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+      this.presentAlert('Error', 'Gagal mengambil metode pembayaran!');
+    }
+  }
+
+  getPaymentName(code: string): string {
+    const paymentNames: { [key: string]: string } = {
+      'CA': 'Cash',
+      'TF': 'Transfer',
+      'DC': 'Debit',
+      'Qris': 'Qris'
+    };
+    return paymentNames[code] || 'Metode Tidak Dikenal';
   }
 
   async presentAlert(header: string, message: string) {
@@ -120,11 +172,11 @@ export class KeranjangPage implements OnInit {
 
 
   async pay() {
-
     if (this.selectedItems.length === 0) {
       this.presentAlert('Perhatian', 'Pilih setidaknya satu item sebelum melakukan pembayaran!');
       return;
     }
+
     const user = JSON.parse(localStorage.getItem('user_data') || '{}');
 
     if (!this.paymentMethod) {
@@ -137,18 +189,24 @@ export class KeranjangPage implements OnInit {
       return;
     }
 
+    // Pastikan metode pembayaran valid
+    console.log('Metode pembayaran yang dipilih:', this.paymentMethod);
+
     const orderData = {
       id_outlet: user.userData.id_outlet,
       customer_name: this.customer_name,
       customer_phone: this.customer_phone,
       customer_payment_total: this.calculateTotal(),
-      customer_payment_method: this.paymentMethod,
+      customer_payment_method: this.paymentMethod, // Langsung pakai string
       customer_payment_detail: this.selectedItems.map(item => ({
         name: item.name,
         price: item.price,
         qty: item.qty
       }))
     };
+
+
+    console.log('Data yang dikirim:', orderData); // Debugging
 
     try {
       const response = await CapacitorHttp.post({
@@ -179,6 +237,7 @@ export class KeranjangPage implements OnInit {
       this.presentAlert('Error', 'Terjadi kesalahan saat memproses pembayaran.');
     }
   }
+
 
   removeItem(item: any) {
     this.cartService.removeItem(item);
