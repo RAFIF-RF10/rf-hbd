@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="top">
   <ion-toolbar>
     <ion-button slot="start" fill="clear" size="small" (click)="router.navigate(['tab/home'])" >
       <ion-icon style="color:#FC9C4C; font-size: 2rem;" name="chevron-back-outline"></ion-icon>
@@ -25,47 +25,17 @@
     </div>
   </div>
 
-
-
-  <!-- <ion-modal #detailModal [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]" [presentingElement]="ionRouterOutlet" [canDismiss]="true">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title class="modal-title">Tambahkan Menu</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <div class="modal-content">
-          <div class="modal-item-details">
-            <img [src]="item?.image" alt="{{ item?.name }}">
-            <div class="modal-item-info">
-              <b>{{ item?.name }}</b>
-              <p>{{ item?.price | currency: 'Rp. ' }}</p>
-              <div class="qty-controls">
-                <ion-button (click)="decrementQty()">-</ion-button>
-                <span>{{ qty }}</span>
-                <ion-button (click)="incrementQty()">+</ion-button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ion-content>
-      <ion-footer>
-        <ion-button expand="block" class="add-to-cart-btn" (click)="addToCart(item)">
-          Masuk ke keranjang - Rp. {{ calculateTotal() }}
-        </ion-button>
-      </ion-footer>
-    </ng-template>
-  </ion-modal> -->
-
+</ion-content>
 
   <ion-modal class="custom-modal" #detailModal [initialBreakpoint]="0.55" [breakpoints]="[0, 0.55]" [presentingElement]="ionRouterOutlet" [canDismiss]="true">
     <ng-template>
-      <ion-header>
+
+      <ion-header class="header">
         <ion-toolbar>
           <ion-title class="modal-title">Tambahkan Menu</ion-title>
         </ion-toolbar>
       </ion-header>
+      
       <ion-content>
         <div class="modal-content">
           <div class="item">
@@ -91,6 +61,5 @@
       </ion-footer>
     </ng-template>
   </ion-modal>
-
 
 

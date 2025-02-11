@@ -1,4 +1,4 @@
-ion-header {
+.top {
   ion-toolbar {
     --background : white;
     padding-top: 45px;
@@ -23,13 +23,12 @@ ion-header {
 ion-content {
   --background : white;
 
-}
-.detail-container {
+  .detail-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     // padding: 5px;
-  
+    
     .item-image {
       width: 100%;
       height: 50vh ;
@@ -38,44 +37,45 @@ ion-content {
     }
   }
 
-.detail-info {
-    margin: 1rem 1.5rem;
-    color: #424242;
-    h1 {
-      font-size: large;
-      font-weight: 600;
+  .detail-info {
+      margin: 1rem 1.5rem;
       color: #424242;
-    }
-    p {
-      font-size: small;
-      margin: 8px 0;
-      color: #828282;
-    }
-    .price {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-      p {
-        color: #CF8F24;
+      h1 {
         font-size: large;
+        font-weight: 600;
+        color: #424242;
       }
-      ion-button {
-        --border-radius: 12px;
-        --background : #febb4b;
-        ion-icon {
-          color: white;
+      p {
+        font-size: small;
+        margin: 8px 0;
+        color: #828282;
+      }
+      .price {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+        p {
+          color: #CF8F24;
+          font-size: large;
+        }
+        ion-button {
+          --border-radius: 12px;
+          --background : #febb4b;
+          ion-icon {
+            color: white;
+          }
         }
       }
-    }
-
-  } 
+      
+    } 
+}
 
   .custom-modal {
     --width: 100%;
     --border-radius: 20px 20px 0 0;
     --background : white;
-    ion-header {
+    .header {
       background : white;
       padding: 10px 0;
       ion-toolbar {
@@ -106,6 +106,7 @@ ion-content {
           img {
             width: 130px;
             height: 130px;
+            object-fit: cover;
           }
           .desc {
             display: grid;

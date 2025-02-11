@@ -1,8 +1,8 @@
-ion-header {
+.ion-no-border {
   ion-toolbar {
-    --background :white;
+    --background : #FEBB4B;
     .logo {
-      padding: 4.5rem 0 1rem 2rem ;
+      padding: 3.7rem 0 1rem 2rem ;
       img {
         width: 40%;
       }
@@ -24,11 +24,18 @@ ion-header {
       }
       .btn-add-card{
         // padding-top: 5px;
+        border : 2px solid white;
+        width: auto;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 14px;
+        --padding: 0;
         ion-button{
-          --background: #FEBB4B;
-          --border-radius: 12px;
           ion-icon {
             color: white;
+            padding: 0;
           }
           ion-badge {
             border-radius : 50%;
@@ -40,8 +47,8 @@ ion-header {
             align-items: center;
             --background : rgb(244, 90, 90) ;
             --color : white ;
-            margin-top : -1rem;
-            margin-right : -1rem;
+            margin-top : -1.2rem;
+            margin-right : -1.2rem;
             position: absolute;
           }
         }
@@ -51,7 +58,7 @@ ion-header {
       display: flex;
       overflow-x: auto;
       white-space: nowrap;
-      padding: 1rem .8rem;
+      padding: 1rem .8rem 1.5rem .8rem;
       scrollbar-width: thin;
       gap: 10px;
       .filter {
@@ -68,8 +75,9 @@ ion-header {
         transition: background-color 0.3s ease;
       }
       .filter.active {
-        background-color: #FEBB4B;
+        background-color: #CF8F24;
         color: white;
+        // border: 2px solid white;
       }
     }
   }
@@ -77,8 +85,8 @@ ion-header {
 
 
 ion-content {
-  --background : white;
-  // padding: 2rem;
+  --background : #FEBB4B;
+  // --border-radius: 20px 20px 0 0 ;
 }
  
   ion-fab {
@@ -112,7 +120,7 @@ ion-content {
   .container-card {
     display: grid;
     margin-top: 1rem;
-    padding: 0 1rem 3rem 1rem;
+    padding: 0 1rem 5rem 1rem;
     align-items: center;
     justify-content: center;
     place-items: center;
@@ -134,6 +142,7 @@ ion-content {
           height: 150px;
           display: block;
           margin: 0 auto;
+          object-fit: cover;
         }
         .btn-delete {
           --background: #ff4c4c;
@@ -181,16 +190,21 @@ ion-content {
     --width: 100%;
     --border-radius: 20px 20px 0 0;
     --background : white;
-    ion-header {
+    .header {
+      ion-toolbar {
+        --background : white;
+        .modal-title {
+          text-align: center;
+          font-size: 15px;
+          font-weight: 500;
+          color: #424242;
+        }      
+      }
       padding: 10px 0;
-      .modal-title {
-        text-align: center;
-        font-size: 15px;
-        font-weight: 500;
-        color: #424242;
-      }      
+      background: white;
     }
     ion-content {
+      --background : white;
       .modal-content {
         padding: 2rem 0 0rem 0;
         display: flex;
@@ -208,6 +222,7 @@ ion-content {
           img {
             width: 130px;
             height: 130px;
+            object-fit: cover;
           }
           .desc {
             display: grid;
@@ -255,94 +270,94 @@ ion-content {
   }
   
 
-.add-modal {
-  --background : white;
-  ion-header {
-    ion-toolbar {
-      --background : white;
-      padding-top: 45px;
-      padding-bottom: 15px;
-    }
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    ion-title {
-      font-weight: bold;
-      font-size: larger;
-      text-align: center;
-    }
-    ion-button {
-      position: absolute;
-      left: 1rem;
-    }
-  }
-
-  ion-content {
+  
+  .add-modal {
     --background : white;
-    padding: 1rem;
-    .modal-content {
-      width: 100%;
-      height: 100%;
+    ion-header {
+      ion-toolbar {
+        --background : white;
+        padding-top: 45px;
+        padding-bottom: 15px;
+      }
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       background: white;
-      color: #424242;
-      padding: 1rem 1rem;
-      .form {
-        color: #454545;
-        background: white ;
-        width: 100%;
-        padding: .5rem 1.5rem;
-        margin: 1rem 0;
-        text-align: start;
-        // border: 2px solid #454545;
-        box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.221);
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
+      ion-title {
+        font-weight: bold;
+        font-size: larger;
+        text-align: center;
       }
-      .photo-btn {
-        margin: 0 2rem;
-        ion-button {
-          --background :#FEBB4B;
-          --color : white;
-          --border-radius :15px;
-          ion-icon {
-            font-size: x-large;
-            padding-right: 10px;
-          }
-        }
-      }
-      .photo-container {
-        padding: 1rem .5rem;
-        ion-button {
-          position: absolute;
-          ion-icon {
-            color: white;
-          }
-        }
+      ion-button {
+        position: absolute;
+        left: 1rem;
       }
     }
-  }
-
-  ion-footer {
-    ion-toolbar {
+  
+    ion-content {
       --background : white;
-      padding: 1.5rem 2.5rem;
-      ion-grid {
-        ion-button {
-          --background : #FEBB4B;
-          --border-radius: 15px;
-          --color : white;
-          ion-title {
-            color: white;
-            font-size: medium;
+      padding: 1rem;
+      .modal-content {
+        width: 100%;
+        height: 100%;
+        background: white;
+        color: #424242;
+        padding: 1rem 1rem;
+        .form {
+          color: #454545;
+          background: white ;
+          width: 100%;
+          padding: .5rem 1.5rem;
+          margin: 1rem 0;
+          text-align: start;
+          // border: 2px solid #454545;
+          box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.221);
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+        .photo-btn {
+          margin: 0 2rem;
+          ion-button {
+            --background :#FEBB4B;
+            --color : white;
+            --border-radius :15px;
+            ion-icon {
+              font-size: x-large;
+              padding-right: 10px;
+            }
+          }
+        }
+        .photo-container {
+          padding: 1rem .5rem;
+          ion-button {
+            position: absolute;
+            ion-icon {
+              color: white;
+            }
           }
         }
       }
     }
-  }
-
+  
+    ion-footer {
+      ion-toolbar {
+        --background : white;
+        padding: 1.5rem 2.5rem;
+        ion-grid {
+          ion-button {
+            --background : #FEBB4B;
+            --border-radius: 15px;
+            --color : white;
+            ion-title {
+              color: white;
+              font-size: medium;
+            }
+          }
+        }
+      }
+    }
 }
