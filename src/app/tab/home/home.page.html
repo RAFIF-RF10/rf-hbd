@@ -49,16 +49,15 @@
 
 <ion-content>
 
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="user_level === '1'">
+    <ion-fab-button *ngIf="user_level === '1'" (click)="openAddItemModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
   <div style="padding: 0; padding-bottom: 16rem; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
     
-    
-    <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="user_level === '1'">
-      <ion-fab-button *ngIf="user_level === '1'" (click)="openAddItemModal()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-
-
+  
   <div class="no-found" *ngIf="filteredItems?.length === 0">
     <img src="assets/no-found.png" alt="anajy ">
     <ion-title>Data Tidak Ditemukan.</ion-title>
