@@ -23,9 +23,7 @@
   
   </ion-grid>
 
-
-
-
+  
   <div style="padding: 0; margin-top: 14rem ; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100%; border-radius: 20px 20px 0 0;">
 
     <div class="bottom">
@@ -38,7 +36,7 @@
       </ion-list>
 
       <ion-list *ngIf="!isLoading && riwayatList.length > 0">
-        
+
         <div class="riwayat" *ngFor="let riwayat of filteredRiwayatList">
             <h1>{{ riwayat.customer_payment_detail }}</h1>
             <p>Metode pembayaran: {{ getPaymentMethod(riwayat.customer_payment_method) }}</p>

@@ -55,21 +55,37 @@ ion-content {
         }
       }
     }
+  }
 
-}
-
-  .container-main {
-    padding: 1rem .5rem;
-    background :white;
-    border-radius: 20px 20px 0 0;
-    ion-list {
-      background : none;
+    
+    .container-main {
+      padding: 1rem .5rem;
+      background :white;
+      border-radius: 20px 20px 0 0;
+      ion-list {
+        background : none;
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 1rem 1rem 12rem 1rem;
       border-radius: 20px 20px 0 0;
+      .no-found {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 70%;
+        }
+        ion-title {
+          --color : #424242;
+          font-weight: 500;
+          font-size: medium;
+          font-family: 'Poppins';
+        }
+      }
       .main {
         border-radius: 20px 20px 0 0;
         width: 100%;
@@ -121,7 +137,7 @@ ion-content {
           }
         }
       }
-
+      
       .tampilkan-btn {
         width: 100%;
         display: flex;
@@ -142,22 +158,6 @@ ion-content {
         }
       }
 
-      .no-found {
-        background: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        img {
-          width: 70%;
-        }
-        ion-title {
-          --color : #424242;
-          font-weight: 500;
-          font-size: medium;
-          font-family: 'Poppins';
-        }
-      }
       
     }
   }
@@ -387,9 +387,9 @@ ion-content {
             }
           }
         }
-
+        
       }
-
+      
       .accordion {
         width: 100%;
         display: flex;
@@ -472,13 +472,13 @@ ion-content {
       //     background : white;
       //     --color :#424242;
       //     ion-item {
-      //       --background : white;
-      //       color : #424242;
-      //     }
-      //   }
-      // }
-
+        //       --background : white;
+        //       color : #424242;
+        //     }
+        //   }
+        // }
+        
+      }
     }
-  }
 }
 
