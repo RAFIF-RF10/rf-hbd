@@ -1,38 +1,36 @@
 
+<ion-header class="ion-no-border">
+  </ion-header>
+
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; background: transparent; ">
+
+  <ion-grid class="profile">
+    
+    <ion-grid *ngIf="userData">
+      <ion-grid class="username">
+        <ion-title class="label">Username</ion-title>
+        <ion-title>{{ userData.userData.username }}</ion-title>
+      </ion-grid>
+      <ion-grid class="outlet">
+        <ion-title class="label">Outlet</ion-title>
+        <ion-title>{{ userData.userData.outlet_name }}</ion-title>
+      </ion-grid>
+    </ion-grid>
+
+    <ion-grid style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+      <ion-icon style="font-size: 5rem;" name="person-circle-outline"></ion-icon>
+      <ion-title class="member" *ngIf="userData.userData.member_level === '1'" style="font-size: medium; color: white; background: linear-gradient(to right, #FEBB4B,#dd971d); padding: 5px 25px; margin-top: 20px; border-radius: 1rem; ">Gold</ion-title>
+      <ion-title class="member" *ngIf="userData.userData.member_level === '2'" style="font-size: medium; color: white; background:linear-gradient(to right, #1EA7CE,#156074); padding: 5px 25px; margin-top: 20px; border-radius: 1rem; " >Silver</ion-title>
+      <ion-title class="member" *ngIf="userData.userData.member_level === '3'" style="font-size: medium; color: white; background:linear-gradient(to right, #a37541, #684216) ; padding: 5px 25px; margin-top: 20px; border-radius: 1rem; ">Bronze</ion-title>
+    </ion-grid>
+
+  </ion-grid>
+</div>
+
 <ion-content>
 
-  <div class="profile-container">
-
-    <div class="container"></div>
-
-    <ion-grid class="profile">
-
-      <ion-grid *ngIf="userData">
-        <ion-grid class="username">
-          <ion-title class="label">Username</ion-title>
-          <ion-title>{{ userData.userData.username }}</ion-title>
-        </ion-grid>
-        <ion-grid class="outlet">
-          <ion-title class="label">Outlet</ion-title>
-          <ion-title>{{ userData.userData.outlet_name }}</ion-title>
-        </ion-grid>
-        <!-- <ion-title class="member">{{ userData.userData.member_level }}</ion-title> -->
-      </ion-grid>
-
-      <ion-grid style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
-        <ion-icon style="font-size: 5rem;" name="person-circle-outline"></ion-icon>
-        <ion-title class="member" *ngIf="userData.userData.member_level === '1'" style="font-size: medium; color: white; background: linear-gradient(to right, #FEBB4B,#dd971d); padding: 5px 25px; margin-top: 20px; border-radius: 1rem; ">Gold</ion-title>
-        <ion-title class="member" *ngIf="userData.userData.member_level === '2'" style="font-size: medium; color: white; background:linear-gradient(to right, #1EA7CE,#156074); padding: 5px 25px; margin-top: 20px; border-radius: 1rem; " >Silver</ion-title>
-        <ion-title class="member" *ngIf="userData.userData.member_level === '3'" style="font-size: medium; color: white; background:linear-gradient(to right, #a37541, #684216) ; padding: 5px 25px; margin-top: 20px; border-radius: 1rem; ">Bronze</ion-title>
-      </ion-grid>
-
-    </ion-grid>
-  </div>
-
-
+  <div style="margin-top: 4rem ; padding: 4rem 0 20rem 0 ; position: fixed; overflow-y: scroll; width: 100%; background: white; height: 100% ; border-radius: 20px 20px 0 0;">
   <ion-grid class="main">
-
-
 
       <ion-grid class="accordion">
 
@@ -56,24 +54,61 @@
           </ion-card>
 
         </ion-grid>
-        <ion-card class="payment-method">
-          <ion-item *ngFor="let method of paymentMethods">
-            <ion-checkbox
-              slot="start"
-              [checked]="selectedMethods.includes(method.code)"
-              (ionChange)="toggleMethod(method.code, $event.detail.checked)"
-              [disabled]="method.isDisabled">
-            </ion-checkbox>
-            <ion-label>{{ method.name }}</ion-label>
-          </ion-item>
 
-          <ion-button expand="block" color="primary" (click)="savePaymentMethods()">
-            Simpan Metode Pembayaran
-          </ion-button>
-        </ion-card>
+
+        
+        <ion-grid class="value" (click)="openAddPay()" *ngIf="user_level === '1'">
+          <ion-row>
+            <ion-title>Tambah Metode Pembayaran</ion-title>
+            <ion-icon name="chevron-down-outline" *ngIf="!addPay"></ion-icon>
+            <ion-icon name="chevron-up-outline" *ngIf="addPay"></ion-icon>
+          </ion-row>
+        </ion-grid>
+        <ion-grid class="value-item" *ngIf="addPay" >
+
+          <ion-grid class="pay">
+            <div *ngFor="let method of paymentMethods">
+              <ion-checkbox
+                slot="start"
+                [checked]="selectedMethods.includes(method.code)"
+                (ionChange)="toggleMethod(method.code, $event.detail.checked)"
+                [disabled]="method.isDisabled">
+              </ion-checkbox>
+              <ion-label>{{ method.name }}</ion-label>
+            </div>
+    
+            <ion-button expand="block" (click)="savePaymentMethods()" [disabled]="disableSelection">
+              <ion-title>
+                Simpan Metode Pembayaran
+              </ion-title>
+            </ion-button>
+            
+          </ion-grid>
+
+        </ion-grid>
+
+
 
 
       </ion-grid>
+
+
+      
+      <!-- <ion-card class="payment-method">
+        <ion-item *ngFor="let method of paymentMethods">
+          <ion-checkbox
+            slot="start"
+            [checked]="selectedMethods.includes(method.code)"
+            (ionChange)="toggleMethod(method.code, $event.detail.checked)"
+            [disabled]="method.isDisabled">
+          </ion-checkbox>
+          <ion-label>{{ method.name }}</ion-label>
+        </ion-item>
+
+        <ion-button expand="block" color="primary" (click)="savePaymentMethods()">
+          Simpan Metode Pembayaran
+        </ion-button>
+      </ion-card> -->
 
       <ion-grid class="logout-btn">
         <ion-button expand="block" color="danger" (click)="logout()">
@@ -85,6 +120,7 @@
       </ion-grid>
 
     </ion-grid>
+  </div>
 
 
 </ion-content>
