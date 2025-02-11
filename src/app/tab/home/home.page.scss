@@ -2,7 +2,7 @@
   ion-toolbar {
     --background : #FEBB4B;
     .logo {
-      padding: 4.5rem 0 1rem 2rem ;
+      padding: 3.7rem 0 1rem 2rem ;
       img {
         width: 40%;
       }
@@ -25,6 +25,8 @@
       .btn-add-card{
         // padding-top: 5px;
         border : 2px solid white;
+        width: auto;
+        height: auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -118,7 +120,7 @@ ion-content {
   .container-card {
     display: grid;
     margin-top: 1rem;
-    padding: 0 1rem 3rem 1rem;
+    padding: 0 1rem 5rem 1rem;
     align-items: center;
     justify-content: center;
     place-items: center;
@@ -140,6 +142,7 @@ ion-content {
           height: 150px;
           display: block;
           margin: 0 auto;
+          object-fit: cover;
         }
         .btn-delete {
           --background: #ff4c4c;
@@ -187,7 +190,7 @@ ion-content {
     --width: 100%;
     --border-radius: 20px 20px 0 0;
     --background : white;
-    ion-header {
+    .header {
       ion-toolbar {
         --background : white;
         .modal-title {
@@ -219,6 +222,7 @@ ion-content {
           img {
             width: 130px;
             height: 130px;
+            object-fit: cover;
           }
           .desc {
             display: grid;
