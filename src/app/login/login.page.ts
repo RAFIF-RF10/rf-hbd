@@ -73,6 +73,8 @@ export class LoginPage {
         const userData = response.data.data;
 
         if (response.data.forceLogout) {
+          const newDeviceToken = this.deviceToken; // Simpan device token baru
+
           const alert = await this.alertController.create({
             header: 'Peringatan',
             message: 'Akun ini sedang digunakan di perangkat lain. Apakah Anda ingin melogout perangkat sebelumnya?',
@@ -87,8 +89,23 @@ export class LoginPage {
               {
                 text: 'Ya, Logout Perangkat Lama',
                 handler: async () => {
-                  await this.forceLogout(userData.deviceToken);
-                  this.Login();
+                  try {
+                    // Kirim request logout
+                    await CapacitorHttp.post({
+                      url: 'https://epos.pringapus.com/api/v1/Authentication/forceLogout',
+                      headers: { 'Content-Type': 'application/json' },
+                      data: { device_token: userData.deviceToken }, // Logout perangkat lama
+                    });
+
+                    console.log('Perangkat lama berhasil logout.');
+
+                    // Setelah logout berhasil, panggil login ulang dengan token baru
+                    this.deviceToken = newDeviceToken; // Pulihkan token baru sebelum login ulang
+                    this.Login();
+                  } catch (err) {
+                    console.error('Error saat force logout:', err);
+                    this.presentAlert('Error', 'Gagal logout perangkat lama.');
+                  }
                 },
               },
             ],
@@ -97,6 +114,7 @@ export class LoginPage {
           await alert.present();
           return;
         }
+
 
         localStorage.setItem('user_data', JSON.stringify(userData));
         localStorage.setItem('access_token', userData.accessToken);
