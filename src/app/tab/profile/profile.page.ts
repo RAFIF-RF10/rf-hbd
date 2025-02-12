@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CapacitorHttp } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { StorageService } from 'src/app/storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,14 +26,18 @@ export class ProfilePage implements OnInit {
   ];
   disableSelection: boolean = false;
 
+  userSign = this.storageService
+  user_level: string = '';
+
   selectedMethods: string[] = [];
 
-  constructor(public router: Router, private alertController: AlertController) {}
+  constructor(public router: Router, private alertController: AlertController, private storageService: StorageService,) {}
 
   ngOnInit() {
     this.loadUserData();
     this.checkIfAlreadySelected();
     this.fetchPaymentMethods();
+    this.user_level  = this.storageService.getUserLevel();
   }
 
   checkIfAlreadySelected() {
@@ -78,6 +83,7 @@ export class ProfilePage implements OnInit {
     const user = JSON.parse(localStorage.getItem('user_data') || '{}');
     if (!user || !user.userData || !user.userData.outlet_code) return;
 
+
     try {
         const response = await CapacitorHttp.get({
             url: `https://epos.pringapus.com/api/v1/cart/get_payment_method/${user.userData.outlet_code}`,
@@ -92,10 +98,10 @@ export class ProfilePage implements OnInit {
 
             console.log('Metode pembayaran dari API:', existingPayments); // Debugging
 
-            // **Pastikan selectedMethods hanya berisi metode yang sudah tersimpan**
+            // Pastikan selectedMethods hanya berisi metode yang sudah tersimpan
             this.selectedMethods = [...existingPayments];
 
-            // **Terapkan disable pada metode yang sudah ada di database**
+            // Terapkan disable pada metode yang sudah ada di database
             this.paymentMethods = this.paymentMethods.map(method => {
                 return {
                     ...method,
@@ -104,8 +110,7 @@ export class ProfilePage implements OnInit {
             });
 
             console.log('Daftar metode pembayaran setelah update:', this.paymentMethods); // Debugging
-
-            // **Cek apakah semua metode sudah dipilih**
+// Cek apakah semua metode sudah dipilih
             this.disableSelection = this.paymentMethods.every(m => m.isDisabled);
         } else {
             console.error('Gagal mengambil metode pembayaran:', response);
@@ -195,8 +200,16 @@ async savePaymentMethods() {
   }
 
   profileEdit: boolean = false;
+  addPay: boolean = false;
 
   openProfileEdit() {
     this.profileEdit = !this.profileEdit;
+    this.addPay = false;
   }
+
+  openAddPay() {
+    this.addPay = !this.addPay
+    this.profileEdit = false;
+  }
+
 }
