@@ -67,7 +67,8 @@
             <ion-label>{{ method.name }}</ion-label>
           </ion-item>
 
-          <ion-button expand="block" color="primary" (click)="savePaymentMethods()">
+
+          <ion-button expand="block" color="primary" (click)="savePaymentMethods()"  [disabled]="disableSelection">
             Simpan Metode Pembayaran
           </ion-button>
         </ion-card>
