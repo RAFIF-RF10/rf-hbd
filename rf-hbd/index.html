@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartu Ucapan Ulang Tahun</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Halaman 1 - Kado */
+        #page1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            background: #ff4d4d;
+            position: relative;
+            margin-bottom: 20px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+            border-radius: 10px;
+        }
+
+        .gift-box:before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 200px;
+            background: #ffcd3c;
+            top: 0;
+            left: 85px;
+        }
+
+        .gift-box:after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 30px;
+            background: #ffcd3c;
+            top: 85px;
+            left: 0;
+        }
+
+        .gift-top {
+            width: 220px;
+            height: 40px;
+            background: #ff6b6b;
+            position: absolute;
+            top: -40px;
+            left: -10px;
+            border-radius: 5px 5px 0 0;
+            z-index: 2;
+        }
+
+        .gift-top:before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: #ffcd3c;
+            top: -30px;
+            left: 90px;
+            z-index: 1;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .gift-shadow {
+            width: 200px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            position: absolute;
+            bottom: -30px;
+            border-radius: 50%;
+        }
+
+        #enterButton {
+            padding: 15px 30px;
+            background: #ffcd3c;
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #enterButton:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Halaman 2 - Form Nama */
+        #page2 {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .name-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .name-form h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 28px;
+        }
+
+        #nameInput {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        #submitButton {
+            padding: 15px 30px;
+            background: #ffcd3c;
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #submitButton:hover {
+            background: #ffbd00;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Halaman 3 - Main Content */
+        #page3 {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .profile-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .welcome-text {
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .birthday-card h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #8e2de2;
+        }
+
+        .typing-text {
+            min-height: 100px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .gallery-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Halaman 4 - Celebration */
+        #page4 {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .celebration-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .balloon {
+    position: absolute;
+    width: 40px;
+    height: 50px;
+    border-radius: 50%;
+    bottom: -100px;
+    animation: float-up 10s linear infinite;
+    box-shadow: inset -5px -10px rgba(255, 255, 255, 0.5); /* kilau dalam */
+}
+.balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background: #555;
+    transform: translateX(-50%);
+}
+
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .birthday-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: bold;
+            color: transparent;
+            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00de, 0 0 40px #ff00de;
+            }
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6;
+            }
+        }
+
+        .letter-button {
+            padding: 15px 30px;
+            background: #ffcd3c;
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-30px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+        }
+
+        /* Halaman 5 - Surat */
+        #page5 {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .letter-container {
+            background: url('/api/placeholder/400/600') center/cover;
+            width: 90%;
+            max-width: 600px;
+            height: 80vh;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .letter-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            height: 100%;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .letter-content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #8e2de2;
+            font-size: 28px;
+        }
+
+        .letter-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .surat-img{
+            width: 100px;
+            height: 100px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+                .sticker {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.8;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .sticker img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+
+        .sticker1 {
+            top: 15px;
+            right: 5px;
+            border-radius: 50px;
+            transform: rotate(15deg) scale(0.9); /* Menambahkan scale untuk memperkecil lagi */
+        
+        }
+
+        .sticker2 {
+            top: 8px;
+            left: 5px;
+            transform: rotate(-10deg) scale(0.85);
+        
+        }
+
+        .sticker3 {
+            bottom:  5px;
+            left: -20px;
+            transform: rotate(5deg) scale(0.8);
+            
+        }
+
+        .sticker4 {
+            bottom: 5px;
+            right: 15px;
+            transform: rotate(15deg) scale(0.75);
+        border-radius: 20px;
+        } 
+        @media (max-width: 768px) {
+    .sticker {
+        width: 80px;
+        height: 80px;
+    }
+
+    .sticker1 {
+        top: 10px;
+        right: 10px;
+        transform: rotate(10deg) scale(0.9);
+    }
+
+    .sticker2 {
+        top: 10px;
+        left: 10px;
+        transform: rotate(-10deg) scale(0.85);
+    }
+
+    .sticker3 {
+        bottom: 10px;
+        left: 5px;
+        transform: rotate(5deg) scale(0.8);
+    }
+
+    .sticker4 {
+        bottom: 10px;
+        right: 10px;
+        transform: rotate(10deg) scale(0.75);
+    }
+}
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 30;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .birthday-text {
+                font-size: 40px;
+            }
+            
+            .gallery-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .letter-container {
+                padding: 20px;
+            }
+        }
+
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .audio-icon {
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+    <!-- Audio Background -->
+    <audio id="bgMusic" loop>
+        <source src="asset/lagu.weba" type="audio/mpeg">
+    </audio>
+
+    <!-- Audio Control Button -->
+    <div class="audio-control" id="audioControl">
+        <div class="audio-icon">♫</div>
+    </div>
+
+    <!-- Page 1: Kado -->
+    <div class="container" id="page1">
+        <div class="gift-box" id="giftBox">
+            <div class="gift-top"></div>
+            <div class="gift-shadow"></div>
+        </div>
+        <button id="enterButton">Buka Kado</button>
+    </div>
+
+    <!-- Page 2: Form Nama -->
+    <div class="container" id="page2">
+        <div class="name-form">
+            <h2>Masukkan Nama Kamu</h2>
+            <input type="text" id="nameInput" placeholder="Tulis nama kamu di sini...">
+            <button id="submitButton">Lanjutkan</button>
+        </div>
+    </div>
+
+    <!-- Page 3: Main Content -->
+    <div class="container" id="page3">
+        <div class="profile-circle">
+            <img src="asset/hore.jpg" alt="Profile Picture">
+        </div>
+        <h2 class="welcome-text">Halo, <span id="displayName">Teman</span>!</h2>
+        
+        <div class="birthday-card">
+            <h2>Selamat Ulang Tahun, <span id="birthdayName">Teman</span>!</h2>
+            <div class="typing-text" id="typingText"></div>
+        </div>
+        
+        <div class="image-gallery">
+            <div class="gallery-image">
+                <img src="asset/Stiker 16 (SFILE.MOBI).gif" alt="Gallery Image 1">
+            </div>
+            <div class="gallery-image">
+                <img src="asset/Stiker 33 (SFILE.MOBI).gif" alt="Gallery Image 2">
+            </div>
+            <div class="gallery-image">
+                <img src="asset/Stiker 46 (SFILE.MOBI).gif" alt="Gallery Image 3">
+            </div>
+            <div class="gallery-image">
+                <img src="asset/Stiker 40 (SFILE.MOBI).gif" alt="Gallery Image 4">
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 4: Celebration -->
+    <div id="page4">
+        <div class="celebration-container" id="celebrationContainer">
+            <div class="birthday-text">HAPPY BIRTHDAY!</div>
+            <button class="letter-button" id="letterButton">Buka Surat</button>
+        </div>
+    </div>
+
+    <!-- Page 5: Surat -->
+    <div id="page5">
+        <button class="close-button" id="closeButton">×</button>
+        <div class="letter-container">
+            <div class="sticker sticker1">
+                <img src="asset/kucing.jpg" alt="Sticker 1">
+            </div>
+            <div class="sticker sticker2">
+                <img src="asset/melelt.png" alt="Sticker 2">
+            </div>
+            <div class="sticker sticker3">
+                <img src="asset/love.png" alt="Sticker 3">
+            </div>
+            <div class="sticker sticker4">
+                <img src="asset/pisang.jpg" alt="Sticker 4">
+            </div>
+            
+            <div class="letter-content">
+                <h2>Surat Spesial Untukmu</h2>
+                <p>Hai <span id="letterName">Teman</span> yang Istimewa,</p>
+                <p>Di hari spesialmu ini, aku ingin mengucapkan selamat ulang tahun yang paling indah untukmu! Hari ini adalah hari yang istimewa, karena dunia dianugerahi seseorang yang luar biasa sepertimu.</p>
+                <p>Perjalanan hidupmu selama satu tahun ke belakang penuh dengan berbagai cerita, tantangan, dan kebahagiaan. Kamu telah menunjukkan kekuatan, keberanian, dan ketabahan yang luar biasa dalam menghadapi setiap rintangan.</p>
+                <p>Semoga di tahun barumu ini, kamu diberikan kesehatan yang prima, kebahagiaan yang melimpah, dan kesuksesan di setiap langkahmu. Semoga impian-impianmu yang belum terwujud segera menjadi kenyataan.</p>
+                <p>Terima kasih telah menjadi sosok yang menginspirasi bagi banyak orang di sekitarmu. Kehadiranmu adalah anugerah bagi kami semua.</p>
+                <p>Selamat ulang tahun! Semoga hari ini dipenuhi dengan senyuman, tawa, dan kebahagiaan yang tak terhingga.</p>
+                <p>Dengan penuh kasih,</p>
+                <p>Sahabatmu</p>
+                <img class="surat-img" src="asset/IMG-20250418-WA0007.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables
+        let userName = "";
+        const bgMusic = document.getElementById('bgMusic');
+        const audioControl = document.getElementById('audioControl');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const page3 = document.getElementById('page3');
+        const page4 = document.getElementById('page4');
+        const page5 = document.getElementById('page5');
+        const giftBox = document.getElementById('giftBox');
+        const enterButton = document.getElementById('enterButton');
+        const nameInput = document.getElementById('nameInput');
+        const submitButton = document.getElementById('submitButton');
+        const displayName = document.getElementById('displayName');
+        const birthdayName = document.getElementById('birthdayName');
+        const letterName = document.getElementById('letterName');
+        const typingText = document.getElementById('typingText');
+        const letterButton = document.getElementById('letterButton');
+        const closeButton = document.getElementById('closeButton');
+        const celebrationContainer = document.getElementById('celebrationContainer');
+
+        // Typing text content
+        const textToType = "Di hari yang spesial ini, aku ingin mengucapkan selamat ulang tahun yang paling indah untukmu! Semoga tahun ini membawa kebahagiaan, kesehatan, dan kesuksesan dalam semua hal yang kamu lakukan. Terima kasih telah menjadi pribadi yang luar biasa dan menginspirasi banyak orang di sekitarmu. Nikmati harimu!";
+        
+        // Audio control
+        let isMusicPlaying = false;
+        audioControl.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                audioControl.innerHTML = '<div class="audio-icon">♫</div>';
+            } else {
+                bgMusic.play();
+                audioControl.innerHTML = '<div class="audio-icon">🔊</div>';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Page 1: Gift Box Click
+        enterButton.addEventListener('click', () => {
+            page1.style.display = 'none';
+            page2.style.display = 'flex';
+            bgMusic.play();
+            isMusicPlaying = true;
+            audioControl.innerHTML = '<div class="audio-icon">🔊</div>';
+        });
+
+        giftBox.addEventListener('click', () => {
+            enterButton.click();
+        });
+
+        // Page 2: Submit Name
+        submitButton.addEventListener('click', () => {
+    userName = nameInput.value.trim();
+    
+    if (userName === "") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Nama belum diisi!',
+            text: 'Silakan isi nama terlebih dahulu ya 😊',
+            confirmButtonText: 'Oke, siap!'
+        });
+        return; // Hentikan eksekusi kalau nama kosong
+    }
+
+    // Kalau nama tidak kosong, lanjut
+    displayName.textContent = userName;
+    birthdayName.textContent = userName;
+    letterName.textContent = userName;
+
+    page2.style.display = 'none';
+    page3.style.display = 'flex';
+
+    // Start typing animation
+    typeText();
+});
+
+
+        // Enter key for name input
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitButton.click();
+            }
+        });
+
+        // Typing Animation
+        let index = 0;
+        function typeText() {
+            if (index < textToType.length) {
+                typingText.textContent += textToType.charAt(index);
+                index++;
+                setTimeout(typeText, 50);
+            } else {
+                // When typing is finished, show celebration after a delay
+                setTimeout(() => {
+                    page4.style.display = 'flex';
+                    createBalloons();
+                }, 2000);
+            }
+        }
+
+        // Create balloons for celebration
+        function createBalloons() {
+    const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8b00ff'];
+
+    for (let i = 0; i < 50; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.left = `${Math.random() * 100}%`;
+        balloon.style.animationDuration = `${Math.random() * 10 + 5}s`;
+        balloon.style.animationDelay = `${Math.random() * 5}s`;
+        balloon.style.transform = `scale(${Math.random() * 0.5 + 0.75})`;
+
+        celebrationContainer.appendChild(balloon);
+    }
+}
+
+
+        // Letter Button
+        letterButton.addEventListener('click', () => {
+            page5.style.display = 'flex';
+        });
+
+        // Close Button
+        closeButton.addEventListener('click', () => {
+            page5.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
