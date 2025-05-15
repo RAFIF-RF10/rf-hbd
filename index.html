@@ -441,21 +441,21 @@
             right: 5px;
             border-radius: 50px;
             transform: rotate(15deg) scale(0.9); /* Menambahkan scale untuk memperkecil lagi */
-        
+
         }
 
         .sticker2 {
             top: 8px;
             left: 5px;
             transform: rotate(-10deg) scale(0.85);
-        
+
         }
 
         .sticker3 {
             bottom:  5px;
             left: -20px;
             transform: rotate(5deg) scale(0.8);
-            
+
         }
 
         .sticker4 {
@@ -463,7 +463,7 @@
             right: 15px;
             transform: rotate(15deg) scale(0.75);
         border-radius: 20px;
-        } 
+        }
         @media (max-width: 768px) {
     .sticker {
         width: 80px;
@@ -531,12 +531,12 @@
             .birthday-text {
                 font-size: 40px;
             }
-            
+
             .gallery-image {
                 width: 120px;
                 height: 120px;
             }
-            
+
             .letter-container {
                 padding: 20px;
             }
@@ -570,7 +570,7 @@
 <body>
     <!-- Audio Background -->
     <audio id="bgMusic" loop>
-        <source src="asset/lagu (mp3cut.net).mp3" type="audio/mpeg">
+        <source src="asset/wave to earth - love. (Official Lyric Video).mp3" type="audio/mpeg">
     </audio>
 
     <!-- Audio Control Button -->
@@ -602,12 +602,12 @@
             <img src="asset/hore.jpg" alt="Profile Picture">
         </div>
         <h2 class="welcome-text">Halo, <span id="displayName">Teman</span>!</h2>
-        
+
         <div class="birthday-card">
             <h2>Selamat Ulang Tahun, <span id="birthdayName">Teman</span>!</h2>
             <div class="typing-text" id="typingText"></div>
         </div>
-        
+
         <div class="image-gallery">
             <div class="gallery-image">
                 <img src="asset/Stiker 16 (SFILE.MOBI).gif" alt="Gallery Image 1">
@@ -648,20 +648,20 @@
             <div class="sticker sticker4">
                 <img src="asset/pisang.jpg" alt="Sticker 4">
             </div>
-            
+
             <div class="letter-content">
                 <h2>Surat Spesial Untukmu</h2>
-                <p>Hai <span id="letterName">Teman</span> yang Istimewa,</p>
+                <p>Hai <span id="letterName">Teman</span> yang Lucuu😆😆  ,</p>
                 <p>Wihh sekarang udah 18 tahunnihh, Semoga selalu sehat, rezeki lancar, dan bahagia terus. Jangan lupa senyum, semangat dan selalu ceria, ya😁😁</p>
                 <p>Waktu cepat banget, ya? Sekarang udah lulus aja. Dunia dewasa memang nggak gampang (walaupun aku sendiri belum ngerasain wkwkwk), tapi waktu nggak bisa diulang. Masa-masa di sekolah yang penuh canda dan tawa sekarang berubah jadi kehidupan yang lebih serius.</p>
-                <p>Jangan pernah menyerah. Kalau kamu capek, istirahat aja, bukan berhenti. Allah selalu ada untukmu,ingat kamu nggak sendiri. Aku bantu aaminkan semua doa-doamu, selama itu baik untukmu. Aku berharap kamu bisa lebih baik dari sebelumnya yaa? siapa orang yang gamau jadi lebih baik?, Buang yang buruk, ambil yang baik.</p>
+                  <p>Jangan pernah menyerah. Kalau kamu capek, istirahat aja, bukan berhenti. Allah selalu ada untukmu,ingat kamu nggak sendiri. Aku bantu aaminkan semua doa-doamu, selama itu baik untukmu. Aku berharap kamu bisa lebih baik dari sebelumnya yaa? siapa orang yang gamau jadi lebih baik?,yaakann?</p>
                 <p>Semoga cita-citamu tercapai dan bisa menjadi kebanggaan orang tua, aamiin. Keep growing, keep getting better.</p>
                 <p>I’m just a programmer, not a poet — but I hope these words mean something.</p>
-                <p>Dengan penuh kasih,</p>
+                <p>From</p>
                 <p>Lord Coding</p>
                 <img class="surat-img" src="asset/IMG-20250418-WA0007.jpg" alt="">
             </div>
-            
+
         </div>
     </div>
 
@@ -688,8 +688,8 @@
         const celebrationContainer = document.getElementById('celebrationContainer');
 
         // Typing text content
-        const textToType = "Di hari yang spesial ini, aku ingin mengucapkan selamat ulang tahun yang paling indah untukmu! Semoga tahun ini membawa kebahagiaan, kesehatan, dan kesuksesan dalam semua hal yang kamu lakukan. Terima kasih telah menjadi pribadi yang luar biasa, have a good day😆😆";
-        
+        const textToType = "Di hari yang spesial ini, aku ingin mengucapkan selamat ulang tahun yang paling indah untukmu! Semoga tahun ini membawa kebahagiaan, kesehatan, dan kesuksesan dalam semua hal yang kamu lakukan. have a good day😆😆";
+
         // Audio control
         let isMusicPlaying = false;
         audioControl.addEventListener('click', () => {
@@ -719,7 +719,7 @@
         // Page 2: Submit Name
         submitButton.addEventListener('click', () => {
     userName = nameInput.value.trim();
-    
+
     if (userName === "") {
         Swal.fire({
             icon: 'warning',
